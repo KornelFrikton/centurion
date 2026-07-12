@@ -1,5 +1,6 @@
 // components/RelationDisplay.tsx
 import useGameStore from "../../hooks/useGameStore";
+import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
 
 function getRelationType(value: number) {
   if (value >= 7.5) return { label: "Ally", color: "#4ade80" };
@@ -22,18 +23,25 @@ function RelationDisplay() {
 
   return (
     <div>
-      {Object.entries(relations).map(([a, targets]) =>
-        Object.entries(targets)
-          .filter(([b]) => selected.includes(a) && selected.includes(b))
-          .map(([b, value]) => {
-            const type = getRelationType(value);
-            return (
-              <div key={`${a}-${b}`}>
-                {getName(a)} → {getName(b)}: {value} ({type.label})
-              </div>
-            );
-          }),
-      )}
+      <Card>
+        <CardHeader>
+          <CardTitle>Relations</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {Object.entries(relations).map(([a, targets]) =>
+            Object.entries(targets)
+              .filter(([b]) => selected.includes(a) && selected.includes(b))
+              .map(([b, value]) => {
+                const type = getRelationType(value);
+                return (
+                  <div key={`${a}-${b}`}>
+                    {getName(a)} → {getName(b)}: {value} ({type.label})
+                  </div>
+                );
+              }),
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }

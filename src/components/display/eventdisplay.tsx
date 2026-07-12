@@ -1,4 +1,7 @@
 import useGameStore from "../../hooks/useGameStore";
+import { Button } from "../ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { H3 } from "../ui/typo";
 
 function EventDisplay() {
   const pendingEvent = useGameStore((state) => state.pendingEvent);
@@ -8,7 +11,7 @@ function EventDisplay() {
   if (!pendingEvent) {
     return (
       <div>
-        <button onClick={drawEvent}>Esemény húzása</button>
+        <Button onClick={drawEvent}>Esemény húzása</Button>
       </div>
     );
   }
@@ -21,22 +24,29 @@ function EventDisplay() {
         marginTop: "1rem",
       }}
     >
-      <h3>{pendingEvent.name}</h3>
+      <Card>
+        <CardHeader>
+          <CardTitle>
+            <H3>{pendingEvent.name}</H3>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p>{pendingEvent.description}</p>
 
-      <p>{pendingEvent.description}</p>
-
-      {pendingEvent.choices.map((choice, index) => (
-        <button
-          key={index}
-          onClick={() => resolveEvent(index)}
-          style={{
-            display: "block",
-            marginTop: "0.5rem",
-          }}
-        >
-          {choice.description}
-        </button>
-      ))}
+          {pendingEvent.choices.map((choice, index) => (
+            <Button
+              key={index}
+              onClick={() => resolveEvent(index)}
+              style={{
+                display: "block",
+                marginTop: "0.5rem",
+              }}
+            >
+              {choice.description}
+            </Button>
+          ))}
+        </CardContent>
+      </Card>
     </div>
   );
 }

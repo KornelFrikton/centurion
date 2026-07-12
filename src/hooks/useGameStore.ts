@@ -199,6 +199,7 @@ interface GameStore {
   selectedCharacterIds: string[];
   flags: Record<string, boolean>;
   eventHistory: { eventId: string; choiceIndex: number }[];
+  gamePhase: "crewSelection" | "characterSetup" | "mission";
 
   endTurn: () => void;
   generateRelations: () => void;
@@ -209,6 +210,8 @@ interface GameStore {
   pendingEvent: EventCard | null;
   drawEvent: () => void;
   resolveEvent: (choiceIndex: number) => void;
+  startCrew: () => void;
+  startMission: () => void;
 }
 
 const useGameStore = create<GameStore>()(
@@ -224,6 +227,7 @@ const useGameStore = create<GameStore>()(
       pendingEvent: null,
       flags: {},
       eventHistory: [] as { eventId: string; choiceIndex: number }[],
+      gamePhase: "crewSelection",
 
       endTurn: () => {
         const randomDay: number = Math.floor(Math.random() * 14) + 1;
@@ -301,8 +305,16 @@ const useGameStore = create<GameStore>()(
 
       selectCharacter: (id: string) => {
         set((state) => {
+          if (state.gamePhase !== "crewSelection") return state;
+
+          if (state.selectedCharacterIds.includes(id))
+            return {
+              selectedCharacterIds: state.selectedCharacterIds.filter(
+                (selectedId) => selectedId !== id,
+              ),
+            };
           if (state.selectedCharacterIds.length >= 2) return state;
-          if (state.selectedCharacterIds.includes(id)) return state;
+
           return { selectedCharacterIds: [...state.selectedCharacterIds, id] };
         });
       },
@@ -448,6 +460,13 @@ const useGameStore = create<GameStore>()(
 
           return updates;
         });
+      },
+      startCrew: () => {
+        set({ gamePhase: "characterSetup" });
+      },
+
+      startMission: () => {
+        set({ gamePhase: "mission" });
       },
     }),
     { name: "game-save" },

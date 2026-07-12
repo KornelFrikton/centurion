@@ -1,4 +1,5 @@
 import useGameStore from "../hooks/useGameStore";
+import { Button } from "../components/ui/button";
 
 function GameControl() {
   const endTurn = useGameStore((state) => state.endTurn);
@@ -7,8 +8,8 @@ function GameControl() {
 
   return (
     <div>
-      <button onClick={endTurn}>Next Day</button>
-      {!pendingEvent && <button onClick={drawEvent}>Event</button>}
+      <Button onClick={endTurn}>Next Day</Button>
+      {!pendingEvent && <Button onClick={drawEvent}>Event</Button>}
     </div>
   );
 }
