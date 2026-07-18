@@ -45,28 +45,24 @@ export interface Character {
 const People: Character[] = [
   {
     id: "char01",
-    name: "Bela",
-    class: "soldier",
-    description: "Lángokban ég az éle.",
+    name: "Anna Kovacs",
+    class: "Botanist",
+    description:
+      "An expert in hydroponics and sustainable agriculture, responsible for establishing the colony's food production.",
     age: 0,
     baseStats: {
-      health: 80, // életerő
-      stamina: 80, // fizikai terhelhetőség
-      sanity: 80, // mentális állapot (túlélőknél kulcs!)
-      hunger: 20, // éhség
+      health: 80,
+      stamina: 80,
+      sanity: 80,
+      hunger: 20,
     },
     skills: {
-      // Túlélés
-      scavenging: 5, // romokban kutatás, loot találás
-      crafting: 3, // tárgyak készítése, javítása
-
-      // Harc
-      combat: 9, // közeli harc
-      stealth: 3, // lopakodás, elkerülés
-
-      // Sci-fi specifikus
-      tech: 5, // gépek, elektronika, hackelés
-      leadership: 4, // csoport moral, parancsok hatékonysága
+      scavenging: 6,
+      crafting: 5,
+      combat: 2,
+      stealth: 4,
+      tech: 7,
+      leadership: 5,
     },
     personality: {
       courage: 5,
@@ -75,7 +71,6 @@ const People: Character[] = [
       adaptability: 5,
       aggression: 5,
     },
-
     secret: {
       cardId: "",
       revealed: false,
@@ -83,28 +78,24 @@ const People: Character[] = [
   },
   {
     id: "char02",
-    name: "Zoli",
-    class: "engineer",
-    description: "A gépész az élet megóválja.",
+    name: "Gabriel Foster",
+    class: "Mechanical Engineer",
+    description:
+      "A veteran engineer capable of repairing almost any machine with limited resources.",
     age: 0,
     baseStats: {
-      health: 80, // életerő
-      stamina: 80, // fizikai terhelhetőség
-      sanity: 80, // mentális állapot (túlélőknél kulcs!)
-      hunger: 20, // éhség
+      health: 80,
+      stamina: 80,
+      sanity: 80,
+      hunger: 20,
     },
     skills: {
-      // Túlélés
-      scavenging: 3, // romokban kutatás, loot találás
-      crafting: 8, // tárgyak készítése, javítása
-
-      // Harc
-      combat: 5, // közeli harc
-      stealth: 3, // lopakodás, elkerülés
-
-      // Sci-fi specifikus
-      tech: 9, // gépek, elektronika, hackelés
-      leadership: 4, // csoport moral, parancsok hatékonysága
+      scavenging: 5,
+      crafting: 9,
+      combat: 4,
+      stealth: 3,
+      tech: 10,
+      leadership: 5,
     },
     personality: {
       courage: 5,
@@ -120,28 +111,90 @@ const People: Character[] = [
   },
   {
     id: "char03",
-    name: "Andi",
-    class: "orvos",
-    description: "Minden nap egy alma.",
+    name: "Dr. Maya Chen",
+    class: "Medical Officer",
+    description:
+      "An emergency physician trained to keep the crew alive in the harshest environments.",
     age: 0,
     baseStats: {
-      health: 80, // életerő
-      stamina: 80, // fizikai terhelhetőség
-      sanity: 80, // mentális állapot (túlélőknél kulcs!)
-      hunger: 20, // éhség
+      health: 80,
+      stamina: 80,
+      sanity: 80,
+      hunger: 20,
     },
     skills: {
-      // Túlélés
-      scavenging: 4, // romokban kutatás, loot találás
-      crafting: 7, // tárgyak készítése, javítása
-
-      // Harc
-      combat: 3, // közeli harc
-      stealth: 3, // lopakodás, elkerülés
-
-      // Sci-fi specifikus
-      tech: 9, // gépek, elektronika, hackelés
-      leadership: 5, // csoport moral, parancsok hatékonysága
+      scavenging: 4,
+      crafting: 6,
+      combat: 3,
+      stealth: 4,
+      tech: 8,
+      leadership: 7,
+    },
+    personality: {
+      courage: 5,
+      trust: 5,
+      empathy: 5,
+      adaptability: 5,
+      aggression: 5,
+    },
+    secret: {
+      cardId: "",
+      revealed: false,
+    },
+  },
+  {
+    id: "char04",
+    name: "Ethan Brooks",
+    class: "Geologist",
+    description:
+      "A planetary geologist specializing in locating minerals, groundwater, and safe construction sites.",
+    age: 0,
+    baseStats: {
+      health: 80,
+      stamina: 80,
+      sanity: 80,
+      hunger: 20,
+    },
+    skills: {
+      scavenging: 9,
+      crafting: 4,
+      combat: 4,
+      stealth: 5,
+      tech: 6,
+      leadership: 4,
+    },
+    personality: {
+      courage: 5,
+      trust: 5,
+      empathy: 5,
+      adaptability: 5,
+      aggression: 5,
+    },
+    secret: {
+      cardId: "",
+      revealed: false,
+    },
+  },
+  {
+    id: "char05",
+    name: "Daniel Carter",
+    class: "Construction Specialist",
+    description:
+      "A structural engineer and builder responsible for assembling habitats and colony infrastructure.",
+    age: 0,
+    baseStats: {
+      health: 80,
+      stamina: 80,
+      sanity: 80,
+      hunger: 20,
+    },
+    skills: {
+      scavenging: 6,
+      crafting: 8,
+      combat: 6,
+      stealth: 3,
+      tech: 5,
+      leadership: 6,
     },
     personality: {
       courage: 5,

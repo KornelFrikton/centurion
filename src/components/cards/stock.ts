@@ -4,6 +4,7 @@ export interface Item {
   name: string;
   description: string;
   quantity: number;
+  capacity?: number;
   effect: {
     health: number;
     stamina: number;
@@ -17,6 +18,7 @@ const Stock: Item[] = [
     id: "item01",
     name: "Food",
     quantity: 3650,
+    capacity: 3650,
     description: "A basic food item to sustain life.",
     effect: {
       health: 10, // életerő
@@ -29,6 +31,7 @@ const Stock: Item[] = [
     id: "item02",
     name: "Water",
     quantity: 1825,
+    capacity: 1825,
     description: "A basic water item to sustain life.",
     effect: {
       health: 5, // életerő

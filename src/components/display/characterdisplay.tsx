@@ -12,6 +12,8 @@ import {
 import { Separator } from "../ui/separator";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { H2 } from "../ui/typo";
+import StatusBar from "./statusbar";
+import RatingDots from "./ratingdots";
 
 function CharacterCard() {
   const characters = useGameStore((state) => state.characters);
@@ -37,33 +39,34 @@ function CharacterCard() {
     <div>
       {gamePhase === "crewSelection" && (
         <span>
-          Jelenleg {selectedCharacterIds.length} játékos van kiválasztva.{" "}
+          Currently <strong>{selectedCharacterIds.length}</strong> players are
+          selected to your crew.{" "}
           {isComplete ? (
-            <Button onClick={startCrew}>Utazás indítása!</Button>
+            <Button onClick={startCrew}>Start the journey!</Button>
           ) : (
-            <span>Válassz még {2 - selectedCharacterIds.length} játékost!</span>
+            <span>
+              Choose another <strong>{2 - selectedCharacterIds.length}</strong>{" "}
+              players!
+            </span>
           )}
         </span>
       )}
+      <H2>Crew</H2>
+      <div className="flex gap-4 flex-wrap">
+        {characters.map((character) => {
+          const isSelected = selectedCharacterIds.includes(character.id);
+          const personality = character.personality;
+          const personalityName = character.personalityName;
+          const personalityDescription = character.personalityDescription;
 
-      {characters.map((character) => {
-        const isSelected = selectedCharacterIds.includes(character.id);
-        const personality = character.personality;
-        const personalityName = character.personalityName;
-        const personalityDescription = character.personalityDescription;
+          if (isComplete && !isSelected) return null;
 
-        if (isComplete && !isSelected) return null;
-
-        return (
-          <div>
-            <Card className="bg-card">
-              <div key={character.id}>
+          return (
+            <Card key={character.id} className="bg-card">
+              <div>
                 <CardHeader>
                   <CardTitle>
-                    <H2>
-                      {character.name}
-                      {isSelected && <Badge>Selected</Badge>}
-                    </H2>
+                    <H2>{character.name}</H2>
                     <div> {character.class} </div>
                   </CardTitle>
                   <Tooltip>
@@ -82,6 +85,7 @@ function CharacterCard() {
                         {" "}
                         Avatarkép{" "}
                       </div>
+                      {isSelected && <Badge>Selected</Badge>}
                     </TooltipTrigger>
                     <TooltipContent>
                       <p>{character.description}</p>
@@ -94,42 +98,55 @@ function CharacterCard() {
                     <>
                       <Separator />
                       <div> Age: {character.age} </div>
-                      <div> Health: {character.baseStats.health} </div>
-                      <div>
-                        {" "}
-                        Fizikai terhelhetőség:{" "}
-                        {character.baseStats.stamina}{" "}
-                      </div>
-                      <div>
-                        {" "}
-                        Mentális állapot: {character.baseStats.sanity}{" "}
-                      </div>
-                      <div> Éhség: {character.baseStats.hunger} </div>
+                      <StatusBar
+                        stat="Health"
+                        value={character.baseStats.health}
+                        max={character.baseStats.health}
+                      />
+                      <StatusBar
+                        stat="Stamina"
+                        value={character.baseStats.stamina}
+                        max={character.baseStats.stamina}
+                      />
+                      <StatusBar
+                        stat="Sanity"
+                        value={character.baseStats.sanity}
+                        max={character.baseStats.sanity}
+                      />
+                      <StatusBar
+                        stat="Hunger"
+                        value={character.baseStats.hunger}
+                      />
                     </>
                   )}
                   <Separator />
-                  <h3> Képességek: </h3>
-                  <div>
-                    {" "}
-                    Romokban kutatás, loot találás:{" "}
-                    {character.skills.scavenging}{" "}
-                  </div>
-                  <div>
-                    {" "}
-                    Tárgyak készítése, javítása:{" "}
-                    {character.skills.crafting}{" "}
-                  </div>
-                  <div> Közeli harc: {character.skills.combat} </div>
-                  <div> Lopakodás, elkerülés: {character.skills.stealth} </div>
-                  <div>
-                    {" "}
-                    Gépek, elektronika, hackelés: {character.skills.tech}{" "}
-                  </div>
-                  <div>
-                    {" "}
-                    Csoport moral, parancsok hatékonysága:{" "}
-                    {character.skills.leadership}{" "}
-                  </div>
+                  <h3> Skills: </h3>
+                  <RatingDots
+                    name="
+                    Scavenging, Loot Finding:"
+                    value={character.skills.scavenging}
+                  />
+                  <RatingDots
+                    name="
+                    Item Creation, Repair:"
+                    value={character.skills.crafting}
+                  />
+                  <RatingDots
+                    name="Close Combat:"
+                    value={character.skills.combat}
+                  />
+                  <RatingDots
+                    name="Stealth, Evasion:"
+                    value={character.skills.stealth}
+                  />
+                  <RatingDots
+                    name="Machines, Electronics, Hacking:"
+                    value={character.skills.tech}
+                  />
+                  <RatingDots
+                    name="Group Morale, Command Effectiveness:"
+                    value={character.skills.leadership}
+                  />
 
                   {personalityName && (
                     <>
@@ -139,11 +156,17 @@ function CharacterCard() {
                         Personality: {personalityName} -{" "}
                         {personalityDescription}{" "}
                       </div>
-                      <div> Bátorság: {personality.courage} </div>
-                      <div> Bizalom: {personality.trust} </div>
-                      <div> Empátia: {personality.empathy} </div>
-                      <div> Alkalmazkodás: {personality.adaptability} </div>
-                      <div> Agresszió: {personality.aggression} </div>
+                      <RatingDots name="Courage:" value={personality.courage} />
+                      <RatingDots name="Trust:" value={personality.trust} />
+                      <RatingDots name="Empathy:" value={personality.empathy} />
+                      <RatingDots
+                        name="Adaptability:"
+                        value={personality.adaptability}
+                      />
+                      <RatingDots
+                        name="Aggression:"
+                        value={personality.aggression}
+                      />
                     </>
                   )}
                 </CardContent>
@@ -170,14 +193,14 @@ function CharacterCard() {
                     </Button>
                   )}
                   {gamePhase === "characterSetup" && readyForMission && (
-                    <Button onClick={startMission}>Küldetés kezdése</Button>
+                    <Button onClick={startMission}>Start Mission</Button>
                   )}
                 </CardFooter>
               </div>
             </Card>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 }

@@ -1,6 +1,8 @@
 import useGameStore from "../../hooks/useGameStore";
 import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
 
+import StatusBar from "./statusbar";
+
 function StockDisplay() {
   const items = useGameStore((state) => state.items);
 
@@ -12,9 +14,12 @@ function StockDisplay() {
         </CardHeader>
         <CardContent>
           {items.map((item) => (
-            <div key={item.id}>
-              {item.name}: {item.quantity}
-            </div>
+            <StatusBar
+              key={item.id}
+              stat={item.name}
+              value={item.quantity}
+              max={item.capacity}
+            />
           ))}
         </CardContent>
       </Card>

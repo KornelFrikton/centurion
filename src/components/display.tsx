@@ -13,29 +13,29 @@ function Display() {
     <div>
       <div>
         {" "}
-        Emberek: <CharacterCard />
+        Crew: <CharacterCard />
       </div>
       <div>
-        Kapcsolat: <RelationDisplay />
+        Relations: <RelationDisplay />
       </div>
+      <div>
+        Stock: <StockDisplay />
+      </div>
+
       <div>Aktuális fázis: {gamePhase}</div>
       {gamePhase === "mission" && (
         <div>
           <div>
             {" "}
-            Naptár: <MissionTime />
+            Calendar: <MissionTime />
           </div>
 
           <div>
-            Készletek: <StockDisplay />
+            Event: <EventDisplay />
           </div>
 
           <div>
-            Esemény: <EventDisplay />
-          </div>
-
-          <div>
-            Játékvezérlés:
+            Game Control:
             <GameControl />
           </div>
         </div>

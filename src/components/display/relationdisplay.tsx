@@ -1,12 +1,37 @@
 // components/RelationDisplay.tsx
 import useGameStore from "../../hooks/useGameStore";
 import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
+import {
+  Table,
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+} from "../ui/table";
+import { Badge } from "../ui/badge";
+import { Tooltip, TooltipTrigger, TooltipContent } from "../ui/tooltip";
 
 function getRelationType(value: number) {
-  if (value >= 7.5) return { label: "Ally", color: "#4ade80" };
-  if (value >= 5) return { label: "Friend", color: "#60a5fa" };
-  if (value >= 2.5) return { label: "Neutral", color: "#94a3b8" };
-  return { label: "Enemy", color: "#f87171" };
+  if (value >= 7.5)
+    return {
+      label: "Ally",
+      className: "bg-emerald-600 hover:bg-emerald-600 text-white",
+    };
+  if (value >= 5)
+    return {
+      label: "Friend",
+      className: "bg-sky-600 hover:bg-sky-600 text-white",
+    };
+  if (value >= 2.5)
+    return {
+      label: "Neutral",
+      className: "bg-slate-500 hover:bg-slate-500 text-white",
+    };
+  return {
+    label: "Enemy",
+    className: "bg-rose-600 hover:bg-rose-600 text-white",
+  };
 }
 
 function RelationDisplay() {
@@ -18,8 +43,7 @@ function RelationDisplay() {
     return null;
   }
 
-  const getName = (id: string) =>
-    characters.find((c) => c.id === id)?.name ?? id;
+  const selectedCharacters = characters.filter((c) => selected.includes(c.id));
 
   return (
     <div>
@@ -28,18 +52,61 @@ function RelationDisplay() {
           <CardTitle>Relations</CardTitle>
         </CardHeader>
         <CardContent>
-          {Object.entries(relations).map(([a, targets]) =>
-            Object.entries(targets)
-              .filter(([b]) => selected.includes(a) && selected.includes(b))
-              .map(([b, value]) => {
-                const type = getRelationType(value);
-                return (
-                  <div key={`${a}-${b}`}>
-                    {getName(a)} → {getName(b)}: {value} ({type.label})
-                  </div>
-                );
-              }),
-          )}
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead></TableHead>
+
+                {selectedCharacters.map((character) => (
+                  <TableHead key={character.id}>{character.name}</TableHead>
+                ))}
+              </TableRow>
+            </TableHeader>
+
+            <TableBody>
+              {selectedCharacters.map((rowCharacter) => (
+                <TableRow key={rowCharacter.id}>
+                  <TableCell>{rowCharacter.name}</TableCell>
+
+                  {selectedCharacters.map((colCharacter) => {
+                    if (rowCharacter.id === colCharacter.id) {
+                      return (
+                        <TableCell
+                          key={colCharacter.id}
+                          className="text-center text-muted-foreground"
+                        >
+                          —
+                        </TableCell>
+                      );
+                    }
+
+                    const value =
+                      relations[rowCharacter.id]?.[colCharacter.id] ?? 0;
+
+                    const relation = getRelationType(value);
+                    return (
+                      <TableCell key={colCharacter.id}>
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <Badge className={relation.className}>
+                              {relation.label}
+                            </Badge>
+                          </TooltipTrigger>
+
+                          <TooltipContent>
+                            <p>
+                              {rowCharacter.name} → {colCharacter.name}
+                            </p>
+                            <p>{value.toFixed(1)} / 10</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </CardContent>
       </Card>
     </div>
