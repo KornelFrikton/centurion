@@ -15,27 +15,15 @@ type RelationMatrix = {
 
 //helper functions to apply effects
 function calculateRelation(a: Character, b: Character): number {
-  const traits: (keyof Character["personality"])[] = [
-    "courage",
-    "trust",
-    "empathy",
-    "adaptability",
-  ];
+  let score = 5;
 
-  let similaritySum = 0;
-  for (const trait of traits) {
-    const diff = Math.abs(a.personality[trait] - b.personality[trait]);
-    similaritySum += 10 - diff; // Normalize to 0-1
-  }
-  const avgSimilarity = similaritySum / traits.length;
+  score += (a.personality.trust + b.personality.trust) / 10;
+  score += a.personality.empathy / 5;
+  score -= b.personality.aggression / 3;
+  score += (b.personality.courage - 5) / 5;
+  score += a.personality.adaptability / 10;
 
-  const aggressionSum = a.personality.aggression + b.personality.aggression;
-  const aggressionPenalty = aggressionSum / 4;
-
-  return Math.min(
-    10,
-    Math.max(0, Math.round((avgSimilarity - aggressionPenalty) * 10) / 10),
-  );
+  return Math.round(Math.max(0, Math.min(10, score)) * 10) / 10;
 }
 
 function assignSecretCards(characters: Character[]): Character[] {
@@ -212,6 +200,9 @@ interface GameStore {
   resolveEvent: (choiceIndex: number) => void;
   startCrew: () => void;
   startMission: () => void;
+
+  getProduction: (resourceId: string) => number;
+  getConsumption: (resourceId: string) => number;
 }
 
 const useGameStore = create<GameStore>()(
@@ -231,7 +222,6 @@ const useGameStore = create<GameStore>()(
 
       endTurn: () => {
         const randomDay: number = Math.floor(Math.random() * 14) + 1;
-        const peopleCount = get().characters.length;
 
         set((state) => {
           const currentDate = new Date(state.date);
@@ -241,10 +231,20 @@ const useGameStore = create<GameStore>()(
             lastTurn: randomDay,
             elapsed: state.elapsed + randomDay,
             date: currentDate,
-            items: state.items.map((item: Item) => ({
-              ...item,
-              quantity: Math.max(0, item.quantity - randomDay * peopleCount),
-            })),
+
+            items: state.items.map((item: Item) => {
+              const production = get().getProduction(item.id);
+              const consumption = get().getConsumption(item.id);
+
+              const delta = (production - consumption) * randomDay;
+              return {
+                ...item,
+                quantity: Math.max(
+                  0,
+                  Math.min(item.capacity, item.quantity + delta),
+                ),
+              };
+            }),
           };
         });
       },
@@ -291,13 +291,17 @@ const useGameStore = create<GameStore>()(
         const characters = get().characters;
         const relations: RelationMatrix = {};
 
-        for (let i = 0; i < characters.length; i++) {
-          const a = characters[i];
-          relations[a.id] = {};
+        for (const character of characters) {
+          relations[character.id] = {};
+        }
 
+        for (let i = 0; i < characters.length; i++) {
           for (let j = i + 1; j < characters.length; j++) {
+            const a = characters[i];
             const b = characters[j];
+
             relations[a.id][b.id] = calculateRelation(a, b);
+            relations[b.id][a.id] = calculateRelation(b, a);
           }
         }
         set({ relations });
@@ -468,7 +472,47 @@ const useGameStore = create<GameStore>()(
       startMission: () => {
         set({ gamePhase: "mission" });
       },
+
+      getProduction: (resourceId) => {
+        switch (resourceId) {
+          case "food":
+            return 20;
+
+          case "water":
+            return 30;
+
+          case "oxygen":
+            return 40;
+
+          case "energy":
+            return 120;
+
+          default:
+            return 0;
+        }
+      },
+      getConsumption: (resourceId) => {
+        const people = get().selectedCharacterIds.length;
+
+        switch (resourceId) {
+          case "food":
+            return people;
+
+          case "water":
+            return people * 2;
+
+          case "oxygen":
+            return people * 3;
+
+          case "energy":
+            return 80;
+
+          default:
+            return 0;
+        }
+      },
     }),
+
     { name: "game-save" },
   ),
 );

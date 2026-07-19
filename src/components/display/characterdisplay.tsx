@@ -64,10 +64,26 @@ function CharacterCard() {
           return (
             <Card key={character.id} className="bg-card">
               <div>
-                <CardHeader>
+                <CardHeader className="w-full">
                   <CardTitle>
                     <H2>{character.name}</H2>
-                    <div> {character.class} </div>
+                    <div className="flex w-full items-center justify-between">
+                      {" "}
+                      <span>{character.class}</span>
+                      {personalityName && (
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <Badge variant="secondary" className="cursor-help">
+                              {personalityName}
+                            </Badge>
+                          </TooltipTrigger>
+
+                          <TooltipContent>
+                            <p>{personalityDescription}</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      )}
+                    </div>
                   </CardTitle>
                   <Tooltip>
                     <TooltipTrigger>
@@ -79,13 +95,14 @@ function CharacterCard() {
                             ? "2px solid green"
                             : "1px solid gray",
                           padding: "1rem",
-                          marginBottom: "1rem",
                         }}
                       >
                         {" "}
                         Avatarkép{" "}
                       </div>
-                      {isSelected && <Badge>Selected</Badge>}
+                      {isSelected && (
+                        <Badge className="bg-green-600">Selected</Badge>
+                      )}
                     </TooltipTrigger>
                     <TooltipContent>
                       <p>{character.description}</p>

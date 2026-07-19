@@ -4,13 +4,7 @@ export interface Item {
   name: string;
   description: string;
   quantity: number;
-  capacity?: number;
-  effect: {
-    health: number;
-    stamina: number;
-    sanity: number;
-    hunger: number;
-  };
+  capacity: number;
 }
 
 const Stock: Item[] = [
@@ -20,12 +14,6 @@ const Stock: Item[] = [
     quantity: 3650,
     capacity: 3650,
     description: "A basic food item to sustain life.",
-    effect: {
-      health: 10, // életerő
-      stamina: 10, // fizikai terhelhetőség
-      sanity: 5, // mentális állapot (túlélőknél kulcs!)
-      hunger: 20, // éhség
-    },
   },
   {
     id: "item02",
@@ -33,12 +21,22 @@ const Stock: Item[] = [
     quantity: 1825,
     capacity: 1825,
     description: "A basic water item to sustain life.",
-    effect: {
-      health: 5, // életerő
-      stamina: 5, // fizikai terhelhetőség
-      sanity: 10, // mentális állapot (túlélőknél kulcs!)
-      hunger: 10, // éhség
-    },
+  },
+  {
+    id: "item03",
+    name: "Oxygen",
+    quantity: 2500,
+    capacity: 2500,
+    description:
+      "Compressed oxygen reserves for the colony's life support systems and EVA operations.",
+  },
+  {
+    id: "item04",
+    name: "Energy",
+    quantity: 5000,
+    capacity: 5000,
+    description:
+      "Stored electrical energy powering life support, machinery, and colony infrastructure.",
   },
 ];
 

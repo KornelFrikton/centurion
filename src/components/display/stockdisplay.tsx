@@ -5,6 +5,8 @@ import StatusBar from "./statusbar";
 
 function StockDisplay() {
   const items = useGameStore((state) => state.items);
+  const getProduction = useGameStore((state) => state.getProduction);
+  const getConsumption = useGameStore((state) => state.getConsumption);
 
   return (
     <div>
@@ -19,6 +21,8 @@ function StockDisplay() {
               stat={item.name}
               value={item.quantity}
               max={item.capacity}
+              production={getProduction(item.id)}
+              consumption={getConsumption(item.id)}
             />
           ))}
         </CardContent>
