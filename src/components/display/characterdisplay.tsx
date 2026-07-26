@@ -14,6 +14,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { H2 } from "../ui/typo";
 import StatusBar from "./statusbar";
 import RatingDots from "./ratingdots";
+import SecretCard from "../cards/secretcard";
 
 function CharacterCard() {
   const characters = useGameStore((state) => state.characters);
@@ -59,6 +60,10 @@ function CharacterCard() {
           const personalityName = character.personalityName;
           const personalityDescription = character.personalityDescription;
 
+          const secret = SecretCard.find(
+            (card) => card.id === character.secret.cardId,
+          );
+
           if (isComplete && !isSelected) return null;
 
           return (
@@ -67,10 +72,11 @@ function CharacterCard() {
                 <CardHeader className="w-full">
                   <CardTitle>
                     <H2>{character.name}</H2>
-                    <div className="flex w-full items-center justify-between">
-                      {" "}
-                      <span>{character.class}</span>
-                      {personalityName && (
+
+                    <div>{character.class}</div>
+
+                    {personalityName && (
+                      <div className="flex items-center justify-between">
                         <Tooltip>
                           <TooltipTrigger>
                             <Badge variant="secondary" className="cursor-help">
@@ -82,8 +88,35 @@ function CharacterCard() {
                             <p>{personalityDescription}</p>
                           </TooltipContent>
                         </Tooltip>
-                      )}
-                    </div>
+
+                        {character.secret.revealed && secret ? (
+                          <Tooltip>
+                            <TooltipTrigger>
+                              <Badge variant="outline" className="cursor-help">
+                                {secret?.name}
+                              </Badge>
+                            </TooltipTrigger>
+
+                            <TooltipContent>
+                              <p>{secret?.description}</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        ) : (
+                          <Tooltip>
+                            <TooltipTrigger>
+                              <Badge variant="outline" className="cursor-help">
+                                Secret
+                              </Badge>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>
+                                This character's secret has not been revealed.
+                              </p>
+                            </TooltipContent>
+                          </Tooltip>
+                        )}
+                      </div>
+                    )}
                   </CardTitle>
                   <Tooltip>
                     <TooltipTrigger>
@@ -168,11 +201,6 @@ function CharacterCard() {
                   {personalityName && (
                     <>
                       <Separator />
-                      <div>
-                        {" "}
-                        Personality: {personalityName} -{" "}
-                        {personalityDescription}{" "}
-                      </div>
                       <RatingDots name="Courage:" value={personality.courage} />
                       <RatingDots name="Trust:" value={personality.trust} />
                       <RatingDots name="Empathy:" value={personality.empathy} />
@@ -209,14 +237,16 @@ function CharacterCard() {
                       Generate Personality
                     </Button>
                   )}
-                  {gamePhase === "characterSetup" && readyForMission && (
-                    <Button onClick={startMission}>Start Mission</Button>
-                  )}
                 </CardFooter>
               </div>
             </Card>
           );
         })}
+        <div>
+          {gamePhase === "characterSetup" && readyForMission && (
+            <Button onClick={startMission}>Start Mission</Button>
+          )}
+        </div>
       </div>
     </div>
   );
