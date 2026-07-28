@@ -5,8 +5,7 @@ export interface EventCard {
   name: string;
   description: string;
   type: "technical" | "emotional" | "secret" | "supply" | "chain";
-  rarity?: "common" | "random" | "legendary";
-  target?: "all" | "random" | "specific";
+  rarity?: "common" | "rare" | "legendary";
   condition?: {
     requiredFlags?: Record<string, boolean>;
     requiredEvent?: string;
@@ -18,19 +17,40 @@ export interface EventCard {
   };
   choices: {
     description: string;
+    skillCheck?: {
+      target: "random" | "best" | "selected";
+      skill: keyof Character["skills"];
+      difficulty: number;
+      failEffects?: EventCard["effects"];
+    };
     effects: EventCard["effects"];
     followUp?: EventCard["id"] | null;
   }[];
   effects: {
-    stats?: Partial<Character["baseStats"]>;
+    stats?: {
+      target: "all" | "random" | "specific";
+      characterId?: Character["id"];
+      values: Partial<Character["baseStats"]>;
+    };
     stock?: Partial<Record<string, number>>;
-    skills?: Partial<Character["skills"]>;
-    personality?: Partial<Character["personality"]>;
+    skills?: {
+      target: "all" | "random" | "specific";
+      characterId?: Character["id"];
+      values: Partial<Character["skills"]>;
+    };
+    personality?: {
+      target: "all" | "random" | "specific";
+      characterId?: Character["id"];
+      values: Partial<Character["personality"]>;
+    };
     relations?: {
       between: "all" | [Character["id"], Character["id"]];
       delta: number;
     };
     flags?: Record<string, boolean>;
-    revealSecret?: string;
+    secretTrigger?: {
+      id: string;
+      effect: Omit<EventCard["effects"], "secretTrigger">;
+    };
   };
 }

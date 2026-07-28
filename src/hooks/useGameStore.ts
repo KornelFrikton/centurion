@@ -13,6 +13,12 @@ type RelationMatrix = {
   };
 };
 
+type CharacterEffect<T> = {
+  target: "all" | "random" | "specific";
+  characterId?: string;
+  values: Partial<T>;
+};
+
 //helper functions to apply effects
 function calculateRelation(a: Character, b: Character): number {
   let score = 5;
@@ -43,104 +49,188 @@ function assignSecretCards(characters: Character[]): Character[] {
 
 function applySkills(
   characters: Character[],
-  skills?: Partial<Character["skills"]>,
+  effect?: CharacterEffect<Character["skills"]>,
 ): Character[] {
-  if (!skills) return characters;
-  return characters.map((character) => ({
-    ...character,
-    skills: {
-      scavenging: Math.min(
-        10,
-        Math.max(0, character.skills.scavenging + (skills.scavenging ?? 0)),
-      ),
-      crafting: Math.min(
-        10,
-        Math.max(0, character.skills.crafting + (skills.crafting ?? 0)),
-      ),
-      combat: Math.min(
-        10,
-        Math.max(0, character.skills.combat + (skills.combat ?? 0)),
-      ),
-      stealth: Math.min(
-        10,
-        Math.max(0, character.skills.stealth + (skills.stealth ?? 0)),
-      ),
-      tech: Math.min(
-        10,
-        Math.max(0, character.skills.tech + (skills.tech ?? 0)),
-      ),
-      leadership: Math.min(
-        10,
-        Math.max(0, character.skills.leadership + (skills.leadership ?? 0)),
-      ),
-    },
-  }));
+  if (!effect) return characters;
+
+  const affectedCharacters = getAffectedCharacters(
+    characters,
+    effect.target,
+    effect.characterId,
+  );
+
+  return characters.map((character) => {
+    if (!affectedCharacters.some((c) => c.id === character.id)) {
+      return character;
+    }
+
+    return {
+      ...character,
+      skills: {
+        scavenging: Math.min(
+          10,
+          Math.max(
+            0,
+            character.skills.scavenging + (effect.values.scavenging ?? 0),
+          ),
+        ),
+        crafting: Math.min(
+          10,
+          Math.max(
+            0,
+            character.skills.crafting + (effect.values.crafting ?? 0),
+          ),
+        ),
+        combat: Math.min(
+          10,
+          Math.max(0, character.skills.combat + (effect.values.combat ?? 0)),
+        ),
+        stealth: Math.min(
+          10,
+          Math.max(0, character.skills.stealth + (effect.values.stealth ?? 0)),
+        ),
+        tech: Math.min(
+          10,
+          Math.max(0, character.skills.tech + (effect.values.tech ?? 0)),
+        ),
+        leadership: Math.min(
+          10,
+          Math.max(
+            0,
+            character.skills.leadership + (effect.values.leadership ?? 0),
+          ),
+        ),
+      },
+    };
+  });
 }
 
 function applyStats(
   characters: Character[],
-  stats?: Partial<Character["baseStats"]>,
+  effect?: CharacterEffect<Character["baseStats"]>,
 ): Character[] {
-  if (!stats) return characters;
-  return characters.map((character) => ({
-    ...character,
-    baseStats: {
-      health: Math.min(
-        10,
-        Math.max(0, character.baseStats.health + (stats.health ?? 0)),
-      ),
-      stamina: Math.min(
-        10,
-        Math.max(0, character.baseStats.stamina + (stats.stamina ?? 0)),
-      ),
-      sanity: Math.min(
-        10,
-        Math.max(0, character.baseStats.sanity + (stats.sanity ?? 0)),
-      ),
-      hunger: Math.min(
-        10,
-        Math.max(0, character.baseStats.hunger + (stats.hunger ?? 0)),
-      ),
-    },
-  }));
+  if (!effect) return characters;
+
+  const affectedCharacters = getAffectedCharacters(
+    characters,
+    effect.target,
+    effect.characterId,
+  );
+
+  return characters.map((character) => {
+    if (!affectedCharacters.some((c) => c.id === character.id)) {
+      return character;
+    }
+
+    return {
+      ...character,
+      baseStats: {
+        health: Math.min(
+          10,
+          Math.max(0, character.baseStats.health + (effect.values.health ?? 0)),
+        ),
+        stamina: Math.min(
+          10,
+          Math.max(
+            0,
+            character.baseStats.stamina + (effect.values.stamina ?? 0),
+          ),
+        ),
+        sanity: Math.min(
+          10,
+          Math.max(0, character.baseStats.sanity + (effect.values.sanity ?? 0)),
+        ),
+        hunger: Math.min(
+          10,
+          Math.max(0, character.baseStats.hunger + (effect.values.hunger ?? 0)),
+        ),
+      },
+    };
+  });
 }
 
 function applyPersonality(
   characters: Character[],
-  personality?: Partial<Character["personality"]>,
+  effect?: CharacterEffect<Character["personality"]>,
 ): Character[] {
-  if (!personality) return characters;
-  return characters.map((character) => ({
-    ...character,
-    personality: {
-      courage: Math.min(
-        10,
-        Math.max(0, character.personality.courage + (personality.courage ?? 0)),
-      ),
-      trust: Math.min(
-        10,
-        Math.max(0, character.personality.trust + (personality.trust ?? 0)),
-      ),
-      empathy: Math.min(
-        10,
-        Math.max(0, character.personality.empathy + (personality.empathy ?? 0)),
-      ),
-      adaptability: Math.min(
-        10,
-        Math.max(
-          0,
-          character.personality.adaptability + (personality.adaptability ?? 0),
+  if (!effect) return characters;
+
+  const affectedCharacters = getAffectedCharacters(
+    characters,
+    effect.target,
+    effect.characterId,
+  );
+
+  return characters.map((character) => {
+    if (!affectedCharacters.some((c) => c.id === character.id)) {
+      return character;
+    }
+
+    return {
+      ...character,
+      personality: {
+        courage: Math.min(
+          10,
+          Math.max(
+            0,
+            character.personality.courage + (effect.values.courage ?? 0),
+          ),
         ),
-      ),
-      aggression: Math.min(
-        10,
-        Math.max(
-          0,
-          character.personality.aggression + (personality.aggression ?? 0),
+        trust: Math.min(
+          10,
+          Math.max(0, character.personality.trust + (effect.values.trust ?? 0)),
         ),
-      ),
-    },
-  }));
+        empathy: Math.min(
+          10,
+          Math.max(
+            0,
+            character.personality.empathy + (effect.values.empathy ?? 0),
+          ),
+        ),
+        adaptability: Math.min(
+          10,
+          Math.max(
+            0,
+            character.personality.adaptability +
+              (effect.values.adaptability ?? 0),
+          ),
+        ),
+        aggression: Math.min(
+          10,
+          Math.max(
+            0,
+            character.personality.aggression + (effect.values.aggression ?? 0),
+          ),
+        ),
+      },
+    };
+  });
+}
+
+function applySecretTrigger(
+  characters: Character[],
+  trigger: {
+    id: string;
+    effect?: EventCard["effects"];
+  },
+): Character[] {
+  const affected = characters.filter(
+    (character) => character.secret.cardId === trigger.id,
+  );
+
+  return characters.map((character) => {
+    if (!affected.some((c) => c.id === character.id)) {
+      return character;
+    }
+
+    return {
+      ...character,
+      secret: {
+        ...character.secret,
+        revealed: true,
+      },
+    };
+  });
 }
 
 function updateRelations(
@@ -176,6 +266,28 @@ function updateRelations(
   return newRelations;
 }
 
+function getAffectedCharacters(
+  characters: Character[],
+  target: "all" | "random" | "specific",
+  characterId?: string,
+): Character[] {
+  if (target === "all") {
+    return characters;
+  }
+
+  if (target === "specific" && characterId) {
+    return characters.filter((c) => c.id === characterId);
+  }
+
+  if (target === "random") {
+    const random = characters[Math.floor(Math.random() * characters.length)];
+
+    return [random];
+  }
+
+  return [];
+}
+
 //Store definition
 interface GameStore {
   date: Date;
@@ -186,6 +298,11 @@ interface GameStore {
   relations: RelationMatrix;
   selectedCharacterIds: string[];
   flags: Record<string, boolean>;
+  eventResult: {
+    success?: boolean;
+    messages: string[];
+  } | null;
+  nextEvent: EventCard | null;
   eventHistory: { eventId: string; choiceIndex: number }[];
   gamePhase: "crewSelection" | "characterSetup" | "mission";
 
@@ -196,6 +313,7 @@ interface GameStore {
   selectCharacter: (id: string) => void;
   generateAge: (id: string) => void;
   pendingEvent: EventCard | null;
+  continueEvent: () => void;
   drawEvent: () => void;
   resolveEvent: (choiceIndex: number) => void;
   startCrew: () => void;
@@ -217,6 +335,8 @@ const useGameStore = create<GameStore>()(
       selectedCharacterIds: [] as string[],
       pendingEvent: null,
       flags: {},
+      eventResult: null,
+      nextEvent: null,
       eventHistory: [] as { eventId: string; choiceIndex: number }[],
       gamePhase: "crewSelection",
 
@@ -383,88 +503,93 @@ const useGameStore = create<GameStore>()(
 
         set((state) => {
           let updates: Partial<GameStore> = {
-            pendingEvent: null,
             eventHistory: [
               ...state.eventHistory,
               { eventId: event.id, choiceIndex },
             ],
           };
 
-          switch (event.type) {
-            case "technical":
-              updates.characters = applySkills(
-                state.characters,
-                effects.skills,
-              );
-              updates.characters = applyStats(
-                state.characters ?? state.characters,
-                effects.stats,
-              );
-              break;
-            case "emotional":
-              updates.relations = updateRelations(
-                state.relations,
-                effects.relations,
-              );
-              updates.characters = applyPersonality(
-                state.characters,
-                effects.personality,
-              );
-              break;
-            case "supply":
-              updates.items = state.items.map((item) => ({
-                ...item,
-                quantity: Math.max(
-                  0,
+          let characters = state.characters;
+          let relations = state.relations;
+          let items = state.items;
+
+          // Character effects
+          if (effects.stats) {
+            characters = applyStats(characters, effects.stats);
+          }
+
+          if (effects.skills) {
+            characters = applySkills(characters, effects.skills);
+          }
+
+          if (effects.personality) {
+            characters = applyPersonality(characters, effects.personality);
+          }
+
+          // Relations
+          if (effects.relations) {
+            relations = updateRelations(relations, effects.relations);
+          }
+
+          // Stock
+          if (effects.stock) {
+            items = items.map((item) => ({
+              ...item,
+              quantity: Math.max(
+                0,
+                Math.min(
+                  item.capacity,
                   item.quantity +
                     (effects.stock?.[item.name.toLowerCase()] ?? 0),
                 ),
-              }));
-              break;
-            case "secret":
-              if (effects.revealSecret) {
-                updates.characters = state.characters.map((character) =>
-                  character.secret.cardId === effects.revealSecret
-                    ? {
-                        ...character,
-                        secret: {
-                          ...character.secret,
-                          revealed: true,
-                        },
-                      }
-                    : character,
-                );
-              }
-              break;
-            case "chain":
-              const followUp = event.choices?.[choiceIndex].followUp;
-              if (followUp) {
-                const nextCard =
-                  EventCards.find((e) => e.id === followUp) ?? null;
-                updates.pendingEvent = nextCard;
-              }
-              break;
+              ),
+            }));
           }
 
+          // Secret reveal
+          if (effects.secretTrigger) {
+            characters = applySecretTrigger(characters, effects.secretTrigger);
+          }
+
+          // Flags
           if (effects.flags) {
-            updates.flags = { ...state.flags, ...effects.flags };
+            updates.flags = {
+              ...state.flags,
+              ...effects.flags,
+            };
           }
-          if (effects.stats && event.type !== "technical") {
-            updates.characters = applyStats(
-              updates.characters ?? state.characters,
-              effects.stats,
-            );
+
+          // Chain event
+          if (event.choices?.[choiceIndex].followUp) {
+            const followUp = event.choices[choiceIndex].followUp;
+
+            updates.nextEvent =
+              EventCards.find((e) => e.id === followUp) ?? null;
           }
-          if (effects.relations && event.type !== "emotional") {
-            updates.relations = updateRelations(
-              updates.relations ?? state.relations,
-              effects.relations,
-            );
-          }
+
+          updates.pendingEvent = null;
+
+          updates.eventResult = {
+            success: true,
+            messages: ["TEST"],
+          };
+
+          updates.characters = characters;
+          updates.relations = relations;
+          updates.items = items;
 
           return updates;
         });
       },
+
+      continueEvent: () => {
+        set((state) => ({
+          pendingEvent: state.nextEvent,
+          nextEvent: null,
+          eventResult: null,
+        }));
+      },
+
       startCrew: () => {
         set({ gamePhase: "characterSetup" });
       },

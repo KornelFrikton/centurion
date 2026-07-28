@@ -2,28 +2,74 @@ import type { EventCard } from "./eventcard";
 
 const SupplyCards: EventCard[] = [
   {
-    id: "supply_old_storage",
-    name: "Elhagyott raktár",
+    id: "supply_cargo_container",
+    name: "Drifting Cargo Container",
     description:
-      "Egy régi katonai raktárra bukkantatok. A készletek egy része még használható állapotban van.",
+      "Sensors detect a cargo container slowly drifting through space. Its beacon is still active.",
     type: "supply",
     rarity: "common",
-    target: "all",
     choices: [
       {
-        description: "Átkutatjátok a raktárt.",
+        description: "Force the container open.",
+        skillCheck: {
+          target: "selected",
+          skill: "scavenging",
+          difficulty: 7,
+          failEffects: {
+            stats: {
+              target: "specific",
+              values: {
+                health: -15,
+              },
+            },
+            stock: {
+              food: -5,
+            },
+          },
+        },
         effects: {
           stock: {
-            Food: 20,
-            Water: 15,
+            food: 20,
+            water: 15,
+          },
+        },
+      },
+
+      {
+        description: "Carefully recover the cargo.",
+        effects: {
+          stock: {
+            food: 10,
+            water: 10,
+            energy: 5,
           },
         },
       },
       {
-        description: "Gyorsan továbbálltok.",
+        description: "Strip it for spare power cells.",
         effects: {
           stock: {
-            Food: 5,
+            energy: 20,
+          },
+          stats: {
+            target: "all",
+            values: {
+              stamina: -5,
+            },
+          },
+        },
+      },
+      {
+        description: "Ignore the signal and conserve resources.",
+        effects: {
+          stock: {
+            energy: 5,
+          },
+          stats: {
+            target: "all",
+            values: {
+              sanity: -5,
+            },
           },
         },
       },
@@ -32,28 +78,320 @@ const SupplyCards: EventCard[] = [
   },
 
   {
-    id: "supply_contaminated_cache",
-    name: "Fertőzött készlet",
+    id: "supply_abandoned_shuttle",
+    name: "Abandoned Shuttle",
     description:
-      "Egy lezárt konténerben túlélő készletet találtok. Nem tudjátok, miért hagyták ott.",
+      "An abandoned shuttle drifts silently nearby. Its systems are offline, but the cargo bay appears intact.",
     type: "supply",
-    rarity: "random",
-    target: "all",
+    rarity: "common",
     choices: [
       {
-        description: "Felhasználjátok a használhatónak tűnő készleteket.",
+        description: "Attempt to restore the shuttle systems.",
+        skillCheck: {
+          target: "selected",
+          skill: "tech",
+          difficulty: 8,
+          failEffects: {
+            stats: {
+              target: "specific",
+              values: {
+                health: -10,
+              },
+            },
+            stock: {
+              energy: -5,
+            },
+          },
+        },
         effects: {
           stock: {
-            Food: 10,
-            Water: 5,
+            energy: 25,
+            oxygen: 10,
+            food: 15,
           },
         },
       },
+
       {
-        description: "Óvatosan csak a vizet veszitek el.",
+        description: "Carefully search the cargo bay.",
         effects: {
           stock: {
-            Water: 10,
+            food: 10,
+            water: 10,
+          },
+        },
+      },
+
+      {
+        description: "Strip the shuttle for useful components.",
+        skillCheck: {
+          target: "selected",
+          skill: "scavenging",
+          difficulty: 6,
+          failEffects: {
+            stock: {
+              energy: -10,
+            },
+            stats: {
+              target: "specific",
+              values: {
+                stamina: -10,
+              },
+            },
+          },
+        },
+        effects: {
+          stock: {
+            energy: 30,
+          },
+        },
+      },
+    ],
+    effects: {},
+  },
+
+  {
+    id: "supply_maintenance_drone",
+    name: "Maintenance Drone",
+    description:
+      "A damaged maintenance drone still carries replacement power cells and spare components.",
+    type: "supply",
+    rarity: "rare",
+
+    choices: [
+      {
+        description: "Repair the drone and access its full inventory.",
+        skillCheck: {
+          target: "selected",
+          skill: "tech",
+          difficulty: 9,
+          failEffects: {
+            stats: {
+              target: "specific",
+              values: {
+                health: -5,
+              },
+            },
+            stock: {
+              energy: -10,
+            },
+          },
+        },
+        effects: {
+          stock: {
+            energy: 40,
+            oxygen: 10,
+          },
+        },
+      },
+
+      {
+        description: "Extract the power cells without repairing it.",
+        effects: {
+          stock: {
+            energy: 20,
+          },
+        },
+      },
+
+      {
+        description: "Dismantle the drone for spare components.",
+        skillCheck: {
+          target: "selected",
+          skill: "scavenging",
+          difficulty: 7,
+          failEffects: {
+            stock: {
+              energy: -5,
+            },
+            stats: {
+              target: "specific",
+              values: {
+                stamina: -10,
+              },
+            },
+          },
+        },
+        effects: {
+          stock: {
+            energy: 25,
+          },
+        },
+      },
+    ],
+    effects: {},
+  },
+
+  {
+    id: "supply_emergency_pod",
+    name: "Emergency Escape Pod",
+    description:
+      "An old escape pod contains untouched emergency survival supplies.",
+    type: "supply",
+    rarity: "common",
+
+    choices: [
+      {
+        description: "Open the pod and take everything inside.",
+        skillCheck: {
+          target: "selected",
+          skill: "scavenging",
+          difficulty: 6,
+          failEffects: {
+            stats: {
+              target: "specific",
+              values: {
+                health: -5,
+              },
+            },
+            stock: {
+              oxygen: -5,
+            },
+          },
+        },
+        effects: {
+          stock: {
+            food: 20,
+            water: 15,
+            oxygen: 10,
+          },
+        },
+      },
+
+      {
+        description: "Carefully extract only the sealed supplies.",
+        effects: {
+          stock: {
+            food: 10,
+            water: 10,
+          },
+        },
+      },
+
+      {
+        description: "Salvage the pod's life support system.",
+        skillCheck: {
+          target: "selected",
+          skill: "tech",
+          difficulty: 7,
+          failEffects: {
+            stock: {
+              oxygen: -10,
+            },
+            stats: {
+              target: "specific",
+              values: {
+                stamina: -5,
+              },
+            },
+          },
+        },
+        effects: {
+          stock: {
+            oxygen: 25,
+            energy: 10,
+          },
+        },
+      },
+    ],
+    effects: {},
+  },
+
+  {
+    id: "supply_derelict_freighter",
+    name: "Derelict Freighter",
+    description:
+      "A massive cargo freighter drifts through the void. Most systems are dead, but parts of the cargo hold remain accessible.",
+    type: "supply",
+    rarity: "rare",
+
+    choices: [
+      {
+        description: "Send a team to fully explore the freighter.",
+        skillCheck: {
+          target: "selected",
+          skill: "scavenging",
+          difficulty: 9,
+          failEffects: {
+            stats: {
+              target: "specific",
+              values: {
+                health: -20,
+                sanity: -5,
+              },
+            },
+            stock: {
+              oxygen: -10,
+            },
+          },
+        },
+        effects: {
+          stock: {
+            food: 40,
+            water: 30,
+            oxygen: 20,
+            energy: 25,
+          },
+        },
+      },
+
+      {
+        description: "Recover only the accessible cargo containers.",
+        effects: {
+          stock: {
+            food: 20,
+            water: 15,
+            energy: 10,
+          },
+        },
+      },
+
+      {
+        description: "Attempt to restart the freighter's reactor systems.",
+        skillCheck: {
+          target: "selected",
+          skill: "tech",
+          difficulty: 10,
+          failEffects: {
+            stats: {
+              target: "specific",
+              values: {
+                health: -10,
+              },
+            },
+            stock: {
+              energy: -15,
+            },
+          },
+        },
+        effects: {
+          stock: {
+            energy: 50,
+          },
+        },
+      },
+
+      {
+        description: "Salvage the ship's navigation and communication modules.",
+        skillCheck: {
+          target: "selected",
+          skill: "tech",
+          difficulty: 8,
+          failEffects: {
+            stats: {
+              target: "specific",
+              values: {
+                stamina: -15,
+              },
+            },
+          },
+        },
+        effects: {
+          stock: {
+            energy: 20,
+          },
+          flags: {
+            recovered_navigation_data: true,
           },
         },
       },
