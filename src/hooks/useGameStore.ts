@@ -211,14 +211,14 @@ function applySecretTrigger(
   characters: Character[],
   trigger: {
     id: string;
-    effect?: EventCard["effects"];
+    effect?: Omit<EventCard["effects"], "secretTrigger">;
   },
 ): Character[] {
   const affected = characters.filter(
     (character) => character.secret.cardId === trigger.id,
   );
 
-  return characters.map((character) => {
+  let updatedCharacters = characters.map((character) => {
     if (!affected.some((c) => c.id === character.id)) {
       return character;
     }
@@ -231,6 +231,39 @@ function applySecretTrigger(
       },
     };
   });
+
+  if (!trigger.effect) {
+    return updatedCharacters;
+  }
+
+  // Apply nested effects only to the affected characters
+  for (const character of affected) {
+    if (trigger.effect.stats) {
+      updatedCharacters = applyStats(updatedCharacters, {
+        ...trigger.effect.stats,
+        target: "specific",
+        characterId: character.id,
+      });
+    }
+
+    if (trigger.effect.skills) {
+      updatedCharacters = applySkills(updatedCharacters, {
+        ...trigger.effect.skills,
+        target: "specific",
+        characterId: character.id,
+      });
+    }
+
+    if (trigger.effect.personality) {
+      updatedCharacters = applyPersonality(updatedCharacters, {
+        ...trigger.effect.personality,
+        target: "specific",
+        characterId: character.id,
+      });
+    }
+  }
+
+  return updatedCharacters;
 }
 
 function updateRelations(
@@ -288,6 +321,82 @@ function getAffectedCharacters(
   return [];
 }
 
+function performSkillCheck(
+  characters: Character[],
+  check: NonNullable<EventCard["choices"][number]["skillCheck"]>,
+  characterId?: string,
+): {
+  success: boolean;
+  character: string;
+  characterId: string;
+  skill: keyof Character["skills"];
+  difficulty: number;
+  roll: number;
+  total: number;
+} {
+  let candidates: Character[] = [];
+
+  switch (check.target) {
+    case "specific":
+      candidates = characters.filter((c) => c.id === characterId);
+      break;
+
+    case "random":
+      candidates = [characters[Math.floor(Math.random() * characters.length)]];
+      break;
+
+    case "all":
+      candidates = characters;
+      break;
+  }
+
+  const character = candidates[0];
+
+  if (!character) {
+    return {
+      success: false,
+      character: "none",
+      characterId: "none",
+      skill: check.skill,
+      roll: 0,
+      total: 0,
+      difficulty: check.difficulty,
+    };
+  }
+
+  const roll = Math.floor(Math.random() * 10) + 1;
+  const total = character.skills[check.skill] + roll;
+
+  return {
+    success: total >= check.difficulty,
+    character: character.name,
+    characterId: character.id,
+    skill: check.skill,
+    roll,
+    total,
+    difficulty: check.difficulty,
+  };
+}
+
+function resolveEffectTarget<
+  T extends {
+    target: "all" | "random" | "specific";
+    characterId?: string;
+  },
+>(characters: Character[], effect: T): T {
+  if (effect.target === "random") {
+    const random = characters[Math.floor(Math.random() * characters.length)];
+
+    return {
+      ...effect,
+      target: "specific",
+      characterId: random.id,
+    };
+  }
+
+  return effect;
+}
+
 //Store definition
 interface GameStore {
   date: Date;
@@ -300,7 +409,35 @@ interface GameStore {
   flags: Record<string, boolean>;
   eventResult: {
     success?: boolean;
-    messages: string[];
+    stock?: { item: string; delta: number }[];
+    stats?: {
+      characterId?: string;
+      stat: string;
+      delta: number;
+      target: "all" | "random" | "specific";
+    }[];
+    skills?: {
+      skill: string;
+      delta: number;
+      target: "all" | "random" | "specific";
+      characterId?: string;
+    }[];
+    personality?: {
+      trait: string;
+      delta: number;
+      target: "all" | "random" | "specific";
+      characterId?: string;
+    }[];
+    relations?: { between: "all" | [string, string]; delta: number }[];
+    secrets?: { secretId: string }[];
+    skillCheck?: {
+      success: boolean;
+      character: string;
+      skill: string;
+      roll: number;
+      total: number;
+      difficulty: number;
+    };
   } | null;
   nextEvent: EventCard | null;
   eventHistory: { eventId: string; choiceIndex: number }[];
@@ -315,7 +452,7 @@ interface GameStore {
   pendingEvent: EventCard | null;
   continueEvent: () => void;
   drawEvent: () => void;
-  resolveEvent: (choiceIndex: number) => void;
+  resolveEvent: (choiceIndex: number, characterId?: string) => void;
   startCrew: () => void;
   startMission: () => void;
 
@@ -493,13 +630,9 @@ const useGameStore = create<GameStore>()(
         set({ pendingEvent: randomEvent });
       },
 
-      resolveEvent: (choiceIndex: number) => {
+      resolveEvent: (choiceIndex: number, characterId?: string) => {
         const event = get().pendingEvent;
         if (!event) return;
-
-        const effects = event.choices
-          ? event.choices[choiceIndex].effects
-          : event.effects;
 
         set((state) => {
           let updates: Partial<GameStore> = {
@@ -513,17 +646,57 @@ const useGameStore = create<GameStore>()(
           let relations = state.relations;
           let items = state.items;
 
+          const choice = event.choices[choiceIndex];
+          let effects = {
+            ...event.effects,
+            ...choice.effects,
+          };
+          let skillCheckResult:
+            | {
+                success: boolean;
+                character: string;
+                skill: string;
+                roll: number;
+                total: number;
+                difficulty: number;
+              }
+            | undefined;
+
+          if (choice.skillCheck) {
+            skillCheckResult = performSkillCheck(
+              state.characters,
+              choice.skillCheck,
+              characterId,
+            );
+
+            if (!skillCheckResult && choice.skillCheck.failEffects) {
+              effects = choice.skillCheck.failEffects;
+            }
+          }
+
+          let resolvedStats = effects.stats;
+          let resolvedSkills = effects.skills;
+          let resolvedPersonality = effects.personality;
+
           // Character effects
           if (effects.stats) {
-            characters = applyStats(characters, effects.stats);
+            resolvedStats = resolveEffectTarget(characters, effects.stats);
+
+            characters = applyStats(characters, resolvedStats);
           }
 
           if (effects.skills) {
-            characters = applySkills(characters, effects.skills);
+            resolvedSkills = resolveEffectTarget(characters, effects.skills);
+
+            characters = applySkills(characters, resolvedSkills);
           }
 
           if (effects.personality) {
-            characters = applyPersonality(characters, effects.personality);
+            resolvedPersonality = resolveEffectTarget(
+              characters,
+              effects.personality,
+            );
+            characters = applyPersonality(characters, resolvedPersonality);
           }
 
           // Relations
@@ -532,6 +705,8 @@ const useGameStore = create<GameStore>()(
           }
 
           // Stock
+          console.log("Stock effect:", effects.stock);
+          console.log("Items before:", items);
           if (effects.stock) {
             items = items.map((item) => ({
               ...item,
@@ -570,8 +745,60 @@ const useGameStore = create<GameStore>()(
           updates.pendingEvent = null;
 
           updates.eventResult = {
-            success: true,
-            messages: ["TEST"],
+            success: skillCheckResult?.success ?? true,
+            skillCheck: skillCheckResult,
+            stock: effects.stock
+              ? Object.entries(effects.stock).map(([item, delta]) => ({
+                  item,
+                  delta: delta ?? 0,
+                }))
+              : undefined,
+
+            stats: resolvedStats
+              ? Object.entries(resolvedStats.values).map(([stat, delta]) => ({
+                  stat,
+                  delta: delta ?? 0,
+                  target: resolvedStats.target,
+                  characterId: resolvedStats.characterId,
+                }))
+              : undefined,
+
+            skills: resolvedSkills
+              ? Object.entries(resolvedSkills.values).map(([skill, delta]) => ({
+                  skill,
+                  delta: delta ?? 0,
+                  target: resolvedSkills.target,
+                  characterId: resolvedSkills.characterId,
+                }))
+              : undefined,
+
+            personality: resolvedPersonality
+              ? Object.entries(resolvedPersonality.values).map(
+                  ([trait, delta]) => ({
+                    trait,
+                    delta: delta ?? 0,
+                    target: resolvedPersonality.target,
+                    characterId: resolvedPersonality.characterId,
+                  }),
+                )
+              : undefined,
+
+            relations: effects.relations
+              ? [
+                  {
+                    between: effects.relations.between,
+                    delta: effects.relations.delta,
+                  },
+                ]
+              : undefined,
+
+            secrets: effects.secretTrigger
+              ? [
+                  {
+                    secretId: effects.secretTrigger.id,
+                  },
+                ]
+              : undefined,
           };
 
           updates.characters = characters;

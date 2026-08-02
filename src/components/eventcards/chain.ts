@@ -3,17 +3,16 @@ import type { EventCard } from "./eventcard";
 const ChainEvents: EventCard[] = [
   {
     id: "chain_abandoned_lab",
-    name: "Elhagyott laboratórium",
+    name: "Abandoned Laboratory",
     description:
-      "Egy régi kutatóállomást találtok. Az ajtó zárva van, de még van áram a rendszerben.",
+      "You discover an abandoned research station. The door is sealed, but the systems still have power.",
 
     type: "chain",
     rarity: "common",
-    target: "all",
 
     choices: [
       {
-        description: "Megpróbáljátok feltörni az ajtót.",
+        description: "Force the door open.",
         followUp: "chain_lab_enter",
         effects: {
           flags: {
@@ -22,7 +21,7 @@ const ChainEvents: EventCard[] = [
         },
       },
       {
-        description: "Nem kockáztattok, inkább körbejárjátok az épületet.",
+        description: "Avoid the risk and search around the station.",
         followUp: "chain_lab_outside",
         effects: {
           flags: {
@@ -37,13 +36,12 @@ const ChainEvents: EventCard[] = [
 
   {
     id: "chain_lab_enter",
-    name: "A labor belseje",
+    name: "Inside the Laboratory",
     description:
-      "A laborban régi kutatási eszközöket és használható alkatrészeket találtok.",
+      "Inside the lab you find old research equipment and several usable components.",
 
     type: "technical",
-    rarity: "random",
-    target: "all",
+    rarity: "common",
 
     condition: {
       requiredFlags: {
@@ -53,18 +51,21 @@ const ChainEvents: EventCard[] = [
 
     choices: [
       {
-        description: "Kimentitek az alkatrészeket.",
+        description: "Salvage the components.",
         effects: {
           stock: {
             parts: 5,
           },
           skills: {
-            tech: 1,
+            target: "all",
+            values: {
+              tech: 1,
+            },
           },
         },
       },
       {
-        description: "Megpróbáljátok újraindítani a rendszert.",
+        description: "Attempt to restore power to the laboratory.",
         effects: {
           flags: {
             lab_power_restored: true,
@@ -78,13 +79,12 @@ const ChainEvents: EventCard[] = [
 
   {
     id: "chain_lab_outside",
-    name: "A labor hátulja",
+    name: "Behind the Laboratory",
     description:
-      "A labor mögött egy lezárt szállítmányt találtok. Valószínűleg még tartalmaz készleteket.",
+      "Behind the station you find a sealed cargo container that likely still contains supplies.",
 
     type: "supply",
-    rarity: "random",
-    target: "all",
+    rarity: "common",
 
     condition: {
       requiredFlags: {
@@ -94,7 +94,7 @@ const ChainEvents: EventCard[] = [
 
     choices: [
       {
-        description: "Feltöritek a szállítmányt.",
+        description: "Break open the cargo container.",
         effects: {
           stock: {
             food: 10,
@@ -103,7 +103,7 @@ const ChainEvents: EventCard[] = [
         },
       },
       {
-        description: "Biztonságosan elhagyjátok a területet.",
+        description: "Leave the area safely.",
         effects: {
           relations: {
             between: "all",
@@ -112,7 +112,6 @@ const ChainEvents: EventCard[] = [
         },
       },
     ],
-
     effects: {},
   },
 ];

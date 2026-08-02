@@ -13,7 +13,7 @@ const TechnicalEvents: EventCard[] = [
       {
         description: "Carefully repair the purifier.",
         skillCheck: {
-          target: "selected",
+          target: "specific",
           skill: "tech",
           difficulty: 7,
           failEffects: {
@@ -41,7 +41,7 @@ const TechnicalEvents: EventCard[] = [
       {
         description: "Push the purifier beyond its limits.",
         skillCheck: {
-          target: "selected",
+          target: "specific",
           skill: "tech",
           difficulty: 10,
           failEffects: {
@@ -96,7 +96,7 @@ const TechnicalEvents: EventCard[] = [
       {
         description: "Restore the hydroponic system.",
         skillCheck: {
-          target: "selected",
+          target: "specific",
           skill: "tech",
           difficulty: 8,
           failEffects: {
@@ -125,7 +125,7 @@ const TechnicalEvents: EventCard[] = [
       {
         description: "Repair only the most productive sections.",
         skillCheck: {
-          target: "selected",
+          target: "specific",
           skill: "tech",
           difficulty: 7,
           failEffects: {

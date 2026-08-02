@@ -12,7 +12,7 @@ const SupplyCards: EventCard[] = [
       {
         description: "Force the container open.",
         skillCheck: {
-          target: "selected",
+          target: "specific",
           skill: "scavenging",
           difficulty: 7,
           failEffects: {
@@ -88,7 +88,7 @@ const SupplyCards: EventCard[] = [
       {
         description: "Attempt to restore the shuttle systems.",
         skillCheck: {
-          target: "selected",
+          target: "specific",
           skill: "tech",
           difficulty: 8,
           failEffects: {
@@ -125,7 +125,7 @@ const SupplyCards: EventCard[] = [
       {
         description: "Strip the shuttle for useful components.",
         skillCheck: {
-          target: "selected",
+          target: "specific",
           skill: "scavenging",
           difficulty: 6,
           failEffects: {
@@ -162,7 +162,7 @@ const SupplyCards: EventCard[] = [
       {
         description: "Repair the drone and access its full inventory.",
         skillCheck: {
-          target: "selected",
+          target: "specific",
           skill: "tech",
           difficulty: 9,
           failEffects: {
@@ -197,7 +197,7 @@ const SupplyCards: EventCard[] = [
       {
         description: "Dismantle the drone for spare components.",
         skillCheck: {
-          target: "selected",
+          target: "specific",
           skill: "scavenging",
           difficulty: 7,
           failEffects: {
@@ -234,7 +234,7 @@ const SupplyCards: EventCard[] = [
       {
         description: "Open the pod and take everything inside.",
         skillCheck: {
-          target: "selected",
+          target: "specific",
           skill: "scavenging",
           difficulty: 6,
           failEffects: {
@@ -271,7 +271,7 @@ const SupplyCards: EventCard[] = [
       {
         description: "Salvage the pod's life support system.",
         skillCheck: {
-          target: "selected",
+          target: "specific",
           skill: "tech",
           difficulty: 7,
           failEffects: {
@@ -309,7 +309,7 @@ const SupplyCards: EventCard[] = [
       {
         description: "Send a team to fully explore the freighter.",
         skillCheck: {
-          target: "selected",
+          target: "specific",
           skill: "scavenging",
           difficulty: 9,
           failEffects: {
@@ -349,7 +349,7 @@ const SupplyCards: EventCard[] = [
       {
         description: "Attempt to restart the freighter's reactor systems.",
         skillCheck: {
-          target: "selected",
+          target: "specific",
           skill: "tech",
           difficulty: 10,
           failEffects: {
@@ -374,7 +374,7 @@ const SupplyCards: EventCard[] = [
       {
         description: "Salvage the ship's navigation and communication modules.",
         skillCheck: {
-          target: "selected",
+          target: "specific",
           skill: "tech",
           difficulty: 8,
           failEffects: {

@@ -18,10 +18,10 @@ export interface EventCard {
   choices: {
     description: string;
     skillCheck?: {
-      target: "random" | "best" | "selected";
+      target: "all" | "random" | "specific";
       skill: keyof Character["skills"];
       difficulty: number;
-      failEffects?: EventCard["effects"];
+      failEffects?: Omit<EventCard["effects"], "secretTrigger">;
     };
     effects: EventCard["effects"];
     followUp?: EventCard["id"] | null;

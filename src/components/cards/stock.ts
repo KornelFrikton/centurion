@@ -10,21 +10,21 @@ export interface Item {
 const Stock: Item[] = [
   {
     id: "item01",
-    name: "Food",
+    name: "food",
     quantity: 3650,
     capacity: 3650,
     description: "A basic food item to sustain life.",
   },
   {
     id: "item02",
-    name: "Water",
+    name: "water",
     quantity: 1825,
     capacity: 1825,
     description: "A basic water item to sustain life.",
   },
   {
     id: "item03",
-    name: "Oxygen",
+    name: "oxygen",
     quantity: 2500,
     capacity: 2500,
     description:
@@ -32,7 +32,7 @@ const Stock: Item[] = [
   },
   {
     id: "item04",
-    name: "Energy",
+    name: "energy",
     quantity: 5000,
     capacity: 5000,
     description:
