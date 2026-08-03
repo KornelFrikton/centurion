@@ -1,13 +1,6 @@
-import useGameStore from "../../hooks/useGameStore";
+import useGameStore from "../../game/store/useGameStore";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
 import { H3 } from "../ui/typo";
 import type { EventCard } from "../eventcards/eventcard";
 import { useEffect, useState } from "react";

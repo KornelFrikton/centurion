@@ -42,7 +42,7 @@ export interface Character {
   };
 }
 
-const People: Character[] = [
+const Characters: Character[] = [
   {
     id: "char01",
     name: "Anna Kovacs",
@@ -210,4 +210,4 @@ const People: Character[] = [
   },
 ];
 
-export default People;
+export default Characters;

@@ -1,5 +1,5 @@
 // components/RelationDisplay.tsx
-import useGameStore from "../../hooks/useGameStore";
+import useGameStore from "../../game/store/useGameStore";
 import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
 import {
   Table,

@@ -1,4 +1,4 @@
-import useGameStore from "../hooks/useGameStore";
+import useGameStore from "../game/store/useGameStore";
 import { Button } from "../components/ui/button";
 
 function GameControl() {

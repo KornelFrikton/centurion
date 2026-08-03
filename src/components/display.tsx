@@ -4,7 +4,7 @@ import CharacterCard from "./display/characterdisplay";
 import RelationDisplay from "./display/relationdisplay";
 import EventDisplay from "./display/eventdisplay";
 import GameControl from "./gamecontrol.tsx";
-import useGameStore from "@/hooks/useGameStore";
+import useGameStore from "../game/store/useGameStore";
 
 function Display() {
   const gamePhase = useGameStore((state) => state.gamePhase);

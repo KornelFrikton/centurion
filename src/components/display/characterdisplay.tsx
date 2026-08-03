@@ -1,5 +1,5 @@
 //import { useState } from "react";
-import useGameStore from "../../hooks/useGameStore";
+import useGameStore from "../../game/store/useGameStore";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import {
