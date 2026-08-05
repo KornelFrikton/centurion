@@ -8,6 +8,7 @@ import Characters from "../../components/cards/charactercard";
 import Stock, { type Item } from "../../components/cards/stock";
 import PersonalityCard from "../../components/cards/personalitycard";
 import EventCards from "../../components/eventcards/event";
+import { assignAvatars } from "../characterEffects";
 
 const useGameStore = create<GameStore>()(
   persist(
@@ -15,7 +16,7 @@ const useGameStore = create<GameStore>()(
       date: new Date("2051-07-03"),
       elapsed: 0,
       lastTurn: 0,
-      characters: assignSecretCards(Characters),
+      characters: assignSecretCards(assignAvatars(Characters)),
       items: Stock,
       relations: {},
       selectedCharacterIds: [],

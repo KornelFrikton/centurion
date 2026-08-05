@@ -1,31 +1,18 @@
-// people.ts
+import { type BaseStats, type CharacterSkills } from "../../game/store/types";
+
 export interface Character {
   id: string;
   name: string;
   class: string;
   description: string;
   age: number;
-  baseStats: {
-    health: number;
-    stamina: number;
-    sanity: number;
-    hunger: number;
-  };
+  avatar?: string;
+  gender: "male" | "female";
+  baseStats: BaseStats;
 
-  skills: {
-    scavenging: number; // loot, erőforrás keresés
-    crafting: number; // tárgykészítés, javítás
+  skills: CharacterSkills;
 
-    // Harc
-    combat: number; // firearms + melee összevonva
-    stealth: number; // lopakodás
-
-    // Tech & szociális
-    tech: number; // gépek, hackelés
-    leadership: number; // vezetés, csoport hatékonyság
-  };
-
-  personality: {
+  personality?: {
     courage: number; // bátorság – veszélyes helyzetben hogy reagál (a sajátunkból)
     trust: number; // bizalom – mennyire nyitott másokra, árulás esélye (a sajátunkból)
     empathy: number; // empátia – törődés másokkal, megosztja-e a készletet (mindkettőben megvolt)
@@ -50,6 +37,7 @@ const Characters: Character[] = [
     description:
       "An expert in hydroponics and sustainable agriculture, responsible for establishing the colony's food production.",
     age: 0,
+    gender: "female",
     baseStats: {
       health: 80,
       stamina: 80,
@@ -64,13 +52,6 @@ const Characters: Character[] = [
       tech: 7,
       leadership: 5,
     },
-    personality: {
-      courage: 5,
-      trust: 5,
-      empathy: 5,
-      adaptability: 5,
-      aggression: 5,
-    },
     secret: {
       cardId: "",
       revealed: false,
@@ -83,6 +64,7 @@ const Characters: Character[] = [
     description:
       "A veteran engineer capable of repairing almost any machine with limited resources.",
     age: 0,
+    gender: "male",
     baseStats: {
       health: 80,
       stamina: 80,
@@ -97,13 +79,6 @@ const Characters: Character[] = [
       tech: 10,
       leadership: 5,
     },
-    personality: {
-      courage: 5,
-      trust: 5,
-      empathy: 5,
-      adaptability: 5,
-      aggression: 5,
-    },
     secret: {
       cardId: "",
       revealed: false,
@@ -116,6 +91,7 @@ const Characters: Character[] = [
     description:
       "An emergency physician trained to keep the crew alive in the harshest environments.",
     age: 0,
+    gender: "female",
     baseStats: {
       health: 80,
       stamina: 80,
@@ -130,13 +106,6 @@ const Characters: Character[] = [
       tech: 8,
       leadership: 7,
     },
-    personality: {
-      courage: 5,
-      trust: 5,
-      empathy: 5,
-      adaptability: 5,
-      aggression: 5,
-    },
     secret: {
       cardId: "",
       revealed: false,
@@ -149,6 +118,7 @@ const Characters: Character[] = [
     description:
       "A planetary geologist specializing in locating minerals, groundwater, and safe construction sites.",
     age: 0,
+    gender: "male",
     baseStats: {
       health: 80,
       stamina: 80,
@@ -163,13 +133,6 @@ const Characters: Character[] = [
       tech: 6,
       leadership: 4,
     },
-    personality: {
-      courage: 5,
-      trust: 5,
-      empathy: 5,
-      adaptability: 5,
-      aggression: 5,
-    },
     secret: {
       cardId: "",
       revealed: false,
@@ -182,6 +145,7 @@ const Characters: Character[] = [
     description:
       "A structural engineer and builder responsible for assembling habitats and colony infrastructure.",
     age: 0,
+    gender: "male",
     baseStats: {
       health: 80,
       stamina: 80,
@@ -195,13 +159,6 @@ const Characters: Character[] = [
       stealth: 3,
       tech: 5,
       leadership: 6,
-    },
-    personality: {
-      courage: 5,
-      trust: 5,
-      empathy: 5,
-      adaptability: 5,
-      aggression: 5,
     },
     secret: {
       cardId: "",

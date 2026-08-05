@@ -1,16 +1,16 @@
 //import { useState } from "react";
 
-import Display from "./components/display.tsx";
-import header from "./assets/header_centurion.png";
+import Display from "./components/display/display.tsx";
+import header from "./assets/desktop_header.png";
 
 function App() {
   return (
     <>
-      <section id="center">
-        <div>
+      <section id="header">
+        <div className=" bg-black flex items-center justify-center">
           <img
             src={header}
-            className="w-full h-48 object-contain"
+            className="max-w-full max-h-30 object-contain"
             alt="Centurion Header"
           />
         </div>

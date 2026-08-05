@@ -18,6 +18,30 @@ export type ResolvedCharacterEffect<T> = Omit<CharacterEffect<T>, "target"> & {
   target: "all" | "specific";
 };
 
+export type BaseStats = {
+  health: number;
+  stamina: number;
+  sanity: number;
+  hunger: number;
+};
+
+export type CharacterSkills = {
+  scavenging: number;
+  crafting: number;
+  combat: number;
+  stealth: number;
+  tech: number;
+  leadership: number;
+};
+
+export type CharacterPersonality = {
+  courage: number;
+  trust: number;
+  empathy: number;
+  adaptability: number;
+  aggression: number;
+};
+
 export type GameStore = {
   date: Date;
   elapsed: number;

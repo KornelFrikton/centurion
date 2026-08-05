@@ -1,5 +1,5 @@
 import useGameStore from "../../game/store/useGameStore";
-import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
+import { Card, CardContent } from "../ui/card";
 
 import StatusBar from "./statusbar";
 
@@ -11,9 +11,6 @@ function StockDisplay() {
   return (
     <div>
       <Card>
-        <CardHeader>
-          <CardTitle>Stock Display</CardTitle>
-        </CardHeader>
         <CardContent>
           {items.map((item) => (
             <StatusBar

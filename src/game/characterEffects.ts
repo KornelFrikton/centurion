@@ -1,5 +1,6 @@
 import { type Character } from "../components/cards/charactercard";
 import { type ResolvedCharacterEffect } from "./store/types";
+import { maleAvatars, femaleAvatars } from "../assets/avatars";
 
 function clampApply<T extends object>(
   current: T,
@@ -76,3 +77,23 @@ export const applyPersonality = (
   chars: Character[],
   effect?: ResolvedCharacterEffect<Character["personality"]>,
 ) => applyCharacterEffect(chars, "personality", effect);
+
+export function assignAvatars(characters: Character[]): Character[] {
+  const used = new Set<string>();
+
+  return characters.map((character) => {
+    const pool = character.gender === "female" ? femaleAvatars : maleAvatars;
+
+    let avatar: string;
+    do {
+      avatar = pool[Math.floor(Math.random() * pool.length)];
+    } while (used.has(avatar) && used.size < pool.length);
+
+    used.add(avatar);
+
+    return {
+      ...character,
+      avatar,
+    };
+  });
+}

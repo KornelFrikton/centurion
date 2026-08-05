@@ -1,6 +1,6 @@
 // components/RelationDisplay.tsx
 import useGameStore from "../../game/store/useGameStore";
-import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
+import { Card, CardContent } from "../ui/card";
 import {
   Table,
   TableHeader,
@@ -48,9 +48,6 @@ function RelationDisplay() {
   return (
     <div>
       <Card>
-        <CardHeader>
-          <CardTitle>Relations</CardTitle>
-        </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
