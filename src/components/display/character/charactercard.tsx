@@ -12,9 +12,10 @@ import {
   CardTitle,
 } from "../../ui/card";
 import { Button } from "../../ui/button";
-import { H2 } from "../../ui/typo";
+import { H2 } from "../../ui/extra";
 import { type Character } from "../../cards/charactercard";
 import SecretCard from "@/components/cards/secretcard";
+import { Separator } from "../../ui/separator";
 
 type CharacterCardProps = {
   character: Character;
@@ -36,11 +37,12 @@ export default function CharacterCard({
   const secret = SecretCard.find((card) => card.id === character.secret.cardId);
 
   return (
-    <Card className="w-72">
+    <Card className="w-72 select-none">
       <CardHeader className="items-center text-center space-y-2">
         <CharacterPortrait
           name={character.name}
           avatar={character.avatar}
+          age={character.age}
           description={character.description}
           selected={selected}
           onSelect={() => onSelect()}
@@ -71,33 +73,22 @@ export default function CharacterCard({
       <CardContent>
         <CharacterStats stats={character.baseStats} />
         <CharacterSkills skills={character.skills} />
-        <CharacterPersonality personality={character.personality} />
+        <CharacterPersonality
+          personality={character.personality}
+          personalityName={character.personalityName}
+        />
       </CardContent>
+
+      <Separator className="mt-3 mb-3" />
 
       {gamePhase === "characterSetup" &&
         (character.age === 0 || !character.personalityName) && (
-          <CardFooter className="flex justify-evenly gap-2 pt-4">
+          <CardFooter className="flex w-full justify-center gap-2">
             {character.age === 0 && (
               <Button
                 size="lg"
-                className="
-             border
-  border-primary/50
-  bg-primary/30
-  text-primary
-  uppercase
-  tracking-[0.14em]
-  text-xs
-  font-semibold
-
-  shadow-[0_0_10px_rgba(120,180,255,0.35)]
-  transition-all
-
-  hover:bg-primary/35
-  hover:shadow-[0_0_16px_rgba(120,180,255,0.55)]
-
-  active:scale-95
-          "
+                variant="hud"
+                className="cursor-pointer min-w-32"
                 onClick={onGenerateAge}
               >
                 Age
@@ -107,24 +98,8 @@ export default function CharacterCard({
             {!character.personalityName && (
               <Button
                 size="lg"
-                className="
-             border
-  border-primary/50
-  bg-primary/30
-  text-primary
-  uppercase
-  tracking-[0.14em]
-  text-xs
-  font-semibold
-
-  shadow-[0_0_10px_rgba(120,180,255,0.35)]
-  transition-all
-
-  hover:bg-primary/35
-  hover:shadow-[0_0_16px_rgba(120,180,255,0.55)]
-
-  active:scale-95
-          "
+                variant="hud"
+                className="cursor-pointer min-w-32"
                 onClick={onGeneratePersonality}
               >
                 Profile

@@ -20,7 +20,7 @@ export default function CharacterBadges({
   if (!personalityName) return null;
 
   return (
-    <div className="flex items-center justify-between pt-2">
+    <div className="flex items-center justify-between pt-2 mb-1">
       <Tooltip>
         <TooltipTrigger>
           <Badge

@@ -13,11 +13,11 @@ export interface Character {
   skills: CharacterSkills;
 
   personality?: {
-    courage: number; // bátorság – veszélyes helyzetben hogy reagál (a sajátunkból)
-    trust: number; // bizalom – mennyire nyitott másokra, árulás esélye (a sajátunkból)
-    empathy: number; // empátia – törődés másokkal, megosztja-e a készletet (mindkettőben megvolt)
-    adaptability: number; // alkalmazkodóképesség – VS Code ötlete, kifejezetten túlélős téma
-    aggression: number; // agresszivitás – konfliktuskezelés (a sajátunkból)
+    courage: number;
+    trust: number;
+    empathy: number;
+    adaptability: number;
+    aggression: number;
   };
 
   personalityName?: string;

@@ -1,5 +1,3 @@
-import * as React from "react";
-
 import { cn } from "@/lib/utils";
 
 function Card({
@@ -8,59 +6,17 @@ function Card({
   children,
   ...props
 }: React.ComponentProps<"div"> & { size?: "default" | "sm" }) {
-  const starColors = [
-    "rgba(120,180,255,0.25)",
-    "rgba(220,240,255,0.18)",
-    "rgba(60,130,255,0.20)",
-    "rgba(160,120,255,0.15)",
-  ];
-
-  const starSpots = React.useMemo(
-    () =>
-      Array.from({ length: 12 }, (_, i) => ({
-        id: i,
-        size: 3 + Math.random() * 12,
-        top: Math.random() * 90,
-        left: Math.random() * 90,
-        opacity: 0.5 + Math.random() * 0.5,
-        color: starColors[Math.floor(Math.random() * starColors.length)],
-      })),
-    [],
-  );
-
   return (
     <div
       data-slot="card"
       data-size={size}
       className={cn(
-        "group/card relative flex flex-col gap-(--card-spacing) overflow-hidden rounded-[min(var(--radius-4xl),24px)] border border-border bg-card py-(--card-spacing) text-sm text-card-foreground shadow-[0_12px_32px_rgba(0,0,0,0.6)] ring-1 ring-white/5 [--card-spacing:--spacing(5)] has-[>img:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(4)] before:absolute before:inset-0 before:pointer-events-none before:bg-[radial-gradient(circle_at_20%_20%,rgba(120,180,255,0.18),transparent_30%),radial-gradient(circle_at_80%_70%,rgba(80,140,255,0.12),transparent_35%)] after:absolute after:inset-0 after:pointer-events-none after:bg-[repeating-linear-gradient(90deg,rgba(255,255,255,0.02)_0_1px,transparent_1px_5px)] *:[img:first-child]:rounded-t-[min(var(--radius-4xl),24px)] *:[img:last-child]:rounded-b-[min(var(--radius-4xl),24px)]",
+        "group/card relative flex flex-col gap-(--card-spacing) overflow-hidden rounded-[min(var(--radius-4xl),24px)] border border-primary/25 bg-card backdrop-blur-lg py-(--card-spacing) text-sm text-card-foreground shadow-[0_12px_32px_rgba(0,0,0,0.55)] ring-1 ring-white/5 [--card-spacing:--spacing(5)] has-[>img:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(4)] *:[img:first-child]:rounded-t-[min(var(--radius-4xl),24px)] *:[img:last-child]:rounded-b-[min(var(--radius-4xl),24px)]",
         className,
       )}
       {...props}
     >
-      {starSpots.map((spot) => (
-        <div
-          key={spot.id}
-          className="absolute rounded-full pointer-events-none"
-          style={{
-            width: spot.size,
-            height: spot.size,
-            top: `${spot.top}%`,
-            left: `${spot.left}%`,
-            background: `radial-gradient(
-              circle,
-              ${spot.color} 0%,
-              ${spot.color} 35%,
-              transparent 75%
-            )`,
-            opacity: spot.opacity,
-            filter: "blur(0.5px)",
-            boxShadow: `0 0 12px ${spot.color}`,
-          }}
-        />
-      ))}
-
-      <div className="relative z-10">{children}</div>
+      <div>{children}</div>
     </div>
   );
 }

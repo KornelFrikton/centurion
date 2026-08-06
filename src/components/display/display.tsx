@@ -5,7 +5,7 @@ import RelationDisplay from "./relationdisplay.tsx";
 import EventDisplay from "./eventdisplay.tsx";
 import GameControl from "../gamecontrol.tsx";
 import useGameStore from "../../game/store/useGameStore.ts";
-import { ModuleHeader } from "../ui/typo.tsx";
+import { ModuleHeader } from "../ui/extra.tsx";
 
 function Display() {
   const gamePhase = useGameStore((state) => state.gamePhase);

@@ -1,7 +1,6 @@
-//import { useState } from "react";
-
 import Display from "./components/display/display.tsx";
 import header from "./assets/desktop_header.png";
+import StarsBackground from "./components/ui/extra.tsx";
 
 function App() {
   return (
@@ -16,12 +15,12 @@ function App() {
         </div>
       </section>
 
-      <section id="next-steps">
-        <div id="docs">
-          <h2>Kijelző</h2>
+      <main className="relative min-h-screen overflow-hidden bg-black">
+        <StarsBackground />
+        <div className="relative z-10">
           <Display />
         </div>
-      </section>
+      </main>
     </>
   );
 }

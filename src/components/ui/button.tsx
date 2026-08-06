@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "group/button inline-flex shrink-0 items-center justify-center rounded-2xl border border-primary/30 bg-clip-padding text-sm font-medium whitespace-nowrap transition-all shadow-[0_0_12px_rgba(80,160,255,0.25),0_4px_12px_rgba(0,0,0,0.45)] outline-none select-none focus-visible:ring-2 focus-visible:ring-primary/40 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "group/button inline-flex shrink-0 items-center justify-center rounded-2xl border border-primary/30 bg-clip-padding text-sm font-semibold whitespace-nowrap transition-all shadow-[0_0_12px_rgba(80,160,255,0.25),0_4px_12px_rgba(0,0,0,0.45)] outline-none select-none focus-visible:ring-2 focus-visible:ring-primary/40 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
@@ -19,6 +19,7 @@ const buttonVariants = cva(
         destructive:
           "bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40",
         link: "text-primary underline-offset-4 hover:underline",
+        hud: "border border-primary/50 bg-primary text-primary-foreground uppercase tracking-[0.12em] shadow-[0_0_10px_rgba(120,180,255,0.35),0_2px_8px_rgba(0,0,0,0.35)] transition-all duration-200 hover:scale-[1.015] hover:shadow-[0_0_16px_rgba(120,180,255,0.55),0_4px_12px_rgba(0,0,0,0.45)] active:translate-y-px active:scale-[0.98]",
       },
       size: {
         default:

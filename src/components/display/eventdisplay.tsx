@@ -1,7 +1,7 @@
 import useGameStore from "../../game/store/useGameStore";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { H3 } from "../ui/typo";
+import { H3 } from "../ui/extra";
 import type { EventCard } from "../eventcards/eventcard";
 import { useEffect, useState } from "react";
 

@@ -4,6 +4,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "../../ui/tooltip";
 type CharacterPortraitProps = {
   name: string;
   avatar?: string;
+  age: number;
   description?: string;
   selected: boolean;
   onSelect: () => void;
@@ -12,6 +13,7 @@ type CharacterPortraitProps = {
 export default function CharacterPortrait({
   name,
   avatar,
+  age,
   description,
   selected,
   onSelect,
@@ -31,16 +33,32 @@ export default function CharacterPortrait({
             }
           `}
         >
-          <img
-            src={avatar}
-            alt={name}
-            className="
-              h-20
-              w-20
-              rounded-xl
-              object-cover
-            "
-          />
+          <div className="relative">
+            <img
+              src={avatar}
+              alt={name}
+              className="
+      h-20
+      w-20
+      rounded-xl
+      object-cover
+    "
+            />
+
+            {age > 0 && (
+              <Badge
+                variant="default"
+                className="
+        absolute
+        -top-2
+        -right-2
+        text-[10px]
+      "
+              >
+                AGE {age}
+              </Badge>
+            )}
+          </div>
 
           {selected && (
             <Badge
