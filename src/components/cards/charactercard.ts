@@ -12,7 +12,7 @@ export interface Character {
 
   skills: CharacterSkills;
 
-  personality?: {
+  personality: {
     courage: number;
     trust: number;
     empathy: number;
@@ -52,6 +52,13 @@ const Characters: Character[] = [
       tech: 7,
       leadership: 5,
     },
+    personality: {
+      courage: 0,
+      trust: 0,
+      empathy: 0,
+      adaptability: 0,
+      aggression: 0,
+    },
     secret: {
       cardId: "",
       revealed: false,
@@ -78,6 +85,13 @@ const Characters: Character[] = [
       stealth: 3,
       tech: 10,
       leadership: 5,
+    },
+    personality: {
+      courage: 0,
+      trust: 0,
+      empathy: 0,
+      adaptability: 0,
+      aggression: 0,
     },
     secret: {
       cardId: "",
@@ -106,6 +120,13 @@ const Characters: Character[] = [
       tech: 8,
       leadership: 7,
     },
+    personality: {
+      courage: 0,
+      trust: 0,
+      empathy: 0,
+      adaptability: 0,
+      aggression: 0,
+    },
     secret: {
       cardId: "",
       revealed: false,
@@ -133,6 +154,13 @@ const Characters: Character[] = [
       tech: 6,
       leadership: 4,
     },
+    personality: {
+      courage: 0,
+      trust: 0,
+      empathy: 0,
+      adaptability: 0,
+      aggression: 0,
+    },
     secret: {
       cardId: "",
       revealed: false,
@@ -159,6 +187,13 @@ const Characters: Character[] = [
       stealth: 3,
       tech: 5,
       leadership: 6,
+    },
+    personality: {
+      courage: 0,
+      trust: 0,
+      empathy: 0,
+      adaptability: 0,
+      aggression: 0,
     },
     secret: {
       cardId: "",

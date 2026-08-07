@@ -74,7 +74,15 @@ const useGameStore = create<GameStore>()(
       },
 
       generateRelations: () => {
-        set({ relations: generateRelationMatrix(get().characters) });
+        const { characters, selectedCharacterIds } = get();
+
+        const selectedCharacters = characters.filter((character) =>
+          selectedCharacterIds.includes(character.id),
+        );
+
+        set({
+          relations: generateRelationMatrix(selectedCharacters),
+        });
       },
 
       updateRelation: (a: string, b: string, delta: number) => {

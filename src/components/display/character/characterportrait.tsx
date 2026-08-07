@@ -1,5 +1,6 @@
 import { Badge } from "../../ui/badge";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../../ui/tooltip";
+import useGameStore from "@/game/store/useGameStore";
 
 type CharacterPortraitProps = {
   name: string;
@@ -18,49 +19,35 @@ export default function CharacterPortrait({
   selected,
   onSelect,
 }: CharacterPortraitProps) {
+  const gamePhase = useGameStore((s) => s.gamePhase);
+
   return (
     <Tooltip>
       <TooltipTrigger>
-        <button
-          type="button"
+        <div
           onClick={onSelect}
           className={`
-            relative inline-flex cursor-pointer rounded-xl p-1 transition-all
+      inline-flex
+      relative
+          cursor-pointer rounded-xl p-1 transition-all
             ${
-              selected
+              gamePhase === "crewSelection" && selected
                 ? "ring-2 ring-(--success) shadow-[0_0_12px_rgba(120,180,255,0.55),0_0_28px_rgba(120,180,255,0.28)]"
                 : "ring-1 ring-sidebar-border hover:shadow-[0_0_12px_rgba(120,180,255,0.18)]"
             }
           `}
         >
-          <div className="relative">
-            <img
-              src={avatar}
-              alt={name}
-              className="
-      h-20
-      w-20
-      rounded-xl
-      object-cover
-    "
-            />
+          <img
+            src={avatar}
+            alt={name}
+            className="
+              h-20
+              w-20
+              rounded-xl
+              object-cover"
+          />
 
-            {age > 0 && (
-              <Badge
-                variant="default"
-                className="
-        absolute
-        -top-2
-        -right-2
-        text-[10px]
-      "
-              >
-                AGE {age}
-              </Badge>
-            )}
-          </div>
-
-          {selected && (
+          {gamePhase === "crewSelection" && selected && (
             <Badge
               className="
                 absolute
@@ -76,7 +63,13 @@ export default function CharacterPortrait({
               Active
             </Badge>
           )}
-        </button>
+
+          {gamePhase !== "crewSelection" && age > 0 && (
+            <Badge className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground">
+              AGE {age}
+            </Badge>
+          )}
+        </div>
       </TooltipTrigger>
       {description && (
         <TooltipContent>

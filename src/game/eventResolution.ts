@@ -5,6 +5,7 @@ import type {
   CharacterEffect,
   ResolvedCharacterEffect,
   GameStore,
+  CharacterPersonality,
 } from "./store/types";
 import { applyPersonality, applySkills, applyStats } from "./characterEffects";
 import { updateRelations } from "./relations";
@@ -137,9 +138,8 @@ export function computeEventResolution(
     effects.stats;
   let resolvedSkills: CharacterEffect<Character["skills"]> | undefined =
     effects.skills;
-  let resolvedPersonality:
-    | CharacterEffect<Character["personality"]>
-    | undefined = effects.personality;
+  let resolvedPersonality: CharacterEffect<CharacterPersonality> | undefined =
+    effects.personality;
 
   if (effects.stats) {
     const resolvedStatsEffect = resolveEffectTarget(characters, effects.stats);
@@ -226,7 +226,7 @@ export function computeEventResolution(
         }))
       : undefined,
 
-    personality: resolvedPersonality
+    personality: resolvedPersonality?.values
       ? Object.entries(resolvedPersonality.values).map(([trait, delta]) => ({
           trait,
           delta: delta ?? 0,

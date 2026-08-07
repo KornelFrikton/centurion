@@ -8,7 +8,6 @@ export default function CharacterList() {
     selectCharacter,
     generateAge,
     drawPersonality,
-    gamePhase,
   } = useGameStore();
 
   const isComplete = selectedCharacterIds.length === 2;
@@ -27,7 +26,6 @@ export default function CharacterList() {
             key={character.id}
             character={character}
             selected={selected}
-            gamePhase={gamePhase}
             onSelect={() => selectCharacter(character.id)}
             onGenerateAge={() => generateAge(character.id)}
             onGeneratePersonality={() => drawPersonality(character.id)}

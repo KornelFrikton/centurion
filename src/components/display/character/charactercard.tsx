@@ -3,6 +3,7 @@ import CharacterBadges from "./characterbadges";
 import CharacterStats from "./characterstats";
 import CharacterSkills from "./characterskills";
 import CharacterPersonality from "./characterpersonality";
+import useGameStore from "@/game/store/useGameStore";
 
 import {
   Card,
@@ -20,7 +21,6 @@ import { Separator } from "../../ui/separator";
 type CharacterCardProps = {
   character: Character;
   selected: boolean;
-  gamePhase: "crewSelection" | "characterSetup" | "mission";
   onSelect: () => void;
   onGenerateAge: () => void;
   onGeneratePersonality: () => void;
@@ -29,12 +29,12 @@ type CharacterCardProps = {
 export default function CharacterCard({
   character,
   selected,
-  gamePhase,
   onSelect,
   onGenerateAge,
   onGeneratePersonality,
 }: CharacterCardProps) {
   const secret = SecretCard.find((card) => card.id === character.secret.cardId);
+  const gamePhase = useGameStore((s) => s.gamePhase);
 
   return (
     <Card className="w-72 select-none">
@@ -49,16 +49,8 @@ export default function CharacterCard({
         />
         <CardTitle>
           <H2>{character.name}</H2>
-          <div className="flex items-center justify-center gap-2 text-xs uppercase tracking-[0.15em] text-sidebar-foreground/80">
-            <span className="text-primary drop-shadow-[0_0_6px_var(--primary)]">
-              {character.class}
-            </span>
-            {character.age > 0 && (
-              <>
-                <span className="text-sidebar-foreground/40">//</span>
-                <span>AGE {character.age}</span>
-              </>
-            )}
+          <div className="text-primary text-xs uppercase tracking-[0.15em] drop-shadow-[0_0_6px_var(--primary)]">
+            {character.class}
           </div>
 
           <CharacterBadges
