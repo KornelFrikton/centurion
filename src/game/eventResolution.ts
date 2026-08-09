@@ -173,7 +173,7 @@ export function computeEventResolution(
         0,
         Math.min(
           item.capacity,
-          item.quantity + (effects.stock?.[item.name.toLowerCase()] ?? 0),
+          item.quantity + (effects.stock?.[item.id] ?? 0),
         ),
       ),
     }));

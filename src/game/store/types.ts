@@ -97,6 +97,7 @@ export type GameStore = {
   continueEvent: () => void;
   drawEvent: () => void;
   resolveEvent: (choiceIndex: number, characterId?: string) => void;
+  advanceEvent: () => void;
   startCrew: () => void;
   startMission: () => void;
 

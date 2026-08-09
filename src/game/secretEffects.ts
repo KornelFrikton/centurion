@@ -3,8 +3,15 @@ import { type EventCard } from "../components/eventcards/eventcard";
 import SecretCard from "../components/cards/secretcard";
 import { applyStats, applySkills, applyPersonality } from "./characterEffects";
 
-export function assignSecretCards(characters: Character[]): Character[] {
+export function assignSecretCards(
+  characters: Character[],
+  selectedCharacterIds: string[],
+): Character[] {
   return characters.map((character) => {
+    if (!selectedCharacterIds.includes(character.id)) {
+      return character;
+    }
+
     const randomSecret =
       SecretCard[Math.floor(Math.random() * SecretCard.length)];
 
@@ -25,9 +32,13 @@ export function applySecretTrigger(
     effect?: Omit<EventCard["effects"], "secretTrigger">;
   },
 ): Character[] {
-  const affected = characters.filter(
-    (character) => character.secret.cardId === trigger.id,
-  );
+  const affected = characters.filter((character) => {
+    const secret = SecretCard.find(
+      (secretCard) => secretCard.id === character.secret.cardId,
+    );
+
+    return secret?.trigger.includes(trigger.id) && !character.secret.revealed;
+  });
 
   let updatedCharacters = characters.map((character) => {
     if (!affected.some((c) => c.id === character.id)) {

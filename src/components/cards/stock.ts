@@ -9,32 +9,32 @@ export interface Item {
 
 const Stock: Item[] = [
   {
-    id: "item01",
-    name: "food",
-    quantity: 3650,
-    capacity: 3650,
+    id: "food",
+    name: "Food",
+    quantity: 2000,
+    capacity: 2000,
     description: "A basic food item to sustain life.",
   },
   {
-    id: "item02",
-    name: "water",
-    quantity: 1825,
-    capacity: 1825,
+    id: "water",
+    name: "Water",
+    quantity: 2000,
+    capacity: 2000,
     description: "A basic water item to sustain life.",
   },
   {
-    id: "item03",
-    name: "oxygen",
-    quantity: 2500,
-    capacity: 2500,
+    id: "oxygen",
+    name: "Oxygen",
+    quantity: 100,
+    capacity: 100,
     description:
       "Compressed oxygen reserves for the colony's life support systems and EVA operations.",
   },
   {
-    id: "item04",
-    name: "energy",
-    quantity: 5000,
-    capacity: 5000,
+    id: "energy",
+    name: "Energy",
+    quantity: 300,
+    capacity: 300,
     description:
       "Stored electrical energy powering life support, machinery, and colony infrastructure.",
   },

@@ -99,8 +99,13 @@ export default function CharacterDisplay() {
     shadow-[inset_0_0_12px_rgba(120,180,255,0.08)]"
         >
           <span className="mr-1.5 animate-pulse text-(--success)">●</span>
-          <div className="flex-1">Prepare your crew before departure</div>
-
+          <div className="flex-1">
+            <div>Prepare your crew before departure</div>
+            <div>
+              Set <strong className="text-primary">Age</strong> and{" "}
+              <strong className="text-primary">Profile</strong> for the members
+            </div>
+          </div>
           {readyForMission && (
             <Button
               size="lg"

@@ -12,8 +12,6 @@ import {
 import { Badge } from "../ui/badge";
 import { Tooltip, TooltipTrigger, TooltipContent } from "../ui/tooltip";
 
-import { Separator } from "../ui/separator";
-
 function getRelationType(value: number) {
   if (value >= 8)
     return {
@@ -156,7 +154,7 @@ function RelationDisplay() {
                             <TooltipTrigger>
                               <Badge
                                 className={`
-                                text-[10px]
+                                text-[11px]
                                 px-2
                                 py-0.5
                                 ${relation.className}

@@ -27,17 +27,15 @@ function Display() {
       {gamePhase === "mission" && (
         <>
           <section>
-            <ModuleHeader title="Mission clock" />
-            <MissionTime />
+            <ModuleHeader title="Mission progress" />
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <MissionTime />
+              <GameControl />
+            </div>
           </section>
 
           <section>
             <ModuleHeader title="Event log" /> <EventDisplay />
-          </section>
-
-          <section>
-            <ModuleHeader title="Game Control" />
-            <GameControl />
           </section>
         </>
       )}

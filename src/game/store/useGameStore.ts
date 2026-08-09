@@ -16,7 +16,7 @@ const useGameStore = create<GameStore>()(
       date: new Date("2051-07-03"),
       elapsed: 0,
       lastTurn: 0,
-      characters: assignSecretCards(assignAvatars(Characters)),
+      characters: assignAvatars(Characters),
       items: Stock,
       relations: {},
       selectedCharacterIds: [],
@@ -39,9 +39,8 @@ const useGameStore = create<GameStore>()(
             elapsed: state.elapsed + randomDay,
             date: currentDate,
             items: state.items.map((item: Item) => {
-              const production = get().getProduction(item.id);
               const consumption = get().getConsumption(item.id);
-              const delta = (production - consumption) * randomDay;
+              const delta = -consumption * randomDay;
               return {
                 ...item,
                 quantity: Math.max(
@@ -171,23 +170,28 @@ const useGameStore = create<GameStore>()(
         }));
       },
 
-      startCrew: () => set({ gamePhase: "characterSetup" }),
+      advanceEvent: () => {
+        get().endTurn();
+        get().drawEvent();
+      },
+
+      startCrew: () => {
+        const { characters, selectedCharacterIds } = get();
+
+        const updatedCharacters = assignSecretCards(
+          characters,
+          selectedCharacterIds,
+        );
+
+        set({
+          characters: updatedCharacters,
+          gamePhase: "characterSetup",
+        });
+      },
+
       startMission: () => set({ gamePhase: "mission" }),
 
-      getProduction: (resourceId) => {
-        switch (resourceId) {
-          case "food":
-            return 20;
-          case "water":
-            return 30;
-          case "oxygen":
-            return 40;
-          case "energy":
-            return 120;
-          default:
-            return 0;
-        }
-      },
+      getProduction: () => 0,
 
       getConsumption: (resourceId) => {
         const people = get().selectedCharacterIds.length;
@@ -195,11 +199,11 @@ const useGameStore = create<GameStore>()(
           case "food":
             return people;
           case "water":
-            return people * 2;
+            return people;
           case "oxygen":
-            return people * 3;
+            return 0;
           case "energy":
-            return 80;
+            return 1;
           default:
             return 0;
         }

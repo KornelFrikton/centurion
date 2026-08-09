@@ -1,4 +1,5 @@
 import { Progress } from "../ui/progress";
+import { Tooltip, TooltipTrigger, TooltipContent } from "../ui/tooltip";
 
 function StatusBar({
   stat,
@@ -7,6 +8,7 @@ function StatusBar({
   invert = false,
   consumption,
   production,
+  description,
 }: {
   stat: string;
   value: number;
@@ -14,13 +16,25 @@ function StatusBar({
   invert?: boolean;
   consumption?: number;
   production?: number;
+  description?: string;
 }) {
   const displayValue = invert ? 100 - value : value;
 
   return (
     <div className="space-y-1.5 py-1">
       <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-[0.14em] text-sidebar-foreground/90">
-        <span>{stat}</span>
+        <Tooltip>
+          <TooltipTrigger className="cursor-help">
+            <span className="uppercase tracking-[0.14em]">{stat}</span>
+          </TooltipTrigger>
+
+          {description && (
+            <TooltipContent>
+              <p>{description}</p>
+            </TooltipContent>
+          )}
+        </Tooltip>
+
         <span className="text-primary">
           {value} / {max}
         </span>

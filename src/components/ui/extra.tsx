@@ -43,11 +43,9 @@ export function ModuleHeader({ title }: { title: string }) {
       items-center
       gap-3
       pl-2
-      border-b
       border-sidebar-border/60
       pb-2
       pt-2
-      mb-3
       "
     >
       <span
