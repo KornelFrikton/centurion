@@ -42,6 +42,22 @@ export type CharacterPersonality = {
   aggression: number;
 };
 
+export type SecretTriggerEffect = {
+  stats?: {
+    values: Partial<BaseStats>;
+  };
+  skills?: {
+    values: Partial<Character["skills"]>;
+  };
+  personality?: {
+    values: Partial<CharacterPersonality>;
+  };
+  relations?: {
+    between: string[] | "all";
+    delta: number;
+  };
+};
+
 export type GameStore = {
   date: Date;
   elapsed: number;
@@ -73,7 +89,11 @@ export type GameStore = {
       characterId?: string;
     }[];
     relations?: { between: "all" | [string, string]; delta: number }[];
-    secrets?: { secretId: string }[];
+    secrets?: {
+      secretId: string;
+      characterId: string;
+      effect?: SecretTriggerEffect;
+    }[];
     skillCheck?: {
       success: boolean;
       character: string;

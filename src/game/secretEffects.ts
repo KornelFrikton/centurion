@@ -2,6 +2,7 @@ import { type Character } from "../components/cards/charactercard";
 import { type EventCard } from "../components/eventcards/eventcard";
 import SecretCard from "../components/cards/secretcard";
 import { applyStats, applySkills, applyPersonality } from "./characterEffects";
+import type { SecretTriggerEffect } from "../game/store/types";
 
 export function assignSecretCards(
   characters: Character[],
@@ -27,62 +28,103 @@ export function assignSecretCards(
 
 export function applySecretTrigger(
   characters: Character[],
-  trigger: {
-    id: string;
-    effect?: Omit<EventCard["effects"], "secretTrigger">;
-  },
-): Character[] {
-  const affected = characters.filter((character) => {
-    const secret = SecretCard.find(
-      (secretCard) => secretCard.id === character.secret.cardId,
-    );
-
-    return secret?.trigger.includes(trigger.id) && !character.secret.revealed;
-  });
-
-  let updatedCharacters = characters.map((character) => {
-    if (!affected.some((c) => c.id === character.id)) {
-      return character;
+  triggers: NonNullable<EventCard["effects"]["secretTriggers"]>,
+  selectedCharacterId?: string,
+): {
+  characters: Character[];
+  revealedSecrets: {
+    secretId: string;
+    characterId: string;
+    effect?: SecretTriggerEffect;
+  }[];
+} {
+  const revealedSecrets = new Map<
+    string,
+    {
+      secretId: string;
+      characterId: string;
+      effect?: SecretTriggerEffect;
     }
+  >();
 
-    return {
-      ...character,
-      secret: {
-        ...character.secret,
-        revealed: true,
-      },
-    };
-  });
+  let updatedCharacters = characters;
 
-  if (!trigger.effect) {
-    return updatedCharacters;
+  for (const trigger of triggers) {
+    const affected = updatedCharacters.filter((character) => {
+      if (character.secret.revealed) {
+        return false;
+      }
+
+      if (
+        trigger.target === "specific" &&
+        character.id !== selectedCharacterId
+      ) {
+        return false;
+      }
+
+      const secret = SecretCard.find(
+        (secretCard) => secretCard.id === character.secret.cardId,
+      );
+
+      return secret?.trigger.includes(trigger.id) ?? false;
+    });
+
+    for (const character of affected) {
+      const secretId = character.secret.cardId;
+
+      // Egy karakter/secret csak egyszer aktiválódhat
+      const key = `${character.id}:${secretId}`;
+
+      if (revealedSecrets.has(key)) {
+        continue;
+      }
+
+      revealedSecrets.set(key, {
+        secretId,
+        characterId: character.id,
+        effect: trigger.effect,
+      });
+
+      updatedCharacters = updatedCharacters.map((c) =>
+        c.id === character.id
+          ? {
+              ...c,
+              secret: {
+                ...c.secret,
+                revealed: true,
+              },
+            }
+          : c,
+      );
+
+      if (trigger.effect?.stats) {
+        updatedCharacters = applyStats(updatedCharacters, {
+          ...trigger.effect.stats,
+          target: "specific",
+          characterId: character.id,
+        });
+      }
+
+      if (trigger.effect?.skills) {
+        updatedCharacters = applySkills(updatedCharacters, {
+          ...trigger.effect.skills,
+          target: "specific",
+          characterId: character.id,
+        });
+      }
+
+      if (trigger.effect?.personality) {
+        updatedCharacters = applyPersonality(updatedCharacters, {
+          ...trigger.effect.personality,
+          target: "specific",
+          characterId: character.id,
+        });
+      }
+    }
   }
 
-  for (const character of affected) {
-    if (trigger.effect.stats) {
-      updatedCharacters = applyStats(updatedCharacters, {
-        ...trigger.effect.stats,
-        target: "specific",
-        characterId: character.id,
-      });
-    }
-
-    if (trigger.effect.skills) {
-      updatedCharacters = applySkills(updatedCharacters, {
-        ...trigger.effect.skills,
-        target: "specific",
-        characterId: character.id,
-      });
-    }
-
-    if (trigger.effect.personality) {
-      updatedCharacters = applyPersonality(updatedCharacters, {
-        ...trigger.effect.personality,
-        target: "specific",
-        characterId: character.id,
-      });
-    }
-  }
-
-  return updatedCharacters;
+  return {
+    characters: updatedCharacters,
+    revealedSecrets: Array.from(revealedSecrets.values()),
+  };
 }

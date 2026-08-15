@@ -9,10 +9,16 @@ function GameControl() {
   const eventResult = useGameStore((state) => state.eventResult);
 
   const characters = useGameStore((state) => state.characters);
+  const selectedCharacterIds = useGameStore(
+    (state) => state.selectedCharacterIds,
+  );
   const relations = useGameStore((state) => state.relations);
 
-  const crewCount = characters.length;
+  const activeCharacters = characters.filter((character) =>
+    selectedCharacterIds.includes(character.id),
+  );
 
+  const crewCount = activeCharacters.length;
   const average = (values: number[]) =>
     values.length
       ? Math.round(
@@ -20,15 +26,15 @@ function GameControl() {
         )
       : 0;
 
-  const health = average(characters.map((c) => c.baseStats.health));
-  const stamina = average(characters.map((c) => c.baseStats.stamina));
-  const sanity = average(characters.map((c) => c.baseStats.sanity));
-  const hunger = average(characters.map((c) => c.baseStats.hunger));
+  const health = average(activeCharacters.map((c) => c.baseStats.health));
+  const stamina = average(activeCharacters.map((c) => c.baseStats.stamina));
+  const sanity = average(activeCharacters.map((c) => c.baseStats.sanity));
+  const hunger = average(activeCharacters.map((c) => c.baseStats.hunger));
 
   const socialValues: number[] = [];
 
-  characters.forEach((character) => {
-    characters.forEach((other) => {
+  activeCharacters.forEach((character) => {
+    activeCharacters.forEach((other) => {
       if (character.id === other.id) return;
 
       const value = relations[character.id]?.[other.id];
@@ -67,7 +73,9 @@ function GameControl() {
             <div className="text-xs uppercase tracking-wider text-muted-foreground">
               Crew
             </div>
-            <div className="text-lg font-bold">{crewCount} / 5</div>
+            <div className="text-lg font-bold">
+              {crewCount} / {selectedCharacterIds.length}
+            </div>
           </div>
           <div>
             <div className="text-xs uppercase tracking-wider text-muted-foreground">

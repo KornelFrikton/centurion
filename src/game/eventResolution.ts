@@ -6,6 +6,7 @@ import type {
   ResolvedCharacterEffect,
   GameStore,
   CharacterPersonality,
+  SecretTriggerEffect,
 } from "./store/types";
 import { applyPersonality, applySkills, applyStats } from "./characterEffects";
 import { updateRelations } from "./relations";
@@ -179,8 +180,23 @@ export function computeEventResolution(
     }));
   }
 
-  if (effects.secretTrigger) {
-    characters = applySecretTrigger(characters, effects.secretTrigger);
+  let secretResult = {
+    characters,
+    revealedSecrets: [] as {
+      secretId: string;
+      characterId: string;
+      effect?: SecretTriggerEffect;
+    }[],
+  };
+
+  if (effects.secretTriggers) {
+    secretResult = applySecretTrigger(
+      characters,
+      effects.secretTriggers,
+      characterId,
+    );
+
+    characters = secretResult.characters;
   }
 
   if (effects.flags) {
@@ -239,9 +255,7 @@ export function computeEventResolution(
       ? [{ between: effects.relations.between, delta: effects.relations.delta }]
       : undefined,
 
-    secrets: effects.secretTrigger
-      ? [{ secretId: effects.secretTrigger.id }]
-      : undefined,
+    secrets: secretResult?.revealedSecrets,
   };
 
   updates.characters = characters;

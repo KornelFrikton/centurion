@@ -15,17 +15,19 @@ const SecretEvents: EventCard[] = [
       {
         description: "Send someone into the tunnel.",
         effects: {
-          secretTrigger: {
-            id: "confined_space",
-            effect: {
-              stats: {
-                target: "specific",
-                values: {
-                  sanity: -15,
+          secretTriggers: [
+            {
+              id: "confined_space",
+              target: "specific",
+              effect: {
+                stats: {
+                  values: {
+                    sanity: -15,
+                  },
                 },
               },
             },
-          },
+          ],
         },
       },
       {
@@ -37,8 +39,10 @@ const SecretEvents: EventCard[] = [
         },
       },
     ],
+
     effects: {},
   },
+
   {
     id: "secret_alien_spiders",
     name: "Alien Infestation",
@@ -47,6 +51,7 @@ const SecretEvents: EventCard[] = [
     type: "secret",
     banner: secret_banner,
     rarity: "rare",
+
     choices: [
       {
         description: "Fight the creatures.",
@@ -55,25 +60,27 @@ const SecretEvents: EventCard[] = [
     ],
 
     effects: {
-      secretTrigger: {
-        id: "spiders",
-        effect: {
-          stats: {
-            target: "all",
-            values: {
-              sanity: -10,
+      secretTriggers: [
+        {
+          id: "spiders",
+          target: "all",
+          effect: {
+            stats: {
+              values: {
+                sanity: -10,
+              },
             },
           },
         },
-      },
+      ],
     },
   },
+
   {
     id: "secret_valuable_cache",
     name: "Hidden Smuggler's Cache",
     description:
       "Behind a sealed maintenance panel you discover a hidden cache of valuable supplies. Taking everything would leave little for anyone else.",
-
     type: "secret",
     banner: secret_banner,
     rarity: "common",
@@ -87,15 +94,18 @@ const SecretEvents: EventCard[] = [
             water: 15,
             energy: 10,
           },
-          secretTrigger: {
-            id: "valuable_loot",
-            effect: {
-              relations: {
-                between: "all",
-                delta: -1,
+          secretTriggers: [
+            {
+              id: "valuable_loot",
+              target: "specific",
+              effect: {
+                relations: {
+                  between: "all",
+                  delta: -1,
+                },
               },
             },
-          },
+          ],
         },
       },
       {

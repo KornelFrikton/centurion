@@ -1,4 +1,5 @@
 import type { Character } from "../cards/charactercard";
+import type { SecretTriggerEffect } from "../../game/store/types";
 
 export interface EventCard {
   id: string;
@@ -49,9 +50,10 @@ export interface EventCard {
       delta: number;
     };
     flags?: Record<string, boolean>;
-    secretTrigger?: {
+    secretTriggers?: {
       id: string;
-      effect: Omit<EventCard["effects"], "secretTrigger">;
-    };
+      target: "specific" | "all";
+      effect?: SecretTriggerEffect;
+    }[];
   };
 }
