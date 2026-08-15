@@ -1,4 +1,5 @@
 import type { EventCard } from "./eventcard";
+import emotional_banner from "../../assets/banners/emotional_banner.png";
 
 const EmotionalEvents: EventCard[] = [
   {
@@ -7,6 +8,7 @@ const EmotionalEvents: EventCard[] = [
     description:
       "After dinner, the survivors share memories from their past lives. The atmosphere feels unusually calm.",
     type: "emotional",
+    banner: emotional_banner,
     rarity: "common",
     choices: [
       {

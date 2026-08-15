@@ -5,6 +5,7 @@ export interface EventCard {
   name: string;
   description: string;
   type: "technical" | "emotional" | "secret" | "supply" | "chain";
+  banner?: string;
   rarity?: "common" | "rare" | "legendary";
   condition?: {
     requiredFlags?: Record<string, boolean>;

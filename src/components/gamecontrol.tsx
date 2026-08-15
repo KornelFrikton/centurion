@@ -1,67 +1,120 @@
 import useGameStore from "../game/store/useGameStore";
 import { Button } from "../components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "../components/ui/card";
+import { Card, CardContent } from "../components/ui/card";
+import { Separator } from "./ui/separator";
 
 function GameControl() {
   const advanceEvent = useGameStore((state) => state.advanceEvent);
   const pendingEvent = useGameStore((state) => state.pendingEvent);
-  const getConsumption = useGameStore((state) => state.getConsumption);
-  const lastTurn = useGameStore((state) => state.lastTurn);
+  const eventResult = useGameStore((state) => state.eventResult);
+
+  const characters = useGameStore((state) => state.characters);
+  const relations = useGameStore((state) => state.relations);
+
+  const crewCount = characters.length;
+
+  const average = (values: number[]) =>
+    values.length
+      ? Math.round(
+          values.reduce((sum, value) => sum + value, 0) / values.length,
+        )
+      : 0;
+
+  const health = average(characters.map((c) => c.baseStats.health));
+  const stamina = average(characters.map((c) => c.baseStats.stamina));
+  const sanity = average(characters.map((c) => c.baseStats.sanity));
+  const hunger = average(characters.map((c) => c.baseStats.hunger));
+
+  const socialValues: number[] = [];
+
+  characters.forEach((character) => {
+    characters.forEach((other) => {
+      if (character.id === other.id) return;
+
+      const value = relations[character.id]?.[other.id];
+
+      if (typeof value === "number") {
+        socialValues.push(value);
+      }
+    });
+  });
+
+  const socialAverage = socialValues.length
+    ? socialValues.reduce((sum, value) => sum + value, 0) / socialValues.length
+    : 0;
+
+  const getStatColor = (value: number) => {
+    if (value >= 70) return "text-(--success)";
+    if (value >= 40) return "text-amber-300";
+    return "text-destructive";
+  };
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className=" text-sm uppercase tracking-[0.15em] text-sidebar-foreground/80 pb-4">
-          Mission Control
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="flex h-full flex-col justify-start gap-4">
+      <CardContent className="flex h-full flex-col gap-4">
         <Button
           size="lg"
           variant="hud"
-          className="w-full cursor-pointer"
+          className="w-80 my-5 mx-auto cursor-pointer"
           onClick={advanceEvent}
-          disabled={!!pendingEvent}
+          disabled={!!pendingEvent || !!eventResult}
         >
           Advance Time
         </Button>
-
-        {lastTurn > 0 ? (
-          <div className="space-y-2 p-3">
-            <div className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-              <span>Previous jump</span>
-              <span className="text-primary">
-                +{lastTurn} day{lastTurn !== 1 ? "s" : ""}
-              </span>
+        <Separator />
+        <div className="grid grid-cols-3 gap-5 pt-4 text-center">
+          <div>
+            <div className="text-xs uppercase tracking-wider text-muted-foreground">
+              Crew
             </div>
-
-            <div className="grid grid-cols-2 gap-x-4 text-sm text-foreground">
-              <span>Food</span>
-              <span className="text-right text-destructive">
-                -{getConsumption("food") * lastTurn}
-              </span>
-
-              <span>Water</span>
-              <span className="text-right text-destructive">
-                -{getConsumption("water") * lastTurn}
-              </span>
-
-              <span>Energy</span>
-              <span className="text-right text-destructive">
-                -{getConsumption("energy") * lastTurn}
-              </span>
+            <div className="text-lg font-bold">{crewCount} / 5</div>
+          </div>
+          <div>
+            <div className="text-xs uppercase tracking-wider text-muted-foreground">
+              Social
+            </div>
+            <div
+              className={`text-lg font-bold ${getStatColor(socialAverage * 10)}`}
+            >
+              {socialAverage.toFixed(1)} / 10
             </div>
           </div>
-        ) : (
-          <div className="rounded-lg border border-dashed border-sidebar-border/60 bg-background/20 p-3 text-xs uppercase tracking-[0.12em] text-sidebar-foreground/50">
-            No previous jump
+
+          <div>
+            <div className="text-xs uppercase tracking-wider text-muted-foreground">
+              Health
+            </div>
+            <div className={`text-lg font-bold ${getStatColor(health)}`}>
+              {health} / 100
+            </div>
           </div>
-        )}
+
+          <div>
+            <div className="text-xs uppercase tracking-wider text-muted-foreground">
+              Stamina
+            </div>
+            <div className={`text-lg font-bold ${getStatColor(stamina)}`}>
+              {stamina} / 100
+            </div>
+          </div>
+
+          <div>
+            <div className="text-xs uppercase tracking-wider text-muted-foreground">
+              Sanity
+            </div>
+            <div className={`text-lg font-bold ${getStatColor(sanity)}`}>
+              {sanity} / 100
+            </div>
+          </div>
+          <div>
+            <div className="text-xs uppercase tracking-wider text-muted-foreground">
+              Hunger
+            </div>
+            <div className={`text-lg font-bold ${getStatColor(100 - hunger)}`}>
+              {hunger} / 100
+            </div>
+          </div>
+        </div>
       </CardContent>
     </Card>
   );

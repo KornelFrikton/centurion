@@ -1,4 +1,5 @@
 import type { EventCard } from "./eventcard";
+import secret_banner from "../../assets/banners/secret_banner.png";
 
 const SecretEvents: EventCard[] = [
   {
@@ -7,6 +8,7 @@ const SecretEvents: EventCard[] = [
     description:
       "The only way forward is through a narrow maintenance tunnel. Someone must crawl through the cramped passage to restore access.",
     type: "secret",
+    banner: secret_banner,
     rarity: "common",
 
     choices: [
@@ -43,7 +45,8 @@ const SecretEvents: EventCard[] = [
     description:
       "Several spider-like creatures emerge from the ventilation system.",
     type: "secret",
-
+    banner: secret_banner,
+    rarity: "rare",
     choices: [
       {
         description: "Fight the creatures.",
@@ -72,6 +75,7 @@ const SecretEvents: EventCard[] = [
       "Behind a sealed maintenance panel you discover a hidden cache of valuable supplies. Taking everything would leave little for anyone else.",
 
     type: "secret",
+    banner: secret_banner,
     rarity: "common",
 
     choices: [

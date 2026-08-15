@@ -33,10 +33,10 @@ export default function CharacterStats({ stats }: CharacterStatsProps) {
 
       {expanded && (
         <>
-          <StatusBar stat="Health" value={stats.health} max={stats.health} />
-          <StatusBar stat="Stamina" value={stats.stamina} max={stats.stamina} />
-          <StatusBar stat="Sanity" value={stats.sanity} max={stats.sanity} />
-          <StatusBar stat="Hunger" value={stats.hunger} />
+          <StatusBar stat="Health" value={stats.health} max={100} />
+          <StatusBar stat="Stamina" value={stats.stamina} max={100} />
+          <StatusBar stat="Sanity" value={stats.sanity} max={100} />
+          <StatusBar stat="Hunger" value={stats.hunger} max={100} />
         </>
       )}
     </>

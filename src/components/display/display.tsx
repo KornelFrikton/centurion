@@ -1,4 +1,3 @@
-import MissionTime from "./calendar.tsx";
 import StockDisplay from "./stockdisplay.tsx";
 import CharacterDisplay from "./characterdisplay.tsx";
 import RelationDisplay from "./relationdisplay.tsx";
@@ -16,20 +15,20 @@ function Display() {
         <ModuleHeader title="Crew status" />
         <CharacterDisplay />
       </section>
-      <section>
-        <ModuleHeader title="Social matrix" /> <RelationDisplay />
-      </section>
+      {gamePhase === "mission" && (
+        <section>
+          <ModuleHeader title="Social matrix" /> <RelationDisplay />
+        </section>
+      )}
       <section>
         <ModuleHeader title="Resource storage" /> <StockDisplay />
       </section>
 
-      <div>Aktuális fázis: {gamePhase}</div>
       {gamePhase === "mission" && (
         <>
           <section>
-            <ModuleHeader title="Mission progress" />
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <MissionTime />
+            <ModuleHeader title="Mission control" />
+            <div>
               <GameControl />
             </div>
           </section>

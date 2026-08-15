@@ -37,7 +37,7 @@ export default function CharacterCard({
   const gamePhase = useGameStore((s) => s.gamePhase);
 
   return (
-    <Card className="w-72 select-none">
+    <Card className="w-72">
       <CardHeader className="items-center text-center space-y-2">
         <CharacterPortrait
           name={character.name}

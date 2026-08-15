@@ -37,6 +37,7 @@ function EventDisplay() {
   const resolveEvent = useGameStore((state) => state.resolveEvent);
   const continueEvent = useGameStore((state) => state.continueEvent);
   const characters = useGameStore((state) => state.characters);
+
   const selectedCharacterIds = useGameStore(
     (state) => state.selectedCharacterIds,
   );
@@ -52,9 +53,11 @@ function EventDisplay() {
   const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
 
   useEffect(() => {
+    console.log("pendingEvent EFFECT:", pendingEvent?.id);
+
     setSelectedChoice(null);
     setSelectedCharacters({});
-  }, [pendingEvent]);
+  }, [pendingEvent?.id]);
 
   if (!pendingEvent && !eventResult) {
     return (
@@ -74,21 +77,10 @@ function EventDisplay() {
   if (eventResult) {
     return (
       <Card>
-        <CardHeader>
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <CardTitle className="text-lg font-semibold uppercase tracking-[0.14em]">
-              Event Result
-            </CardTitle>
-            <Badge
-              className={
-                eventResult.success
-                  ? "bg-(--success) text-white"
-                  : "bg-destructive) text-white"
-              }
-            >
-              {eventResult.success ? "Success" : "Failed"}
-            </Badge>
-          </div>
+        <CardHeader className="mb-4">
+          <CardTitle className="text-lg text-center font-semibold uppercase tracking-[0.14em]">
+            Event Result
+          </CardTitle>
         </CardHeader>
 
         <CardContent className="space-y-4">
@@ -360,18 +352,26 @@ function EventDisplay() {
 
   return (
     <Card>
-      <CardHeader className="space-y-2">
-        <div className="flex items-start justify-between gap-4">
-          <CardTitle className="text-base uppercase tracking-[0.14em]">
-            {pendingEvent!.name}
+      <CardHeader>
+        <div
+          className="flex min-h-40 items-center justify-between bg-black rounded-xl px-12"
+          style={{
+            backgroundImage: `url(${pendingEvent?.banner})`,
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "contain",
+          }}
+        >
+          <CardTitle className="whitespace-pre-line text-xl text-center text-bold uppercase tracking-[0.14em]">
+            {pendingEvent!.name.replace(/ /g, "\n")}
           </CardTitle>
           <Badge variant="outline" className="uppercase tracking-wider">
             {pendingEvent!.type}
           </Badge>
         </div>
-        <p className="text-sm leading-relaxed pb-3">
+        <div className="text-base leading-relaxed pt-2 pb-3">
           {pendingEvent!.description}
-        </p>
+        </div>
       </CardHeader>
       <Separator />
       <CardContent className="space-y-3">
@@ -444,9 +444,11 @@ function EventDisplay() {
                       />
 
                       <span
-                        className="uppercase
-                      tracking-wider
-                      text-primary"
+                        className={`uppercase tracking-wider ${
+                          selectedCharacters[index] === character.id
+                            ? "text-primary-foreground"
+                            : "text-primary"
+                        }`}
                       >
                         {character.name}
                       </span>

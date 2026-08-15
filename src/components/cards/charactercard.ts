@@ -42,7 +42,7 @@ const Characters: Character[] = [
       health: 80,
       stamina: 80,
       sanity: 80,
-      hunger: 20,
+      hunger: 0,
     },
     skills: {
       scavenging: 6,
@@ -76,7 +76,7 @@ const Characters: Character[] = [
       health: 80,
       stamina: 80,
       sanity: 80,
-      hunger: 20,
+      hunger: 0,
     },
     skills: {
       scavenging: 5,
@@ -110,7 +110,7 @@ const Characters: Character[] = [
       health: 80,
       stamina: 80,
       sanity: 80,
-      hunger: 20,
+      hunger: 0,
     },
     skills: {
       scavenging: 4,
@@ -144,7 +144,7 @@ const Characters: Character[] = [
       health: 80,
       stamina: 80,
       sanity: 80,
-      hunger: 20,
+      hunger: 0,
     },
     skills: {
       scavenging: 9,
@@ -178,7 +178,7 @@ const Characters: Character[] = [
       health: 80,
       stamina: 80,
       sanity: 80,
-      hunger: 20,
+      hunger: 0,
     },
     skills: {
       scavenging: 6,

@@ -103,13 +103,14 @@ export default function CharacterDisplay() {
             <div>Prepare your crew before departure</div>
             <div>
               Set <strong className="text-primary">Age</strong> and{" "}
-              <strong className="text-primary">Profile</strong> for the members
+              <strong className="text-primary">Profile</strong> for the selected
+              members
             </div>
           </div>
           {readyForMission && (
             <Button
               size="lg"
-              className="cursor-pointer"
+              className="cursor-pointer animate-pulse"
               variant="hud"
               onClick={startMission}
             >

@@ -1,4 +1,5 @@
 import type { EventCard } from "./eventcard";
+import chain_banner from "../../assets/banners/chain_banner.png";
 
 const ChainEvents: EventCard[] = [
   {
@@ -8,6 +9,7 @@ const ChainEvents: EventCard[] = [
       "You discover an abandoned research station. The door is sealed, but the systems still have power.",
 
     type: "chain",
+    banner: chain_banner,
     rarity: "common",
 
     choices: [
@@ -41,6 +43,7 @@ const ChainEvents: EventCard[] = [
       "Inside the lab you find old research equipment and several usable components.",
 
     type: "technical",
+    banner: chain_banner,
     rarity: "common",
 
     condition: {
@@ -84,6 +87,7 @@ const ChainEvents: EventCard[] = [
       "Behind the station you find a sealed cargo container that likely still contains supplies.",
 
     type: "supply",
+    banner: chain_banner,
     rarity: "common",
 
     condition: {

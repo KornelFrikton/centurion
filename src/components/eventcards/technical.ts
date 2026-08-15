@@ -1,4 +1,5 @@
 import type { EventCard } from "./eventcard";
+import technical_banner from "../../assets/banners/technical_banner.png";
 
 const TechnicalEvents: EventCard[] = [
   {
@@ -7,6 +8,7 @@ const TechnicalEvents: EventCard[] = [
     description:
       "A damaged water purification system has been found. Restoring it could significantly improve the ship's water supply.",
     type: "technical",
+    banner: technical_banner,
     rarity: "common",
 
     choices: [
@@ -90,6 +92,7 @@ const TechnicalEvents: EventCard[] = [
     description:
       "An abandoned laboratory contains a functioning hydroponic growing system. It could become a valuable source of food and oxygen.",
     type: "technical",
+    banner: technical_banner,
     rarity: "legendary",
 
     choices: [

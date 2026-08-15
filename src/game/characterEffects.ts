@@ -5,17 +5,19 @@ import { maleAvatars, femaleAvatars } from "../assets/avatars";
 function clampApply<T extends object>(
   current: T,
   deltas: Partial<T>,
-  min = 0,
-  max = 10,
+  min: number,
+  max: number,
 ): T {
   const result = { ...current };
 
   Object.entries(deltas).forEach(([key, delta]) => {
     if (typeof delta !== "number") return;
 
+    const currentValue = (current[key as keyof T] as number) ?? 0;
+
     result[key as keyof T] = Math.min(
       max,
-      Math.max(min, ((current[key as keyof T] as number) ?? 0) + delta),
+      Math.max(min, currentValue + delta),
     ) as T[keyof T];
   });
 
@@ -57,7 +59,12 @@ export function applyCharacterEffect<
     affected.some((c) => c.id === character.id)
       ? {
           ...character,
-          [field]: clampApply(character[field], effect.values),
+          [field]: clampApply(
+            character[field],
+            effect.values,
+            0,
+            field === "baseStats" ? 100 - Math.abs(character.age - 40) : 10,
+          ),
         }
       : character,
   );

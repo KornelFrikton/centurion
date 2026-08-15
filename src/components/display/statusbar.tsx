@@ -6,19 +6,19 @@ function StatusBar({
   value,
   max = 100,
   invert = false,
-  consumption,
-  production,
   description,
+  delta,
 }: {
   stat: string;
   value: number;
   max?: number;
   invert?: boolean;
-  consumption?: number;
-  production?: number;
   description?: string;
+  delta?: number;
 }) {
-  const displayValue = invert ? 100 - value : value;
+  const displayValue = invert
+    ? ((max - value) / max) * 100
+    : (value / max) * 100;
 
   return (
     <div className="space-y-1.5 py-1">
@@ -36,40 +36,24 @@ function StatusBar({
         </Tooltip>
 
         <span className="text-primary">
-          {value} / {max}
+          {value} / {max}{" "}
         </span>
       </div>
 
-      <div className="relative">
-        <Progress value={displayValue} />
-        <div
-          className="absolute
-          inset-0
-          rounded-full
-          shadow-[0_0_8px_var(--primary)]
-          pointer-events-none"
-        ></div>
+      <div>
+        <Progress
+          className="shadow-[0_0_8px_var(--primary)] rounded-full"
+          value={displayValue}
+        />
       </div>
 
-      {(production !== undefined || consumption !== undefined) && (
-        <div className="flex justify-between text-[11px] uppercase tracking-wide">
-          {production !== undefined && (
-            <span className="text-(--success)">PROD +{production}/day</span>
-          )}
-
-          <span
-            className={
-              (production ?? 0) - (consumption ?? 0) >= 0
-                ? "text-(--success) drop-shadow-[0_0_6px_var(--success)]"
-                : "text-destructive drop-shadow-[0_0_6px_var(--destructive)]"
-            }
-          ></span>
-
-          {consumption !== undefined && (
-            <span className="text-destructive">CONS -{consumption}/day</span>
-          )}
-        </div>
-      )}
+      <div className="min-h-2 text-right text-xs">
+        {delta !== undefined && delta < 0 && (
+          <span className="text-destructive">
+            Last jump consumption: {delta}
+          </span>
+        )}
+      </div>
     </div>
   );
 }

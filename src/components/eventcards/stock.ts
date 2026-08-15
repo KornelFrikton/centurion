@@ -1,4 +1,5 @@
 import type { EventCard } from "./eventcard";
+import stock_banner from "../../assets/banners/stock_banner.png";
 
 const SupplyCards: EventCard[] = [
   {
@@ -7,6 +8,7 @@ const SupplyCards: EventCard[] = [
     description:
       "Sensors detect a cargo container slowly drifting through space. Its beacon is still active.",
     type: "supply",
+    banner: stock_banner,
     rarity: "common",
     choices: [
       {
@@ -83,6 +85,7 @@ const SupplyCards: EventCard[] = [
     description:
       "An abandoned shuttle drifts silently nearby. Its systems are offline, but the cargo bay appears intact.",
     type: "supply",
+    banner: stock_banner,
     rarity: "common",
     choices: [
       {
@@ -156,6 +159,7 @@ const SupplyCards: EventCard[] = [
     description:
       "A damaged maintenance drone still carries replacement power cells and spare components.",
     type: "supply",
+    banner: stock_banner,
     rarity: "rare",
 
     choices: [
@@ -228,6 +232,7 @@ const SupplyCards: EventCard[] = [
     description:
       "An old escape pod contains untouched emergency survival supplies.",
     type: "supply",
+    banner: stock_banner,
     rarity: "common",
 
     choices: [
@@ -303,6 +308,7 @@ const SupplyCards: EventCard[] = [
     description:
       "A massive cargo freighter drifts through the void. Most systems are dead, but parts of the cargo hold remain accessible.",
     type: "supply",
+    banner: stock_banner,
     rarity: "rare",
 
     choices: [
