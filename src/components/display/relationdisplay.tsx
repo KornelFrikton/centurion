@@ -11,6 +11,7 @@ import {
 } from "../ui/table";
 import { Badge } from "../ui/badge";
 import { Tooltip, TooltipTrigger, TooltipContent } from "../ui/tooltip";
+import { Separator } from "../ui/separator";
 
 function getRelationType(value: number) {
   if (value >= 8)
@@ -63,118 +64,130 @@ function RelationDisplay() {
                     <TableHead
                       key={character.id}
                       className="
-                      text-center
-                      text-xs
-                      uppercase
-                      tracking-wider
-                      text-sidebar-foreground/70
-                    "
+                        text-center
+                        text-xs
+                        uppercase
+                        tracking-wider
+                        text-foreground
+                      "
                     >
                       <div className="flex flex-col items-center gap-1">
                         <img
                           src={character.avatar}
                           alt={character.name}
                           className="
-                          h-8
-                          w-8
-                          rounded-lg
-                          object-cover
-                          ring-1
-                          ring-primary/20
-                        "
+                            h-8
+                            w-8
+                            rounded-lg
+                            object-cover
+                            ring-1
+                            ring-primary/20
+                          "
                         />
-
                         <span>{character.name}</span>
                       </div>
+                      <Separator />
                     </TableHead>
                   ))}
                 </TableRow>
               </TableHeader>
 
               <TableBody>
-                {selectedCharacters.map((rowCharacter) => (
-                  <TableRow
-                    key={rowCharacter.id}
-                    className="
-                    border-b
-                    border-primary/15
-                    hover:bg-primary/5
-                  "
-                  >
-                    <TableCell>
-                      {" "}
-                      <div className="flex items-center gap-2">
-                        <img
-                          src={rowCharacter.avatar}
-                          alt={rowCharacter.name}
-                          className="
-                          h-8
-                          w-8
-                          rounded-lg
-                          object-cover
-                          ring-1
-                          ring-primary/20
-                        "
-                        />
+                {selectedCharacters.map((rowCharacter, index) => (
+                  <>
+                    <TableRow
+                      key={rowCharacter.id}
+                      className="
+                        border-0
+                        hover:bg-primary/20 
+                        hover:rounded-lg
+                      "
+                    >
+                      <TableCell>
+                        <div className="flex items-center gap-2">
+                          <img
+                            src={rowCharacter.avatar}
+                            alt={rowCharacter.name}
+                            className="
+                              h-8
+                              w-8
+                              rounded-lg
+                              object-cover
+                              ring-1
+                              ring-primary/20
+                            "
+                          />
 
-                        <span
-                          className=" text-center
-    text-xs
-    uppercase
-    tracking-wider
-    text-sidebar-foreground/70"
-                        >
-                          {rowCharacter.name}
-                        </span>
-                      </div>
-                    </TableCell>
+                          <span
+                            className="text-center
+                            text-xs
+                            uppercase
+                            tracking-wider
+                            text-foreground"
+                          >
+                            {rowCharacter.name}
+                          </span>
+                        </div>
+                      </TableCell>
 
-                    {selectedCharacters.map((colCharacter) => {
-                      if (rowCharacter.id === colCharacter.id) {
+                      {selectedCharacters.map((colCharacter) => {
+                        if (rowCharacter.id === colCharacter.id) {
+                          return (
+                            <TableCell
+                              key={colCharacter.id}
+                              className="text-center text-muted-foreground py-3"
+                            >
+                              —
+                            </TableCell>
+                          );
+                        }
+
+                        const value =
+                          relations[rowCharacter.id]?.[colCharacter.id] ?? 0;
+
+                        const relation = getRelationType(value);
                         return (
                           <TableCell
                             key={colCharacter.id}
-                            className="text-center text-muted-foreground py-3"
+                            className="text-center"
                           >
-                            —
+                            <Tooltip>
+                              <TooltipTrigger>
+                                <Badge
+                                  className={`
+                                    text-[11px]
+                                    px-2
+                                    py-0.5
+                                    ${relation.className}
+                                  `}
+                                >
+                                  {relation.label}
+                                </Badge>
+                              </TooltipTrigger>
+
+                              <TooltipContent>
+                                <p>
+                                  {rowCharacter.name} → {colCharacter.name}
+                                </p>
+                                <p>{value.toFixed(1)} / 10</p>
+                              </TooltipContent>
+                            </Tooltip>
                           </TableCell>
                         );
-                      }
+                      })}
+                    </TableRow>
 
-                      const value =
-                        relations[rowCharacter.id]?.[colCharacter.id] ?? 0;
-
-                      const relation = getRelationType(value);
-                      return (
+                    {index < selectedCharacters.length - 1 && (
+                      <TableRow className="border-0 hover:bg-transparent">
                         <TableCell
-                          key={colCharacter.id}
-                          className="text-center"
+                          colSpan={selectedCharacters.length + 1}
+                          className="p-0"
                         >
-                          <Tooltip>
-                            <TooltipTrigger>
-                              <Badge
-                                className={`
-                                text-[11px]
-                                px-2
-                                py-0.5
-                                ${relation.className}
-                              `}
-                              >
-                                {relation.label}
-                              </Badge>
-                            </TooltipTrigger>
-
-                            <TooltipContent>
-                              <p>
-                                {rowCharacter.name} → {colCharacter.name}
-                              </p>
-                              <p>{value.toFixed(1)} / 10</p>
-                            </TooltipContent>
-                          </Tooltip>
+                          <Separator />
                         </TableCell>
-                      );
-                    })}
-                  </TableRow>
+                      </TableRow>
+                    )}
+                  </>
                 ))}
               </TableBody>
             </Table>

@@ -63,7 +63,10 @@ export default function CharacterCard({
       </CardHeader>
 
       <CardContent>
-        <CharacterStats stats={character.baseStats} />
+        <CharacterStats
+          characterId={character.id}
+          stats={character.baseStats}
+        />
         <CharacterSkills skills={character.skills} />
         <CharacterPersonality
           personality={character.personality}

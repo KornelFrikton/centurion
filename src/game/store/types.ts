@@ -68,6 +68,7 @@ export type GameStore = {
   selectedCharacterIds: string[];
   flags: Record<string, boolean>;
   eventResult: {
+    type?: EventCard["type"];
     success?: boolean;
     stock?: { item: string; delta: number }[];
     stats?: {
@@ -123,4 +124,5 @@ export type GameStore = {
 
   getProduction: (resourceId: string) => number;
   getConsumption: (resourceId: string) => number;
+  feedCharacter: (characterId: string) => void;
 };

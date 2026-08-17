@@ -92,7 +92,10 @@ export function performSkillCheck(
 export function computeEventResolution(
   event: EventCard,
   choiceIndex: number,
-  state: Pick<GameStore, "characters" | "relations" | "items" | "flags">,
+  state: Pick<
+    GameStore,
+    "characters" | "relations" | "items" | "flags" | "selectedCharacterIds"
+  >,
   characterId?: string,
 ): Partial<GameStore> {
   let updates: Partial<GameStore> = {
@@ -105,6 +108,10 @@ export function computeEventResolution(
   let characters = state.characters;
   let relations = state.relations;
   let items = state.items;
+
+  const activeCharacters = state.characters.filter((character) =>
+    state.selectedCharacterIds.includes(character.id),
+  );
 
   const choice = event.choices[choiceIndex];
   let effects = {
@@ -143,24 +150,60 @@ export function computeEventResolution(
     effects.personality;
 
   if (effects.stats) {
-    const resolvedStatsEffect = resolveEffectTarget(characters, effects.stats);
-    characters = applyStats(characters, resolvedStatsEffect);
+    const resolvedStatsEffect = resolveEffectTarget(
+      activeCharacters,
+      effects.stats,
+    );
+
+    const updatedActiveCharacters = applyStats(
+      activeCharacters,
+      resolvedStatsEffect,
+    );
+
+    characters = characters.map(
+      (character) =>
+        updatedActiveCharacters.find(
+          (updated) => updated.id === character.id,
+        ) ?? character,
+    );
   }
 
   if (effects.skills) {
     const resolvedSkillsEffect = resolveEffectTarget(
-      characters,
+      activeCharacters,
       effects.skills,
     );
-    characters = applySkills(characters, resolvedSkillsEffect);
+
+    const updatedActiveCharacters = applySkills(
+      activeCharacters,
+      resolvedSkillsEffect,
+    );
+
+    characters = characters.map(
+      (character) =>
+        updatedActiveCharacters.find(
+          (updated) => updated.id === character.id,
+        ) ?? character,
+    );
   }
 
   if (effects.personality) {
     const resolvedPersonalityEffect = resolveEffectTarget(
-      characters,
+      activeCharacters,
       effects.personality,
     );
-    characters = applyPersonality(characters, resolvedPersonalityEffect);
+
+    const updatedActiveCharacters = applyPersonality(
+      activeCharacters,
+      resolvedPersonalityEffect,
+    );
+
+    characters = characters.map(
+      (character) =>
+        updatedActiveCharacters.find(
+          (updated) => updated.id === character.id,
+        ) ?? character,
+    );
   }
 
   if (effects.relations) {
@@ -181,7 +224,7 @@ export function computeEventResolution(
   }
 
   let secretResult = {
-    characters,
+    characters: activeCharacters,
     revealedSecrets: [] as {
       secretId: string;
       characterId: string;
@@ -191,12 +234,17 @@ export function computeEventResolution(
 
   if (effects.secretTriggers) {
     secretResult = applySecretTrigger(
-      characters,
+      activeCharacters,
       effects.secretTriggers,
       characterId,
     );
 
-    characters = secretResult.characters;
+    characters = characters.map(
+      (character) =>
+        secretResult.characters.find(
+          (updatedCharacter) => updatedCharacter.id === character.id,
+        ) ?? character,
+    );
   }
 
   if (effects.flags) {
@@ -214,6 +262,7 @@ export function computeEventResolution(
   updates.pendingEvent = null;
 
   updates.eventResult = {
+    type: event.type,
     success: skillCheckResult?.success ?? true,
     skillCheck: skillCheckResult,
 
@@ -257,6 +306,28 @@ export function computeEventResolution(
 
     secrets: secretResult?.revealedSecrets,
   };
+
+  console.log("=== EVENT RESOLUTION ===");
+  console.log("Event:", event.id);
+  console.log("Choice:", choiceIndex);
+  console.log("Effects:", effects);
+
+  console.log("Stock:", effects.stock);
+  console.log("Stats:", effects.stats);
+  console.log("Skills:", effects.skills);
+  console.log("Personality:", effects.personality);
+  console.log("Relations:", effects.relations);
+  console.log("Secret triggers:", effects.secretTriggers);
+  console.log("Flags:", effects.flags);
+
+  console.log("Skill check:", skillCheckResult);
+
+  console.log("Resolved characters:", characters);
+  console.log("Resolved relations:", relations);
+  console.log("Resolved items:", items);
+
+  console.log("Revealed secrets:", secretResult.revealedSecrets);
+  console.log("========================");
 
   updates.characters = characters;
   updates.relations = relations;

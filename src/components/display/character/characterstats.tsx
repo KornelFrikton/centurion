@@ -3,13 +3,23 @@ import { Separator } from "../../ui/separator";
 import type { BaseStats } from "../../../game/store/types";
 import { useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
+import { Button } from "../../ui/button";
+import useGameStore from "../../../game/store/useGameStore";
 
 type CharacterStatsProps = {
+  characterId: string;
   stats: BaseStats;
 };
 
-export default function CharacterStats({ stats }: CharacterStatsProps) {
+export default function CharacterStats({
+  characterId,
+  stats,
+}: CharacterStatsProps) {
   const [expanded, setExpanded] = useState(true);
+  const items = useGameStore((state) => state.items);
+  const feedCharacter = useGameStore((state) => state.feedCharacter);
+
+  const food = items.find((item) => item.id === "food");
 
   return (
     <>
@@ -37,6 +47,18 @@ export default function CharacterStats({ stats }: CharacterStatsProps) {
           <StatusBar stat="Stamina" value={stats.stamina} max={100} />
           <StatusBar stat="Sanity" value={stats.sanity} max={100} />
           <StatusBar stat="Hunger" value={stats.hunger} max={100} />
+
+          {stats.hunger > 0 && (
+            <Button
+              size="lg"
+              variant="secondary"
+              className="mx-auto mt-3 block animate-pulse uppercase tracking-[0.18em]"
+              disabled={!food || food.quantity < stats.hunger}
+              onClick={() => feedCharacter(characterId)}
+            >
+              Feed
+            </Button>
+          )}
         </>
       )}
     </>

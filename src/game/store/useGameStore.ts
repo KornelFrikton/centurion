@@ -208,6 +208,45 @@ const useGameStore = create<GameStore>()(
             return 0;
         }
       },
+
+      feedCharacter: (characterId: string) => {
+        set((state) => {
+          const character = state.characters.find((c) => c.id === characterId);
+
+          if (!character) return state;
+
+          const hunger = character.baseStats.hunger;
+
+          if (hunger <= 0) return state;
+
+          const food = state.items.find((item) => item.id === "food");
+
+          if (!food || food.quantity < hunger) return state;
+
+          return {
+            characters: state.characters.map((c) =>
+              c.id === characterId
+                ? {
+                    ...c,
+                    baseStats: {
+                      ...c.baseStats,
+                      hunger: 0,
+                    },
+                  }
+                : c,
+            ),
+
+            items: state.items.map((item) =>
+              item.id === "food"
+                ? {
+                    ...item,
+                    quantity: item.quantity - hunger,
+                  }
+                : item,
+            ),
+          };
+        });
+      },
     }),
     { name: "game-save" },
   ),

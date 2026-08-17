@@ -327,8 +327,8 @@ function EventDisplay() {
             )}
           </div>
 
-          {pendingEvent?.type === "secret" ? (
-            eventResult.secrets && eventResult.secrets.length > 0 ? (
+          {eventResult?.type === "secret" ? (
+            eventResult.secrets?.length ? (
               <div className="space-y-2 rounded-lg border border-sidebar-border/60 bg-background/30 p-3">
                 <div className="text-xs font-semibold uppercase tracking-[0.14em] text-sidebar-foreground/60">
                   Secrets Revealed

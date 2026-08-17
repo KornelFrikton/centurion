@@ -45,6 +45,12 @@ const SupplyCards: EventCard[] = [
             water: 10,
             energy: 5,
           },
+          stats: {
+            target: "all",
+            values: {
+              hunger: 5,
+            },
+          },
         },
       },
       {

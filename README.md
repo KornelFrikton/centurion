@@ -1,47 +1,203 @@
-# CENTURION
+<h1 align="center">CENTURION</h1>
 
-Sci-fi survival game built with React, TypeScript and a modern frontend stack.
+![Centurion](./src/assets/desktop_header.png)
 
-Do you like sci-fi stories where a small crew has to survive in an unknown and hostile environment?
+> **A sci-fi crew survival game where every decision has consequences.**
 
-- If your answer is yes, this game was built for you to test your decisions, manage your crew and try to survive.
-- If your answer is no, this game was built for you to discover a different kind of interactive sci-fi adventure.
+## About the Game
+
+**Centurion** is a sci-fi survival strategy game focused on crew management, resource management and consequential decision-making.
+
+You are responsible for a small crew operating in an unknown and hostile environment. Every crew member has their own strengths, weaknesses, personality and hidden secrets.
+
+Your decisions affect not only your immediate resources, but also the condition of your crew, their relationships and the events that may unfold later in the mission.
+
+There is no guaranteed safe choice.
 
 ## Getting started
 
-The application runs directly in a web browser such as Google Chrome or Mozilla Firefox. No additional applications are required.
+The game runs directly in a modern web browser such as Google Chrome, Mozilla Firefox or Microsoft Edge.
 
-Open the application and start your mission.
+No additional software or installation is required.
 
-## How to use the application
+Launch the application, assemble your crew and begin the mission.
 
-- Start the game by selecting the characters who will form your crew.
+## How to Play
 
-- Each crew member has different **stats, skills and personality traits** that can affect the outcome of events.
+### 1. Assemble Your Crew
 
-- During the mission you will encounter different types of **events**. Read the situation carefully and choose how your crew should react.
+Select the crew members who will take part in the mission.
 
-- Some events require you to **select a specific crew member** before you can continue.
+Each character has individual:
 
-- Certain choices can modify character **health, stamina, sanity and hunger**.
+- **Health**
+- **Stamina**
+- **Sanity**
+- **Hunger**
+- **Skills**
+- **Personality traits**
+- **Relationships**
+- **Secret**
 
-- Characters can also gain or lose **skills and personality traits** depending on your decisions.
+Your selected crew forms the active team for the mission.
 
-- Keep an eye on the crew's **resources**, including food, water and energy.
+### 2. Manage Your Crew
 
-- The crew's **relationships** can change depending on your decisions and events.
+Keep an eye on the condition of every crew member.
 
-- Some events trigger hidden **Secret Cards** belonging to individual crew members. These secrets can be revealed when their specific trigger occurs.
+Character statistics can change as a result of events and decisions.
 
-- Secret events may affect **one character, several characters or the entire crew**, depending on the situation.
+Low statistics may make future situations more difficult, while poor conditions can eventually put a crew member's survival at risk.
 
-- Some events require a **skill check**. The selected character's skill is combined with a dice roll and compared to the required difficulty.
+Characters who die or leave the mission are no longer part of the active crew.
 
-- Your decisions can have consequences later in the mission, so choose carefully.
+### 3. Manage Resources
 
-- If crew members die or otherwise leave the mission, they no longer contribute to the active crew's statistics.
+Your crew depends on limited resources such as:
 
-- The objective is simple: **keep the crew alive as long as you can**.
+- **Food**
+- **Water**
+- **Energy**
+- **Oxygen**
+
+Resources are consumed as time passes and can also be gained or lost through events.
+
+Use them carefully. Running out of an essential resource can make future events significantly more difficult.
+
+### 4. Advance Time
+
+Use **Advance Time** to move the mission forward.
+
+Each time you advance, a random amount of time passes.
+
+The length of the time jump can affect:
+
+- Resource consumption
+- Crew condition
+- Hunger
+- Future events
+- The overall state of the mission
+
+Longer time jumps can therefore have a significant impact on your available resources.
+
+### 5. Resolve Events
+
+As time passes, different events will occur.
+
+Read each event carefully and select one of the available choices.
+
+Some choices are simple, while others may require you to:
+
+- Select a specific crew member
+- Perform a skill check
+- Spend or gain resources
+- Accept a negative consequence
+- Change relationships
+- Trigger a hidden secret
+
+Your decisions can influence events later in the mission.
+
+### 6. Character Selection
+
+Some actions require a specific crew member.
+
+When this happens, select the character who should perform the action and confirm your choice.
+
+The selected character may be affected by the outcome, so consider their current stats and skills before making your decision.
+
+### 7. Skill Checks
+
+Certain events require a **Skill Check**.
+
+The selected character's relevant skill is combined with a random dice roll.
+
+The resulting total is compared with the event's required difficulty.
+
+Failure may trigger different consequences from the normal outcome.
+
+### 8. Secrets
+
+Every crew member can receive a hidden Secret Card.
+
+Secrets remain hidden until their specific trigger occurs.
+
+When a secret is triggered:
+
+- the secret is revealed.
+- its effect is applied.
+- the affected character is identified.
+- the secret and its consequences are shown in the event result.
+
+Secrets can affect character statistics, skills, personality or relationships.
+
+Some secrets may have significant consequences, so not every event is exactly what it appears to be.
+
+### 9. Relationship
+
+Crew relationships can change throughout the mission.
+
+Events may improve or damage relationships between crew members or affect the crew as a whole.
+
+Maintaining a stable crew can become increasingly important as the mission progresses.
+
+### 10. Hunger
+
+Hunger represents a character's additional food requirement.
+
+When an event increases hunger, additional food is required to satisfy it.
+
+The current food system follows these basic rules:
+
+1 active crew member = 1 Food per day
+1 Hunger = 1 additional Food
+
+If enough food is available to satisfy a character's hunger, the hunger value is completely cleared.
+
+### 11. Survive
+
+There is no single correct way to approach the mission.
+
+You must balance:
+
+- Crew condition
+- Resources
+- Skills
+- Relationships
+- Time
+- Risk
+- Hidden consequences
+
+A decision that appears beneficial in the short term may create problems later.
+
+The objective is simple: **keep the crew alive as long as you can**.
+
+### Game Over
+
+The mission can end if the crew becomes unable to continue.
+
+Losing important crew members, exhausting critical resources or allowing the crew's condition to deteriorate too far can ultimately lead to failure.
+
+Your goal is to **keep the crew alive as long as you can**.
+
+## Under Development
+
+The following features are currently being developed or refined:
+
+- Mobile-friend version
+- Hunger and food consumption system
+- Logic of the death development
+- Aging improvements (adding birthday)
+- Skillcheck update with clickable dice
+- Additional event cards and secret events
+- Option for creating AI generated event cards
+- Character progression and balancing
+- Additional crew interactions and relationship mechanics
+- More event effects and gameplay consequences
+- UI and UX improvements
+- Intro and How to play section creation
+- Additional game content and balancing
+
+Features listed here are subject to change as development continues.
 
 ## Built with
 
@@ -52,13 +208,16 @@ Open the application and start your mission.
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Zustand](https://zustand.docs.pmnd.rs/)
 
+#### AI Assistance
+- AI-assisted development with ChatGPT and Claude
+
 ## Version
 
-*1.0 - 2026* - Initial release of the application
+*1.0 - August 2026* - Initial release of the application
 
 ## Author
 
-Your Name - [GitHub](https://github.com/)
+Kornel Frikton - [GitHub](https://github.com/KornelFrikton)
 
 ## Licence
 
