@@ -7,7 +7,7 @@ import { Separator } from "../src/components/ui/separator.tsx";
 function App() {
   return (
     <>
-      <section id="header">
+      <header className="w-full overflow-hidden">
         <div
           className="relative bg-black flex items-center justify-between select-none h-30"
           style={{
@@ -17,19 +17,26 @@ function App() {
             backgroundSize: "contain",
           }}
         >
-          <H1 className="absolute left-1/2 -translate-x-1/2 [text-shadow:0_0_6px_rgba(59,130,246,0.8),0_0_16px_rgba(59,130,246,0.6),0_0_30px_rgba(59,130,246,0.35)]">
+          <H1 className="absolute whitespace-nowrap left-1/2 -translate-x-1/2 [text-shadow:0_0_6px_rgba(59,130,246,0.8),0_0_16px_rgba(59,130,246,0.6),0_0_30px_rgba(59,130,246,0.35)]">
             Centurion
           </H1>
         </div>
-      </section>
+      </header>
       <Separator />
 
       <main className="relative min-h-screen overflow-hidden bg-black select-none p-2">
         <StarsBackground />
-        <div className="relative z-10">
+        <div className="relative z-10 w-full mx-auto">
           <Display />
         </div>
       </main>
+
+      <footer className="w-full overflow-hidden p-2 select-none">
+        <Separator />
+        <div className="text-right text-xs pt-2 text-muted-foreground">
+          2026 - Developed by Kornel Frikton
+        </div>
+      </footer>
     </>
   );
 }

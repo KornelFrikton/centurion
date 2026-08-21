@@ -54,7 +54,74 @@ function RelationDisplay() {
       shadow-[0_12px_32px_rgba(0,0,0,0.45)]"
       >
         <CardContent className="py-2">
-          <div className="overflow-x-auto">
+          <div className="space-y-3 md:hidden">
+            {selectedCharacters.map((rowCharacter) => (
+              <div
+                key={rowCharacter.id}
+                className="
+                  rounded-lg
+                  border border-sidebar-border/60
+                  bg-background/30
+                  p-3
+                "
+              >
+                <div className="mb-2 flex items-center gap-2">
+                  <img
+                    src={rowCharacter.avatar}
+                    alt={rowCharacter.name}
+                    className="h-8 w-8 rounded-lg object-cover"
+                  />
+
+                  <span className="text-xs font-semibold uppercase tracking-wider">
+                    {rowCharacter.name}
+                  </span>
+                </div>
+
+                <div className="space-y-1">
+                  {selectedCharacters
+                    .filter(
+                      (colCharacter) => colCharacter.id !== rowCharacter.id,
+                    )
+                    .map((colCharacter) => {
+                      const value =
+                        relations[rowCharacter.id]?.[colCharacter.id] ?? 0;
+
+                      const relation = getRelationType(value);
+
+                      return (
+                        <div
+                          key={colCharacter.id}
+                          className="flex items-center justify-between gap-2 rounded-md px-2 py-1.5"
+                        >
+                          <div className="flex min-w-0 items-center gap-2">
+                            <img
+                              src={colCharacter.avatar}
+                              alt={colCharacter.name}
+                              className="h-6 w-6 shrink-0 rounded-md object-cover"
+                            />
+
+                            <span className="truncate text-xs">
+                              {colCharacter.name}
+                            </span>
+                          </div>
+
+                          <div className="flex shrink-0 items-center gap-2">
+                            <Badge className={relation.className}>
+                              {relation.label}
+                            </Badge>
+
+                            <span className="w-10 text-right text-xs text-muted-foreground">
+                              {value.toFixed(1)}
+                            </span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="hidden overflow-x-auto md:block">
             <Table>
               <TableHeader className="[&_tr]:border-0">
                 <TableRow className="border-0 hover:bg-transparent">

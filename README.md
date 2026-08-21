@@ -183,8 +183,6 @@ Your goal is to **keep the crew alive as long as you can**.
 
 The following features are currently being developed or refined:
 
-- Mobile-friend version
-- Hunger and food consumption system
 - Logic of the death development
 - Aging improvements (adding birthday)
 - Skillcheck update with clickable dice
@@ -196,6 +194,9 @@ The following features are currently being developed or refined:
 - UI and UX improvements
 - Intro and How to play section creation
 - Additional game content and balancing
+  
+✓ Mobile-friend version  
+✓ Hunger and food consumption system
 
 Features listed here are subject to change as development continues.
 

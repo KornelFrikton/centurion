@@ -47,13 +47,14 @@ function StatusBar({
         />
       </div>
       {delta !== undefined && delta < 0 && (
-        <div className="flex justify-between font-bold text-xs min-h-2">
-          <div className="text-destructive">
-            -1 {stat}/{stat === "Energy" ? "day" : "member/day"}
-          </div>
-          <div>
-            <span className="text-destructive">Last jump: {delta}</span>
-          </div>
+        <div className="flex min-h-4 flex-col gap-0.5 text-xs text-right font-bold sm:flex-row sm:items-center sm:justify-between">
+          <span className="text-destructive">
+            -1 /{stat === "Energy" ? "day" : "member/day"}
+          </span>
+
+          <span className="sm:text-right text-destructive">
+            Last jump: {delta}
+          </span>
         </div>
       )}
     </div>

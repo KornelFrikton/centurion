@@ -59,9 +59,9 @@ function GameControl() {
 
   return (
     <Card>
-      <CardContent className="flex  flex-col gap-4">
+      <CardContent className="flex flex-col gap-4">
         <div
-          className="flex rounded-xl items-center justify-center h-40 relative"
+          className="flex rounded-xl items-center justify-center h-32 sm:h-40 relative"
           style={{
             backgroundImage: `url(${ControlRoom_banner})`,
             backgroundPosition: "center",
@@ -72,7 +72,7 @@ function GameControl() {
           <Button
             size="lg"
             variant="hud"
-            className="w-80 p-6 cursor-pointer font-extrabold relative z-10"
+            className="sm:w-80 w-50 p-6 cursor-pointer font-extrabold relative z-10"
             onClick={advanceEvent}
             disabled={!!pendingEvent || !!eventResult}
           >
@@ -81,11 +81,11 @@ function GameControl() {
         </div>
         <Separator />
 
-        <div className="grid grid-cols-[auto_1fr] gap-5 pt-3 text-center">
-          <div className="flex items-start justify-center">
+        <div className="grid grid-cols-1 gap-5 pt-3 text-center sm:grid-cols-3">
+          <div className="sm:col-span-1">
             <Calendar />
           </div>
-          <div className="grid grid-cols-3 gap-5">
+          <div className="grid grid-cols-3 gap-5 sm:col-span-2">
             <div>
               <div className="text-xs uppercase tracking-wider text-muted-foreground">
                 Crew

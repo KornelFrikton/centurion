@@ -11,29 +11,28 @@ function Display() {
 
   return (
     <div className="flex flex-col gap-6">
-      <section>
+      <section className="w-full">
         <ModuleHeader title="Crew status" />
         <CharacterDisplay />
       </section>
       {gamePhase === "mission" && (
-        <section>
-          <ModuleHeader title="Social matrix" /> <RelationDisplay />
-        </section>
-      )}
-      <section>
-        <ModuleHeader title="Resource storage" /> <StockDisplay />
-      </section>
-
-      {gamePhase === "mission" && (
         <>
-          <section>
+          <section className="w-full">
+            <ModuleHeader title="Social matrix" /> <RelationDisplay />
+          </section>
+
+          <section className="w-full">
+            <ModuleHeader title="Resource storage" /> <StockDisplay />
+          </section>
+
+          <section className="w-full">
             <ModuleHeader title="Mission control" />
             <div>
               <GameControl />
             </div>
           </section>
 
-          <section>
+          <section className="w-full">
             <ModuleHeader title="Event log" /> <EventDisplay />
           </section>
         </>

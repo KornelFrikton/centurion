@@ -46,7 +46,12 @@ export default function CharacterStats({
           <StatusBar stat="Health" value={stats.health} max={100} />
           <StatusBar stat="Stamina" value={stats.stamina} max={100} />
           <StatusBar stat="Sanity" value={stats.sanity} max={100} />
-          <StatusBar stat="Hunger" value={stats.hunger} max={100} />
+          <StatusBar
+            stat="Hunger"
+            value={stats.hunger}
+            max={100}
+            description="Above 30 Hunger, the character loses 1 Health per day. Consume Food to reset Hunger to 0."
+          />
 
           {stats.hunger > 0 && (
             <Button
@@ -56,7 +61,7 @@ export default function CharacterStats({
               disabled={!food || food.quantity < stats.hunger}
               onClick={() => feedCharacter(characterId)}
             >
-              Feed
+              Consume Food
             </Button>
           )}
         </>

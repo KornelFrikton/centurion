@@ -349,7 +349,7 @@ function EventDisplay() {
                         key={`${secret.secretId}-${secret.characterId}`}
                         className="rounded-lg border border-sidebar-border/60 bg-background/30 px-3 py-2 text-sm text-muted-foreground"
                       >
-                        No crew member was affected.
+                        No crew member's secret was revealed.
                       </div>
                     );
                   }
@@ -430,7 +430,7 @@ function EventDisplay() {
               </div>
             ) : (
               <div className="rounded-lg border border-sidebar-border/60 bg-background/30 p-3 text-sm text-foreground">
-                No crew member was affected.
+                No crew member's secret was revealed.
               </div>
             )
           ) : null}
@@ -452,7 +452,7 @@ function EventDisplay() {
     <Card>
       <CardHeader>
         <div
-          className="flex min-h-40 items-center justify-between bg-black rounded-xl px-12"
+          className="flex flex-col justify-center gap-3 min-h-40 items-center sm:justify-between bg-black rounded-xl sm:px-12 sm:flex-row"
           style={{
             backgroundImage: `url(${pendingEvent?.banner})`,
             backgroundPosition: "center",
@@ -460,10 +460,24 @@ function EventDisplay() {
             backgroundSize: "contain",
           }}
         >
-          <CardTitle className="whitespace-pre-line text-xl text-center text-bold uppercase tracking-[0.14em]">
+          <CardTitle
+            className="whitespace-pre-line text-xl rounded-lg p-1 text-center font-bold shadow-[0_2px_8px_rgba(0,0,0,0.8)] uppercase tracking-[0.14em] bg-black/60 
+              sm:bg-transparent
+              sm:p-0
+              sm:shadow-none"
+          >
             {pendingEvent!.name.replace(/ /g, "\n")}
           </CardTitle>
-          <Badge variant="outline" className="uppercase tracking-wider">
+          <Badge
+            variant="default"
+            className="sm:hidden shrink-0 uppercase tracking-wider"
+          >
+            {pendingEvent!.type}
+          </Badge>
+          <Badge
+            variant="outline"
+            className="hidden sm:block shrink-0 uppercase tracking-wider"
+          >
             {pendingEvent!.type}
           </Badge>
         </div>
@@ -489,7 +503,7 @@ function EventDisplay() {
               <Button
                 size="lg"
                 variant="hud"
-                className="w-full justify-start text-left"
+                className="w-full justify-start h-auto min-h-10 py-3 sm:text-left whitespace-normal sm:whitespace-nowrap"
                 disabled={selectedChoice === index}
                 onClick={() => {
                   if (needsCharacter) {
@@ -520,7 +534,7 @@ function EventDisplay() {
                           ? "default"
                           : "outline"
                       }
-                      className="w-1/2 justify-start h-12 mb-3"
+                      className="sm:w-1/2 justify-start h-12 mb-3 w-full"
                       onClick={() =>
                         setSelectedCharacters((prev) => ({
                           ...prev,

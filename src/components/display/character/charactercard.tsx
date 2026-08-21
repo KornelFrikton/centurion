@@ -63,10 +63,13 @@ export default function CharacterCard({
       </CardHeader>
 
       <CardContent>
-        <CharacterStats
-          characterId={character.id}
-          stats={character.baseStats}
-        />
+        {character.age > 0 && (
+          <CharacterStats
+            characterId={character.id}
+            stats={character.baseStats}
+          />
+        )}
+
         <CharacterSkills skills={character.skills} />
         <CharacterPersonality
           personality={character.personality}

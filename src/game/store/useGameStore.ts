@@ -49,6 +49,25 @@ const useGameStore = create<GameStore>()(
                 ),
               };
             }),
+
+            characters: state.characters.map((character) => {
+              if (!state.selectedCharacterIds.includes(character.id)) {
+                return character;
+              }
+              const hungerPenalty =
+                character.baseStats.hunger > 30 ? randomDay : 0;
+
+              return {
+                ...character,
+                baseStats: {
+                  ...character.baseStats,
+                  health: Math.max(
+                    0,
+                    character.baseStats.health - hungerPenalty,
+                  ),
+                },
+              };
+            }),
           };
         });
       },
