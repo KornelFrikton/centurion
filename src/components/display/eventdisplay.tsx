@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { Badge } from "../ui/badge";
 import { Separator } from "../ui/separator";
 import secretCard from "../cards/secretcard";
+import Dice from "../display/dice";
 
 function requiresCharacterSelection(choice: EventCard["choices"][number]) {
   return (
@@ -48,11 +49,15 @@ function EventDisplay() {
   );
 
   const eventResult = useGameStore((state) => state.eventResult);
+  const pendingSkillCheck = useGameStore((state) => state.pendingSkillCheck);
+  const resolveSkillCheck = useGameStore((state) => state.resolveSkillCheck);
 
   const [selectedCharacters, setSelectedCharacters] = useState<
     Record<number, string | null>
   >({});
   const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
+
+  const [skillRoll, setSkillRoll] = useState<number | null>(null);
 
   useEffect(() => {
     console.log("pendingEvent EFFECT:", pendingEvent?.id);
@@ -71,6 +76,43 @@ function EventDisplay() {
         >
           <span className="mr-1.5 animate-pulse text-(--success)">●</span>
           <span className="text-lg uppercase ">Awaiting event</span>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (pendingSkillCheck) {
+    return (
+      <Card>
+        <CardHeader className="mb-4">
+          <CardTitle className="text-lg text-center font-semibold uppercase tracking-[0.14em]">
+            Skill Check
+          </CardTitle>
+        </CardHeader>
+
+        <CardContent className="flex flex-col items-center gap-4">
+          <div className="text-sm font-semibold uppercase tracking-[0.12em] text-primary">
+            Roll the dice
+          </div>
+
+          <Dice
+            value={skillRoll}
+            onRoll={(roll) => {
+              setSkillRoll(roll);
+
+              resolveSkillCheck(
+                pendingSkillCheck.choiceIndex,
+                pendingSkillCheck.characterId ?? undefined,
+                roll,
+              );
+            }}
+          />
+
+          <div className="text-xs uppercase tracking-[0.12em] text-sidebar-foreground/60">
+            {skillRoll === null
+              ? "Click the dice to roll"
+              : `Rolled ${skillRoll}`}
+          </div>
         </CardContent>
       </Card>
     );
@@ -279,8 +321,8 @@ function EventDisplay() {
                     <span
                       className={
                         change.delta > 0
-                          ? "font-semibold text-emerald-400"
-                          : "font-semibold text-rose-400"
+                          ? "font-semibold text-(--success)"
+                          : "font-semibold text-destructive"
                       }
                     >
                       <span className="text-primary uppercase pr-2">
@@ -572,9 +614,10 @@ function EventDisplay() {
                     variant="hud"
                     className="w-full"
                     disabled={!selectedCharacters[index]}
-                    onClick={() =>
-                      resolveEvent(index, selectedCharacters[index]!)
-                    }
+                    onClick={() => {
+                      setSkillRoll(null);
+                      resolveEvent(index, selectedCharacters[index]!);
+                    }}
                   >
                     Confirm
                   </Button>

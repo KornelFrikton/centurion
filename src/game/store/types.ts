@@ -104,6 +104,15 @@ export type GameStore = {
       difficulty: number;
     };
   } | null;
+  pendingSkillCheck: {
+    choiceIndex: number;
+    characterId: string | null;
+  } | null;
+  resolveSkillCheck: (
+    choiceIndex: number,
+    characterId: string | undefined,
+    roll: number,
+  ) => void;
   nextEvent: EventCard | null;
   eventHistory: { eventId: string; choiceIndex: number }[];
   gamePhase: "crewSelection" | "characterSetup" | "mission";

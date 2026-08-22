@@ -35,6 +35,7 @@ export function resolveEffectTarget<T extends object>(
 export function performSkillCheck(
   characters: Character[],
   check: NonNullable<EventCard["choices"][number]["skillCheck"]>,
+  roll: number,
   characterId?: string,
 ): {
   success: boolean;
@@ -75,7 +76,6 @@ export function performSkillCheck(
     };
   }
 
-  const roll = Math.floor(Math.random() * 10) + 1;
   const total = character.skills[check.skill] + roll;
 
   return {
@@ -97,6 +97,7 @@ export function computeEventResolution(
     "characters" | "relations" | "items" | "flags" | "selectedCharacterIds"
   >,
   characterId?: string,
+  roll?: number,
 ): Partial<GameStore> {
   let updates: Partial<GameStore> = {
     eventHistory: [
@@ -131,15 +132,30 @@ export function computeEventResolution(
     | undefined;
 
   if (choice.skillCheck) {
+    if (roll === undefined) {
+      return {
+        pendingSkillCheck: {
+          choiceIndex,
+          characterId: characterId ?? null,
+        },
+      } as Partial<GameStore>;
+    }
+
     skillCheckResult = performSkillCheck(
       state.characters,
       choice.skillCheck,
+      roll,
       characterId,
     );
 
     if (!skillCheckResult.success && choice.skillCheck.failEffects) {
-      effects = choice.skillCheck.failEffects;
+      effects = {
+        ...effects,
+        ...choice.skillCheck.failEffects,
+      };
     }
+
+    updates.pendingSkillCheck = null;
   }
 
   let resolvedStats: CharacterEffect<Character["baseStats"]> | undefined =

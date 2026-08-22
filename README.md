@@ -109,7 +109,7 @@ The selected character may be affected by the outcome, so consider their current
 
 Certain events require a **Skill Check**.
 
-The selected character's relevant skill is combined with a random dice roll.
+The selected character's relevant skill is combined with a random dice roll (value from 1 to 6).
 
 The resulting total is compared with the event's required difficulty.
 
@@ -148,8 +148,9 @@ When an event increases hunger, additional food is required to satisfy it.
 
 The current food system follows these basic rules:
 
-1 active crew member = 1 Food per day
-1 Hunger = 1 additional Food
+- 1 active crew member = 1 Food per day  
+- 1 Hunger = 1 additional Food  
+- Above 30 Hunger the character loses 1 Health per day. Consume Food to reset Hunger to 0.
 
 If enough food is available to satisfy a character's hunger, the hunger value is completely cleared.
 
@@ -177,15 +178,12 @@ The mission can end if the crew becomes unable to continue.
 
 Losing important crew members, exhausting critical resources or allowing the crew's condition to deteriorate too far can ultimately lead to failure.
 
-Your goal is to **keep the crew alive as long as you can**.
-
 ## Under Development
 
 The following features are currently being developed or refined:
 
 - Logic of the death development
 - Aging improvements (adding birthday)
-- Skillcheck update with clickable dice
 - Additional event cards and secret events
 - Option for creating AI generated event cards
 - Character progression and balancing
@@ -197,6 +195,7 @@ The following features are currently being developed or refined:
   
 ✓ Mobile-friend version  
 ✓ Hunger and food consumption system
+✓ Skillcheck update with clickable dice
 
 Features listed here are subject to change as development continues.
 

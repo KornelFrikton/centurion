@@ -19,13 +19,14 @@ const useGameStore = create<GameStore>()(
       characters: assignAvatars(Characters),
       items: Stock,
       relations: {},
-      selectedCharacterIds: [],
+      selectedCharacterIds: [] as string[],
       pendingEvent: null,
       flags: {},
       eventResult: null,
       nextEvent: null,
       eventHistory: [],
       gamePhase: "crewSelection",
+      pendingSkillCheck: null,
 
       endTurn: () => {
         const randomDay = Math.floor(Math.random() * 14) + 1;
@@ -176,8 +177,34 @@ const useGameStore = create<GameStore>()(
         const event = get().pendingEvent;
         if (!event) return;
 
+        const choice = event.choices[choiceIndex];
+
+        if (choice.skillCheck) {
+          set({
+            pendingSkillCheck: {
+              choiceIndex,
+              characterId: characterId ?? null,
+            },
+          });
+
+          return;
+        }
+
         set((state) =>
           computeEventResolution(event, choiceIndex, state, characterId),
+        );
+      },
+
+      resolveSkillCheck: (
+        choiceIndex: number,
+        characterId: string | undefined,
+        roll: number,
+      ) => {
+        const event = get().pendingEvent;
+        if (!event) return;
+
+        set((state) =>
+          computeEventResolution(event, choiceIndex, state, characterId, roll),
         );
       },
 
