@@ -12,6 +12,7 @@ import {
 import { Badge } from "../ui/badge";
 import { Tooltip, TooltipTrigger, TooltipContent } from "../ui/tooltip";
 import { Separator } from "../ui/separator";
+import { Fragment } from "react/jsx-runtime";
 
 function getRelationType(value: number) {
   if (value >= 8)
@@ -161,9 +162,8 @@ function RelationDisplay() {
 
               <TableBody>
                 {selectedCharacters.map((rowCharacter, index) => (
-                  <>
+                  <Fragment key={rowCharacter.id}>
                     <TableRow
-                      key={rowCharacter.id}
                       className="
                         border-0
                         hover:bg-primary/20 
@@ -254,7 +254,7 @@ function RelationDisplay() {
                         </TableCell>
                       </TableRow>
                     )}
-                  </>
+                  </Fragment>
                 ))}
               </TableBody>
             </Table>

@@ -68,7 +68,7 @@ export type GameStore = {
   selectedCharacterIds: string[];
   flags: Record<string, boolean>;
   eventResult: {
-    type?: EventCard["type"];
+    type: EventCard["type"];
     success?: boolean;
     stock?: { item: string; delta: number }[];
     stats?: {
