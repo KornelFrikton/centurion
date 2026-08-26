@@ -67,6 +67,7 @@ export default function CharacterCard({
           <CharacterStats
             characterId={character.id}
             stats={character.baseStats}
+            birthday={character.birthday}
           />
         )}
 

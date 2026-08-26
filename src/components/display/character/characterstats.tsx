@@ -9,11 +9,13 @@ import useGameStore from "../../../game/store/useGameStore";
 type CharacterStatsProps = {
   characterId: string;
   stats: BaseStats;
+  birthday: string;
 };
 
 export default function CharacterStats({
   characterId,
   stats,
+  birthday,
 }: CharacterStatsProps) {
   const [expanded, setExpanded] = useState(true);
   const items = useGameStore((state) => state.items);
@@ -43,6 +45,9 @@ export default function CharacterStats({
 
       {expanded && (
         <>
+          <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-[0.14em] text-sidebar-foreground/90 pb-1.5">
+            Birthday <span className="text-primary">{birthday}</span>
+          </div>
           <StatusBar stat="Health" value={stats.health} max={100} />
           <StatusBar stat="Stamina" value={stats.stamina} max={100} />
           <StatusBar stat="Sanity" value={stats.sanity} max={100} />

@@ -10,6 +10,20 @@ import PersonalityCard from "../../components/cards/personalitycard";
 import EventCards from "../../components/eventcards/event";
 import { assignAvatars } from "../characterEffects";
 
+function calculateAge(birthday: Date, currentDate: Date): number {
+  let age = currentDate.getFullYear() - birthday.getFullYear();
+  const monthDiff = currentDate.getMonth() - birthday.getMonth();
+
+  if (
+    monthDiff < 0 ||
+    (monthDiff === 0 && currentDate.getDate() < birthday.getDate())
+  ) {
+    age--;
+  }
+
+  return age;
+}
+
 const useGameStore = create<GameStore>()(
   persist(
     (set, get) => ({
@@ -131,7 +145,17 @@ const useGameStore = create<GameStore>()(
       },
 
       generateAge: (id: string) => {
-        const age = Math.floor(Math.random() * (60 - 20 + 1)) + 20;
+        const currentDate = new Date(get().date);
+        const targetAge = Math.floor(Math.random() * (60 - 20 + 1)) + 20;
+        const anniversary = new Date(currentDate);
+        anniversary.setFullYear(currentDate.getFullYear() - targetAge);
+
+        const dayOffset = Math.floor(Math.random() * 365);
+        const birthday = new Date(anniversary);
+        birthday.setDate(birthday.getDate() - dayOffset);
+
+        const age = calculateAge(birthday, currentDate);
+
         const distanceFromPeak = Math.abs(age - 40);
         const direction = age < 40 ? 1 : -1;
 
@@ -145,6 +169,7 @@ const useGameStore = create<GameStore>()(
               ? {
                   ...character,
                   age,
+                  birthday: birthday.toLocaleDateString("en-CA"),
                   baseStats: {
                     ...character.baseStats,
                     health: character.baseStats.health + healthMod,

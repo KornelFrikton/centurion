@@ -41,6 +41,8 @@ Each character has individual:
 
 Your selected crew forms the active team for the mission.
 
+After selecting you will get a random personality and a random birthday. The age will be the base of the stats, the personality for the relations.
+
 ### 2. Manage Your Crew
 
 Keep an eye on the condition of every crew member.
@@ -183,10 +185,8 @@ Losing important crew members, exhausting critical resources or allowing the cre
 The following features are currently being developed or refined:
 
 - Logic of the death development
-- Aging improvements (adding birthday)
 - Additional event cards and secret events
 - Option for creating AI generated event cards
-- Character progression and balancing
 - Additional crew interactions and relationship mechanics
 - More event effects and gameplay consequences
 - UI and UX improvements
@@ -196,6 +196,8 @@ The following features are currently being developed or refined:
 ✓ Mobile-friend version  
 ✓ Hunger and food consumption system
 ✓ Skillcheck update with clickable dice
+✓ Aging improvements (adding birthday)
+✓ Character progression and balancing
 
 Features listed here are subject to change as development continues.
 
