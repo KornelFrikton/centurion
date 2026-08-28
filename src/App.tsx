@@ -3,6 +3,7 @@ import header from "./assets/desktop_header.png";
 import StarsBackground from "./components/ui/extra.tsx";
 import { H1 } from "./components/ui/extra.tsx";
 import { Separator } from "../src/components/ui/separator.tsx";
+import Footer from "./components/display/footer.tsx";
 
 function App() {
   return (
@@ -31,12 +32,7 @@ function App() {
         </div>
       </main>
 
-      <footer className="w-full overflow-hidden p-2 select-none">
-        <Separator />
-        <div className="text-right text-xs pt-2 text-muted-foreground">
-          2026 - Developed by Kornel Frikton
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }

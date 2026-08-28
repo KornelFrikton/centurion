@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { GameStore } from "./types";
+import type { GameStore, GameState } from "./types";
 import { assignSecretCards } from "../secretEffects";
 import { generateRelationMatrix, updateRelations } from "../relations";
 import { computeEventResolution } from "../eventResolution";
@@ -8,39 +8,31 @@ import Characters from "../../components/cards/charactercard";
 import Stock, { type Item } from "../../components/cards/stock";
 import PersonalityCard from "../../components/cards/personalitycard";
 import EventCards from "../../components/eventcards/event";
-import { assignAvatars } from "../characterEffects";
+import { assignAvatars, calculateAge } from "../characterEffects";
 
-function calculateAge(birthday: Date, currentDate: Date): number {
-  let age = currentDate.getFullYear() - birthday.getFullYear();
-  const monthDiff = currentDate.getMonth() - birthday.getMonth();
-
-  if (
-    monthDiff < 0 ||
-    (monthDiff === 0 && currentDate.getDate() < birthday.getDate())
-  ) {
-    age--;
-  }
-
-  return age;
+function createInitialState(): GameState {
+  return {
+    date: new Date("2051-07-03"),
+    elapsed: 0,
+    lastTurn: 0,
+    characters: assignAvatars(Characters),
+    items: Stock,
+    relations: {},
+    selectedCharacterIds: [] as string[],
+    pendingEvent: null,
+    flags: {},
+    eventResult: null,
+    nextEvent: null,
+    eventHistory: [],
+    gamePhase: "crewSelection",
+    pendingSkillCheck: null,
+  };
 }
 
 const useGameStore = create<GameStore>()(
   persist(
     (set, get) => ({
-      date: new Date("2051-07-03"),
-      elapsed: 0,
-      lastTurn: 0,
-      characters: assignAvatars(Characters),
-      items: Stock,
-      relations: {},
-      selectedCharacterIds: [] as string[],
-      pendingEvent: null,
-      flags: {},
-      eventResult: null,
-      nextEvent: null,
-      eventHistory: [],
-      gamePhase: "crewSelection",
-      pendingSkillCheck: null,
+      ...createInitialState(),
 
       endTurn: () => {
         const randomDay = Math.floor(Math.random() * 14) + 1;
@@ -85,6 +77,7 @@ const useGameStore = create<GameStore>()(
             }),
           };
         });
+        get().updateAges();
       },
 
       drawPersonality: (id: string) => {
@@ -182,6 +175,33 @@ const useGameStore = create<GameStore>()(
         }));
       },
 
+      updateAges: () => {
+        const currentDate = new Date(get().date);
+
+        set((state) => ({
+          characters: state.characters.map((character) => {
+            if (
+              !state.selectedCharacterIds.includes(character.id) ||
+              !character.birthday
+            ) {
+              return character;
+            }
+
+            const birthday = new Date(character.birthday);
+            const newAge = calculateAge(birthday, currentDate);
+
+            if (newAge === character.age) {
+              return character;
+            }
+
+            return {
+              ...character,
+              age: newAge,
+            };
+          }),
+        }));
+      },
+
       drawEvent: () => {
         const state = get();
 
@@ -261,6 +281,10 @@ const useGameStore = create<GameStore>()(
       },
 
       startMission: () => set({ gamePhase: "mission" }),
+
+      giveUp: () => {
+        set(createInitialState());
+      },
 
       getProduction: () => 0,
 

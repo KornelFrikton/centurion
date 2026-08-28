@@ -104,3 +104,16 @@ export function assignAvatars(characters: Character[]): Character[] {
     };
   });
 }
+
+export function calculateAge(birthday: Date, currentDate: Date): number {
+  let age = currentDate.getFullYear() - birthday.getFullYear();
+  const monthDiff = currentDate.getMonth() - birthday.getMonth();
+
+  if (
+    monthDiff < 0 ||
+    (monthDiff === 0 && currentDate.getDate() < birthday.getDate())
+  ) {
+    age--;
+  }
+  return age;
+}

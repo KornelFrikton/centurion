@@ -58,7 +58,7 @@ export type SecretTriggerEffect = {
   };
 };
 
-export type GameStore = {
+export type GameState = {
   date: Date;
   elapsed: number;
   lastTurn: number;
@@ -108,28 +108,33 @@ export type GameStore = {
     choiceIndex: number;
     characterId: string | null;
   } | null;
-  resolveSkillCheck: (
-    choiceIndex: number,
-    characterId: string | undefined,
-    roll: number,
-  ) => void;
+
+  pendingEvent: EventCard | null;
   nextEvent: EventCard | null;
   eventHistory: { eventId: string; choiceIndex: number }[];
   gamePhase: "crewSelection" | "characterSetup" | "mission";
+};
 
+export type GameStore = GameState & {
   endTurn: () => void;
   generateRelations: () => void;
   updateRelation: (a: string, b: string, delta: number) => void;
   drawPersonality: (id: string) => void;
   selectCharacter: (id: string) => void;
   generateAge: (id: string) => void;
-  pendingEvent: EventCard | null;
+  updateAges: () => void;
   continueEvent: () => void;
   drawEvent: () => void;
   resolveEvent: (choiceIndex: number, characterId?: string) => void;
+  resolveSkillCheck: (
+    choiceIndex: number,
+    characterId: string | undefined,
+    roll: number,
+  ) => void;
   advanceEvent: () => void;
   startCrew: () => void;
   startMission: () => void;
+  giveUp: () => void;
 
   getProduction: (resourceId: string) => number;
   getConsumption: (resourceId: string) => number;

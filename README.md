@@ -39,9 +39,18 @@ Each character has individual:
 - **Relationships**
 - **Secret**
 
-Your selected crew forms the active team for the mission.
+Your selected crew forms the active team for the mission. After selecting a character you get a random personality and a random birthday.  
+- Personality: shapes how relationships develop between characters.
 
-After selecting you will get a random personality and a random birthday. The age will be the base of the stats, the personality for the relations.
+- Birthday: determines the character's age, which sets the starting stats — younger characters start with more health and stamina, older ones with more sanity. 
+
+| Age | Stamina/Health    | Sanity/Persuasion                 |
+| --- | ----------------- | --------------------------------- |
+| 20  | ████████████ high | ██████ low (inexperienced)        |
+| 30  | ██████████ high   | ████████ moderate                 |
+| 40  | ████████ moderate | ██████████ good (life experience) |
+| 50  | ██████ declining  | ████████████ high (wisdom)        |
+| 60  | ████ low          | ██████████████ peak (wisdom)      |
 
 ### 2. Manage Your Crew
 
@@ -192,8 +201,10 @@ The following features are currently being developed or refined:
 - UI and UX improvements
 - Intro and How to play section creation
 - Additional game content and balancing
+- Production logic development
+- Additional items for stock and logic (e.g. medic kit for health increasing)
   
-✓ Mobile-friend version  
+✓ Mobile-friend version
 ✓ Hunger and food consumption system
 ✓ Skillcheck update with clickable dice
 ✓ Aging improvements (adding birthday)
@@ -209,6 +220,7 @@ Features listed here are subject to change as development continues.
 - [TypeScript](https://www.typescriptlang.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Zustand](https://zustand.docs.pmnd.rs/)
+- [shadcn/ui](https://ui.shadcn.com/)
 
 #### AI Assistance
 - AI-assisted development with ChatGPT and Claude
