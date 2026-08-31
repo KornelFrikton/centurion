@@ -67,7 +67,6 @@ const EmotionalEvents: EventCard[] = [
         },
       },
     ],
-    effects: {},
   },
 ];
 

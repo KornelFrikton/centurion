@@ -147,10 +147,10 @@ Secrets remain hidden until their specific trigger occurs.
 
 When a secret is triggered:
 
-- the secret is revealed.
-- its effect is applied.
-- the affected character is identified.
-- the secret and its consequences are shown in the event result.
+- The secret is revealed.
+- Its effect is applied.
+- The affected character is identified.
+- The secret and its consequences are shown in the event result.
 
 Secrets can affect character statistics, skills, personality or relationships.
 
@@ -209,7 +209,7 @@ The following features are currently being developed or refined:
 - Logic of the death development
 - Additional event cards
 - Additional crew interactions and relationship mechanics
-- More event effects and gameplay consequences
+- More chain event effects and gameplay consequences
 - UI and UX improvements
 - Intro and How to play section creation
 - Production logic development

@@ -32,8 +32,6 @@ const ChainEvents: EventCard[] = [
         },
       },
     ],
-
-    effects: {},
   },
 
   {
@@ -76,8 +74,6 @@ const ChainEvents: EventCard[] = [
         },
       },
     ],
-
-    effects: {},
   },
 
   {
@@ -116,7 +112,6 @@ const ChainEvents: EventCard[] = [
         },
       },
     ],
-    effects: {},
   },
 ];
 export default ChainEvents;

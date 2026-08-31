@@ -28,7 +28,9 @@ export function assignSecretCards(
 
 export function applySecretTrigger(
   characters: Character[],
-  triggers: NonNullable<EventCard["effects"]["secretTriggers"]>,
+  triggers: NonNullable<
+    EventCard["choices"][number]["effects"]["secretTriggers"]
+  >,
   selectedCharacterId?: string,
 ): {
   characters: Character[];

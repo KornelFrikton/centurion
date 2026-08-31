@@ -55,8 +55,6 @@ const SecretEvents: EventCard[] = [
         },
       },
     ],
-
-    effects: {},
   },
 
   {
@@ -118,8 +116,6 @@ const SecretEvents: EventCard[] = [
         },
       },
     ],
-
-    effects: {},
   },
 
   {
@@ -190,8 +186,6 @@ const SecretEvents: EventCard[] = [
         },
       },
     ],
-
-    effects: {},
   },
 
   {
@@ -247,8 +241,6 @@ const SecretEvents: EventCard[] = [
         },
       },
     ],
-
-    effects: {},
   },
 
   {
@@ -299,8 +291,6 @@ const SecretEvents: EventCard[] = [
         },
       },
     ],
-
-    effects: {},
   },
 
   {
@@ -360,8 +350,6 @@ const SecretEvents: EventCard[] = [
         },
       },
     ],
-
-    effects: {},
   },
 
   {
@@ -421,8 +409,6 @@ const SecretEvents: EventCard[] = [
         },
       },
     ],
-
-    effects: {},
   },
 
   {
@@ -447,6 +433,15 @@ const SecretEvents: EventCard[] = [
         },
         effects: {
           relations: { between: "all", delta: 2 },
+          secretTriggers: [
+            {
+              id: "crew_death",
+              target: "all",
+              effect: {
+                personality: { values: { empathy: -4, aggression: 2 } },
+              },
+            },
+          ],
         },
       },
       {
@@ -457,6 +452,15 @@ const SecretEvents: EventCard[] = [
             values: { sanity: -12 },
           },
           relations: { between: "all", delta: -2 },
+          secretTriggers: [
+            {
+              id: "crew_death",
+              target: "all",
+              effect: {
+                personality: { values: { empathy: -4, aggression: 2 } },
+              },
+            },
+          ],
         },
       },
       {
@@ -468,21 +472,18 @@ const SecretEvents: EventCard[] = [
             target: "specific",
             values: { empathy: -3 },
           },
+          secretTriggers: [
+            {
+              id: "crew_death",
+              target: "all",
+              effect: {
+                personality: { values: { empathy: -4, aggression: 2 } },
+              },
+            },
+          ],
         },
       },
     ],
-
-    effects: {
-      secretTriggers: [
-        {
-          id: "crew_death",
-          target: "all",
-          effect: {
-            personality: { values: { empathy: -4, aggression: 2 } },
-          },
-        },
-      ],
-    },
   },
 
   {
@@ -535,8 +536,6 @@ const SecretEvents: EventCard[] = [
         },
       },
     ],
-
-    effects: {},
   },
 
   {
@@ -607,8 +606,6 @@ const SecretEvents: EventCard[] = [
         },
       },
     ],
-
-    effects: {},
   },
 ];
 

@@ -54,9 +54,9 @@ export interface EventCard {
       target: "all" | "random" | "specific";
       skill: keyof Character["skills"];
       difficulty: number;
-      failEffects?: EventEffects;
+      failEffects?: EventEffects["effects"];
     };
-    effects: EventEffects;
+    effects: EventEffects["effects"];
     followUp?: EventCard["id"] | null;
   }[];
 }

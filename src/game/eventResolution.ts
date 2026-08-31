@@ -116,7 +116,6 @@ export function computeEventResolution(
 
   const choice = event.choices[choiceIndex];
   let effects = {
-    ...event.effects,
     ...choice.effects,
   };
 

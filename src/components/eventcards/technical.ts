@@ -83,7 +83,6 @@ const TechnicalEvents: EventCard[] = [
         },
       },
     ],
-    effects: {},
   },
 
   {
@@ -168,8 +167,6 @@ const TechnicalEvents: EventCard[] = [
         },
       },
     ],
-
-    effects: {},
   },
 ];
 

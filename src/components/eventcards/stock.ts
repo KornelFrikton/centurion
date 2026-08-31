@@ -82,7 +82,6 @@ const SupplyCards: EventCard[] = [
         },
       },
     ],
-    effects: {},
   },
 
   {
@@ -156,7 +155,6 @@ const SupplyCards: EventCard[] = [
         },
       },
     ],
-    effects: {},
   },
 
   {
@@ -229,7 +227,6 @@ const SupplyCards: EventCard[] = [
         },
       },
     ],
-    effects: {},
   },
 
   {
@@ -305,7 +302,6 @@ const SupplyCards: EventCard[] = [
         },
       },
     ],
-    effects: {},
   },
 
   {
@@ -408,7 +404,6 @@ const SupplyCards: EventCard[] = [
         },
       },
     ],
-    effects: {},
   },
 ];
 
