@@ -55,7 +55,7 @@ export default function Dice({
         "bg-sidebar/80 text-2xl font-bold text-primary",
         "shadow-[0_0_12px_rgba(120,180,255,0.2)]",
         "transition-transform duration-100",
-        "hover:scale-105",
+        "hover:scale-105 cursor-pointer",
         isRolling && "animate-spin scale-110",
       )}
     >

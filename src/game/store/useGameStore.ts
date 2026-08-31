@@ -284,6 +284,7 @@ const useGameStore = create<GameStore>()(
 
       giveUp: () => {
         set(createInitialState());
+        window.scrollTo({ top: 0, behavior: "smooth" });
       },
 
       getProduction: () => 0,

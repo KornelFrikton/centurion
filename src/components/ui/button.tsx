@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "group/button inline-flex shrink-0 items-center justify-center rounded-2xl border border-primary/30 bg-clip-padding text-sm font-semibold whitespace-nowrap transition-all shadow-[0_0_12px_rgba(80,160,255,0.25),0_4px_12px_rgba(0,0,0,0.45)] outline-none select-none focus-visible:ring-2 focus-visible:ring-primary/40 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "group/button inline-flex shrink-0 items-center justify-center rounded-2xl border border-primary/30 bg-clip-padding text-sm font-semibold whitespace-nowrap transition-all shadow-[0_0_12px_rgba(80,160,255,0.25),0_4px_12px_rgba(0,0,0,0.45)] outline-none select-none cursor-pointer focus-visible:ring-2 focus-visible:ring-primary/40 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {

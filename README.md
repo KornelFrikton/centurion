@@ -194,13 +194,12 @@ Losing important crew members, exhausting critical resources or allowing the cre
 The following features are currently being developed or refined:
 
 - Logic of the death development
-- Additional event cards and secret events
+- Additional event cards
 - Option for creating AI generated event cards
 - Additional crew interactions and relationship mechanics
 - More event effects and gameplay consequences
 - UI and UX improvements
 - Intro and How to play section creation
-- Additional game content and balancing
 - Production logic development
 - Additional items for stock and logic (e.g. medic kit for health increasing)
   
@@ -209,6 +208,7 @@ The following features are currently being developed or refined:
 ✓ Skillcheck update with clickable dice
 ✓ Aging improvements (adding birthday)
 ✓ Character progression and balancing
+✓ Additional secrets and secret events
 
 Features listed here are subject to change as development continues.
 

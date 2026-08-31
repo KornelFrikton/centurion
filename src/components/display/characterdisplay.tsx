@@ -42,7 +42,7 @@ export default function CharacterDisplay() {
             tracking-[0.12em]
             text-sidebar-foreground
             shadow-[inset_0_0_12px_rgba(120,180,255,0.08)]
-            sm:flex-row sm:items-center
+            sm:flex-row sm:items-center sm:justify-between
           "
         >
           <div className="flex items-center gap-3">
@@ -63,7 +63,7 @@ export default function CharacterDisplay() {
                     <strong className="text-primary">
                       {2 - selectedCharacterIds.length}
                     </strong>{" "}
-                    more players
+                    more players by clicking on their avatars
                   </>
                 ) : (
                   <span className="text-(--success)">Crew ready</span>
@@ -75,11 +75,11 @@ export default function CharacterDisplay() {
           {isComplete && (
             <Button
               size="lg"
-              className="cursor-pointer w-full sm:w-auto"
+              className="w-full sm:w-auto"
               variant="hud"
               onClick={startCrew}
             >
-              Start the journey
+              Customize your crew
             </Button>
           )}
         </div>
@@ -102,7 +102,7 @@ export default function CharacterDisplay() {
             tracking-[0.12em]
             text-sidebar-foreground
             shadow-[inset_0_0_12px_rgba(120,180,255,0.08)]
-            sm:flex-row sm:items-center"
+            sm:flex-row sm:items-center sm:justify-between"
         >
           <div className="flex items-center gap-3">
             <span className="mr-1.5 animate-pulse text-(--success)">●</span>
@@ -119,7 +119,7 @@ export default function CharacterDisplay() {
           {readyForMission && (
             <Button
               size="lg"
-              className="cursor-pointer animate-pulse  w-full sm:w-auto"
+              className="animate-pulse  w-full sm:w-auto"
               variant="hud"
               onClick={startMission}
             >

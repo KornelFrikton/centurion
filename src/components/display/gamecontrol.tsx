@@ -72,11 +72,11 @@ function GameControl() {
           <Button
             size="lg"
             variant="hud"
-            className="sm:w-80 w-50 p-6 cursor-pointer font-extrabold relative z-10"
+            className="sm:w-80 w-50 p-6 font-extrabold relative z-10 text-xl"
             onClick={advanceEvent}
             disabled={!!pendingEvent || !!eventResult}
           >
-            Advance Time
+            Time Jump
           </Button>
         </div>
         <Separator />
