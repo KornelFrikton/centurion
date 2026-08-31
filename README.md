@@ -75,9 +75,9 @@ Resources are consumed as time passes and can also be gained or lost through eve
 
 Use them carefully. Running out of an essential resource can make future events significantly more difficult.
 
-### 4. Advance Time
+### 4. Time Jump
 
-Use **Advance Time** to move the mission forward.
+Use **Time Jump** to move the mission forward.
 
 Each time you advance, a random amount of time passes.
 
@@ -90,6 +90,19 @@ The length of the time jump can affect:
 - The overall state of the mission
 
 Longer time jumps can therefore have a significant impact on your available resources.
+
+#### 4.1 Jump with AI
+
+Generate dynamic story events tailored to your crew and mission state with the help of AI.
+
+*The game is fully ready to accept AI-generated events through an API, but since this is a hobby project without paid API access, you can use this manual copy-paste method instead. The prompt contains all the context the AI needs to generate a valid event card.*
+
+How to use: 
+- Click the copy button next to the prompt textarea to copy the full prompt to your clipboard
+- Paste the prompt into your preferred AI chat
+- Once the AI generates a valid JSON response, copy the entire JSON output
+- Paste the JSON into the dialog field on this page
+- Click "Generate Event" to bring the event to life in your game
 
 ### 5. Resolve Events
 
@@ -195,13 +208,12 @@ The following features are currently being developed or refined:
 
 - Logic of the death development
 - Additional event cards
-- Option for creating AI generated event cards
 - Additional crew interactions and relationship mechanics
 - More event effects and gameplay consequences
 - UI and UX improvements
 - Intro and How to play section creation
 - Production logic development
-- Additional items for stock and logic (e.g. medic kit for health increasing)
+- Additional items for stock and its logic (e.g. medic kit for health increasing)
   
 ✓ Mobile-friend version
 ✓ Hunger and food consumption system
@@ -209,6 +221,7 @@ The following features are currently being developed or refined:
 ✓ Aging improvements (adding birthday)
 ✓ Character progression and balancing
 ✓ Additional secrets and secret events
+✓ Option for creating AI generated event cards
 
 Features listed here are subject to change as development continues.
 

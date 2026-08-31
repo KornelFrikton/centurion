@@ -4,6 +4,7 @@ import { Card, CardContent } from "../ui/card";
 import { Separator } from "../ui/separator";
 import Calendar from "./calendar";
 import ControlRoom_banner from "../../assets/banners/controlroom_banner.png";
+import AIEventDialog from "./aieventdialog";
 
 function GameControl() {
   const advanceEvent = useGameStore((state) => state.advanceEvent);
@@ -61,7 +62,7 @@ function GameControl() {
     <Card>
       <CardContent className="flex flex-col gap-4">
         <div
-          className="flex rounded-xl items-center justify-center h-32 sm:h-40 relative"
+          className="flex flex-col rounded-xl gap-3 justify-center items-center md:justify-around md:flex-row h-40 relative "
           style={{
             backgroundImage: `url(${ControlRoom_banner})`,
             backgroundPosition: "center",
@@ -78,6 +79,7 @@ function GameControl() {
           >
             Time Jump
           </Button>
+          <AIEventDialog />
         </div>
         <Separator />
 

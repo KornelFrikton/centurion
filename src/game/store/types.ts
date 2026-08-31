@@ -132,6 +132,8 @@ export type GameStore = GameState & {
     roll: number,
   ) => void;
   advanceEvent: () => void;
+  generateAIEvent: () => Promise<void>;
+
   startCrew: () => void;
   startMission: () => void;
   giveUp: () => void;

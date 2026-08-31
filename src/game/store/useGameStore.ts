@@ -9,6 +9,8 @@ import Stock, { type Item } from "../../components/cards/stock";
 import PersonalityCard from "../../components/cards/personalitycard";
 import EventCards from "../../components/eventcards/event";
 import { assignAvatars, calculateAge } from "../characterEffects";
+import { claudePrompt } from "../claudePrompt";
+import type { EventCard } from "../../components/eventcards/eventcard";
 
 function createInitialState(): GameState {
   return {
@@ -131,7 +133,7 @@ const useGameStore = create<GameStore>()(
               ),
             };
           }
-          if (state.selectedCharacterIds.length >= 2) return state;
+          if (state.selectedCharacterIds.length >= 3) return state;
 
           return { selectedCharacterIds: [...state.selectedCharacterIds, id] };
         });
@@ -264,6 +266,39 @@ const useGameStore = create<GameStore>()(
       advanceEvent: () => {
         get().endTurn();
         get().drawEvent();
+      },
+
+      generateAIEvent: async () => {
+        const prompt = claudePrompt(get());
+        console.log("Claude AI prompt:", prompt);
+
+        const response = await fetch("/api/anthropic/v1/messages", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            model: "claude-sonnet-4-6",
+            max_tokens: 2000,
+            messages: [{ role: "user", content: prompt }],
+          }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          console.error("API error:", data);
+          return;
+        }
+
+        try {
+          const text = data.content[0].text;
+          const clean = text.replace(/```json|```/g, "").trim();
+          const card = JSON.parse(clean) as EventCard;
+          set({ pendingEvent: card });
+        } catch (err) {
+          console.error("AI card parse error:", err);
+        }
       },
 
       startCrew: () => {

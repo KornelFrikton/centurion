@@ -23,7 +23,7 @@ export default function Footer() {
   return (
     <footer className="w-full overflow-hidden p-2 select-none">
       <Separator />
-      <div className="flex justify-around items-center mt-3">
+      <div className="flex justify-around items-center gap-3 mt-3">
         <Button
           variant="destructive"
           size="lg"

@@ -1,33 +1,7 @@
 import type { Character } from "../cards/charactercard";
 import type { SecretTriggerEffect } from "../../game/store/types";
 
-export interface EventCard {
-  id: string;
-  name: string;
-  description: string;
-  type: "technical" | "emotional" | "secret" | "supply" | "chain";
-  banner?: string;
-  rarity?: "common" | "rare" | "legendary";
-  condition?: {
-    requiredFlags?: Record<string, boolean>;
-    requiredEvent?: string;
-    minStock?: number;
-    minSanity?: number;
-    minHealth?: number;
-    minRelation?: number;
-    requiredChoice?: string;
-  };
-  choices: {
-    description: string;
-    skillCheck?: {
-      target: "all" | "random" | "specific";
-      skill: keyof Character["skills"];
-      difficulty: number;
-      failEffects?: Omit<EventCard["effects"], "secretTrigger">;
-    };
-    effects: EventCard["effects"];
-    followUp?: EventCard["id"] | null;
-  }[];
+export type EventEffects = {
   effects: {
     stats?: {
       target: "all" | "random" | "specific";
@@ -56,4 +30,33 @@ export interface EventCard {
       effect?: SecretTriggerEffect;
     }[];
   };
+};
+
+export interface EventCard {
+  id: string;
+  name: string;
+  description: string;
+  type: "technical" | "emotional" | "secret" | "supply" | "chain";
+  banner?: string;
+  rarity?: "common" | "rare" | "legendary";
+  condition?: {
+    requiredFlags?: Record<string, boolean>;
+    requiredEvent?: string;
+    minStock?: number;
+    minSanity?: number;
+    minHealth?: number;
+    minRelation?: number;
+    requiredChoice?: string;
+  };
+  choices: {
+    description: string;
+    skillCheck?: {
+      target: "all" | "random" | "specific";
+      skill: keyof Character["skills"];
+      difficulty: number;
+      failEffects?: EventEffects;
+    };
+    effects: EventEffects;
+    followUp?: EventCard["id"] | null;
+  }[];
 }

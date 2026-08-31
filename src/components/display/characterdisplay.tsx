@@ -11,7 +11,7 @@ export default function CharacterDisplay() {
     gamePhase,
   } = useGameStore();
 
-  const isComplete = selectedCharacterIds.length === 2;
+  const isComplete = selectedCharacterIds.length === 3;
 
   const selectedCharacters = characters.filter((character) =>
     selectedCharacterIds.includes(character.id),
@@ -61,7 +61,7 @@ export default function CharacterDisplay() {
                   <>
                     Choose{" "}
                     <strong className="text-primary">
-                      {2 - selectedCharacterIds.length}
+                      {3 - selectedCharacterIds.length}
                     </strong>{" "}
                     more players by clicking on their avatars
                   </>

@@ -17,7 +17,7 @@ export default function CharacterList() {
     drawPersonality,
   } = useGameStore();
 
-  const isComplete = selectedCharacterIds.length === 2;
+  const isComplete = selectedCharacterIds.length === 3;
 
   const visibleCharacters = characters.filter((character) => {
     const selected = selectedCharacterIds.includes(character.id);

@@ -1,4 +1,8 @@
-import { type BaseStats, type CharacterSkills } from "../../game/store/types";
+import {
+  type BaseStats,
+  type CharacterSkills,
+  type CharacterPersonality,
+} from "../../game/store/types";
 
 export interface Character {
   id: string;
@@ -13,13 +17,7 @@ export interface Character {
 
   skills: CharacterSkills;
 
-  personality: {
-    courage: number;
-    trust: number;
-    empathy: number;
-    adaptability: number;
-    aggression: number;
-  };
+  personality: CharacterPersonality;
 
   personalityName?: string;
   personalityDescription?: string;
