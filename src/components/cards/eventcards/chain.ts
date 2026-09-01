@@ -1,5 +1,5 @@
 import type { EventCard } from "./eventcard";
-import chain_banner from "../../assets/banners/chain_banner.png";
+import chain_banner from "../../../assets/banners/chain_banner.png";
 
 const ChainEvents: EventCard[] = [
   {

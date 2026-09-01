@@ -31,7 +31,13 @@ export default function AIEventDialog() {
 
   const handleSubmit = () => {
     try {
-      const card = JSON.parse(jsonInput);
+      const parsed = JSON.parse(jsonInput);
+      const card = Array.isArray(parsed) ? parsed[0] : parsed;
+
+      if (!card?.id || !card?.name || !card?.choices) {
+        alert("Invalid card structure! Missing id, name or choices.");
+        return;
+      }
       endTurn();
       useGameStore.setState({
         pendingEvent: { ...card, banner: bannerByType[card.type] },
@@ -53,7 +59,7 @@ export default function AIEventDialog() {
       <Button
         size="lg"
         variant="hud"
-        className="sm:w-80 w-50 p-6 font-extrabold relative z-10 text-xl"
+        className="animate-pulse sm:w-80 w-50 p-6 font-extrabold relative z-10 text-xl"
         onClick={handleOpen}
         disabled={!!pendingEvent || !!eventResult}
       >

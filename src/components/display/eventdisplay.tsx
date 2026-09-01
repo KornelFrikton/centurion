@@ -1,7 +1,7 @@
 import useGameStore from "../../game/store/useGameStore";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import type { EventCard } from "../eventcards/eventcard";
+import type { EventCard } from "../cards/eventcards/eventcard";
 import { useEffect, useState } from "react";
 import { Separator } from "../ui/separator";
 import CharacterSelector from "./event/characterselector";
@@ -107,7 +107,7 @@ function EventDisplay() {
           Available Actions
         </div>
 
-        {pendingEvent!.choices.map((choice, index) => {
+        {pendingEvent!.choices?.map((choice, index) => {
           if (selectedChoice !== null && selectedChoice !== index) {
             return null;
           }

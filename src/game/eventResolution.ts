@@ -1,17 +1,23 @@
 import { type Character } from "../components/cards/charactercard";
-import { type EventCard } from "../components/eventcards/eventcard";
-import type { Item } from "../components/cards/stock";
+import { type EventCard } from "../components/cards/eventcards/eventcard";
+import type { Item } from "../components/cards/stockcard";
 import type {
   CharacterEffect,
   ResolvedCharacterEffect,
   GameStore,
   CharacterPersonality,
   SecretTriggerEffect,
+  GameState,
 } from "./store/types";
-import { applyPersonality, applySkills, applyStats } from "./characterEffects";
+import {
+  applyPersonality,
+  applyResourceEffects,
+  applySkills,
+  applyStats,
+} from "./characterEffects";
 import { updateRelations } from "./relations";
 import { applySecretTrigger } from "./secretEffects";
-import EventCards from "../components/eventcards/event";
+import EventCards from "../components/cards/eventcards/event";
 
 export function resolveEffectTarget<T extends object>(
   characters: Character[],
@@ -347,6 +353,16 @@ export function computeEventResolution(
   updates.characters = characters;
   updates.relations = relations;
   updates.items = items;
+
+  const resourceUpdates = applyResourceEffects({
+    ...state,
+    characters: updates.characters,
+    items: updates.items,
+  } as GameState);
+
+  if (resourceUpdates.characters) {
+    updates.characters = resourceUpdates.characters;
+  }
 
   return updates;
 }

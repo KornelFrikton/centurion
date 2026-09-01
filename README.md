@@ -73,7 +73,10 @@ Your crew depends on limited resources such as:
 
 Resources are consumed as time passes and can also be gained or lost through events.
 
-Use them carefully. Running out of an essential resource can make future events significantly more difficult.
+Use them carefully! 
+
+Running out of an essential resource can make future events significantly more difficult:
+- If **oxygen** hits zero, the crew dies the instantly.
 
 ### 4. Time Jump
 
@@ -207,7 +210,6 @@ Losing important crew members, exhausting critical resources or allowing the cre
 The following features are currently being developed or refined:
 
 - Logic of the death development
-- Additional event cards
 - Additional crew interactions and relationship mechanics
 - More chain event effects and gameplay consequences
 - UI and UX improvements
@@ -215,13 +217,14 @@ The following features are currently being developed or refined:
 - Production logic development
 - Additional items for stock and its logic (e.g. medic kit for health increasing)
   
-✓ Mobile-friend version
-✓ Hunger and food consumption system
-✓ Skillcheck update with clickable dice
-✓ Aging improvements (adding birthday)
-✓ Character progression and balancing
-✓ Additional secrets and secret events
-✓ Option for creating AI generated event cards
+- [x] Mobile-friend version
+- [x] Hunger and food consumption system
+- [x] Skillcheck update with clickable dice
+- [x] Aging improvements (adding birthday)
+- [x] Character progression and balancing
+- [x] Additional secrets and secret events
+- [x] Option for creating AI generated event cards
+- [x] Additional event cards
 
 Features listed here are subject to change as development continues.
 

@@ -1,5 +1,5 @@
 import { type Character } from "../components/cards/charactercard";
-import { type EventCard } from "../components/eventcards/eventcard";
+import { type EventEffects } from "../components/cards/eventcards/eventcard";
 import SecretCard from "../components/cards/secretcard";
 import { applyStats, applySkills, applyPersonality } from "./characterEffects";
 import type { SecretTriggerEffect } from "../game/store/types";
@@ -28,9 +28,7 @@ export function assignSecretCards(
 
 export function applySecretTrigger(
   characters: Character[],
-  triggers: NonNullable<
-    EventCard["choices"][number]["effects"]["secretTriggers"]
-  >,
+  triggers: NonNullable<EventEffects["secretTriggers"]>,
   selectedCharacterId?: string,
 ): {
   characters: Character[];

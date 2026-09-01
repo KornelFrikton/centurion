@@ -1,6 +1,6 @@
 import { CardHeader, CardTitle } from "../../ui/card";
 import { Badge } from "../../ui/badge";
-import type { EventCard } from "../../eventcards/eventcard";
+import type { EventCard } from "../../cards/eventcards/eventcard";
 
 type EventHeaderProps = {
   event: EventCard;

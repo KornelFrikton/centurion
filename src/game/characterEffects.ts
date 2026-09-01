@@ -1,6 +1,7 @@
 import { type Character } from "../components/cards/charactercard";
 import { type ResolvedCharacterEffect } from "./store/types";
 import { maleAvatars, femaleAvatars } from "../assets/avatars";
+import { type GameState } from "./store/types";
 
 function clampApply<T extends object>(
   current: T,
@@ -116,4 +117,23 @@ export function calculateAge(birthday: Date, currentDate: Date): number {
     age--;
   }
   return age;
+}
+
+export function applyResourceEffects(state: GameState): Partial<GameState> {
+  const oxygen = state.items.find((i) => i.name === "Oxygen")?.quantity ?? 0;
+
+  if (oxygen <= 0) {
+    return {
+      characters: state.characters.map((c) => ({
+        ...c,
+        baseStats: {
+          ...c.baseStats,
+          health: state.selectedCharacterIds.includes(c.id)
+            ? 0
+            : c.baseStats.health,
+        },
+      })),
+    };
+  }
+  return {};
 }

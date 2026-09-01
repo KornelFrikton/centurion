@@ -1,5 +1,5 @@
 import type { EventCard } from "./eventcard";
-import secret_banner from "../../assets/banners/secret_banner.png";
+import secret_banner from "../../../assets/banners/secret_banner.png";
 
 const SecretEvents: EventCard[] = [
   {

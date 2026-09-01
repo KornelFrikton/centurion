@@ -73,7 +73,7 @@ function GameControl() {
           <Button
             size="lg"
             variant="hud"
-            className="sm:w-80 w-50 p-6 font-extrabold relative z-10 text-xl"
+            className="animate-pulse sm:w-80 w-50 p-6 font-extrabold relative z-10 text-xl"
             onClick={advanceEvent}
             disabled={!!pendingEvent || !!eventResult}
           >

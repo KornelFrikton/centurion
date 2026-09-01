@@ -14,7 +14,7 @@ export interface Character {
   avatar?: string;
   gender: "male" | "female";
   baseStats: BaseStats;
-
+  dead: boolean;
   skills: CharacterSkills;
 
   personality: CharacterPersonality;
@@ -44,6 +44,7 @@ const Characters: Character[] = [
       sanity: 80,
       hunger: 0,
     },
+    dead: false,
     skills: {
       scavenging: 6,
       crafting: 5,
@@ -79,6 +80,7 @@ const Characters: Character[] = [
       sanity: 80,
       hunger: 0,
     },
+    dead: false,
     skills: {
       scavenging: 5,
       crafting: 9,
@@ -114,6 +116,7 @@ const Characters: Character[] = [
       sanity: 80,
       hunger: 0,
     },
+    dead: false,
     skills: {
       scavenging: 4,
       crafting: 6,
@@ -149,6 +152,7 @@ const Characters: Character[] = [
       sanity: 80,
       hunger: 0,
     },
+    dead: false,
     skills: {
       scavenging: 9,
       crafting: 4,
@@ -184,6 +188,7 @@ const Characters: Character[] = [
       sanity: 80,
       hunger: 0,
     },
+    dead: false,
     skills: {
       scavenging: 6,
       crafting: 8,
@@ -219,6 +224,7 @@ const Characters: Character[] = [
       sanity: 80,
       hunger: 0,
     },
+    dead: false,
     skills: {
       scavenging: 5,
       crafting: 4,
@@ -254,6 +260,7 @@ const Characters: Character[] = [
       sanity: 80,
       hunger: 0,
     },
+    dead: false,
     skills: {
       scavenging: 7,
       crafting: 3,
@@ -289,6 +296,7 @@ const Characters: Character[] = [
       sanity: 80,
       hunger: 0,
     },
+    dead: false,
     skills: {
       scavenging: 3,
       crafting: 6,
@@ -324,6 +332,7 @@ const Characters: Character[] = [
       sanity: 80,
       hunger: 0,
     },
+    dead: false,
     skills: {
       scavenging: 3,
       crafting: 4,
@@ -359,6 +368,7 @@ const Characters: Character[] = [
       sanity: 80,
       hunger: 0,
     },
+    dead: false,
     skills: {
       scavenging: 7,
       crafting: 5,

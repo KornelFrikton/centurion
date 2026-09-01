@@ -1,4 +1,3 @@
-// stock.ts
 export interface Item {
   id: string;
   name: string;
@@ -28,7 +27,7 @@ const Stock: Item[] = [
     quantity: 100,
     capacity: 100,
     description:
-      "Compressed oxygen reserves for the colony's life support systems and EVA operations.",
+      "Compressed oxygen reserves for the colony's life support systems and EVA operations. If it reaches zero, the crew will die.",
   },
   {
     id: "energy",

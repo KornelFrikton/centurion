@@ -1,6 +1,6 @@
-import { type EventCard } from "../../components/eventcards/eventcard";
+import { type EventCard } from "../../components/cards/eventcards/eventcard";
 import type { Character } from "../../components/cards/charactercard";
-import type { Item } from "../../components/cards/stock";
+import type { Item } from "../../components/cards/stockcard";
 
 export type RelationMatrix = {
   [key: string]: {

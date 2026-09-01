@@ -5,12 +5,16 @@ import { assignSecretCards } from "../secretEffects";
 import { generateRelationMatrix, updateRelations } from "../relations";
 import { computeEventResolution } from "../eventResolution";
 import Characters from "../../components/cards/charactercard";
-import Stock, { type Item } from "../../components/cards/stock";
+import Stock, { type Item } from "../../components/cards/stockcard";
 import PersonalityCard from "../../components/cards/personalitycard";
-import EventCards from "../../components/eventcards/event";
-import { assignAvatars, calculateAge } from "../characterEffects";
+import EventCards from "../../components/cards/eventcards/event";
+import {
+  applyResourceEffects,
+  assignAvatars,
+  calculateAge,
+} from "../characterEffects";
 import { claudePrompt } from "../claudePrompt";
-import type { EventCard } from "../../components/eventcards/eventcard";
+import type { EventCard } from "../../components/cards/eventcards/eventcard";
 
 function createInitialState(): GameState {
   return {
@@ -43,40 +47,45 @@ const useGameStore = create<GameStore>()(
           const currentDate = new Date(state.date);
           currentDate.setDate(currentDate.getDate() + randomDay);
 
-          return {
+          const updatedItems = state.items.map((item: Item) => {
+            const consumption = get().getConsumption(item.id);
+            const delta = -consumption * randomDay;
+            return {
+              ...item,
+              quantity: Math.max(
+                0,
+                Math.min(item.capacity, item.quantity + delta),
+              ),
+            };
+          });
+
+          const updatedCharacters = state.characters.map((character) => {
+            if (!state.selectedCharacterIds.includes(character.id)) {
+              return character;
+            }
+            const hungerPenalty =
+              character.baseStats.hunger > 30 ? randomDay : 0;
+
+            return {
+              ...character,
+              baseStats: {
+                ...character.baseStats,
+                health: Math.max(0, character.baseStats.health - hungerPenalty),
+              },
+            };
+          });
+
+          const baseUpdates = {
             lastTurn: randomDay,
             elapsed: state.elapsed + randomDay,
             date: currentDate,
-            items: state.items.map((item: Item) => {
-              const consumption = get().getConsumption(item.id);
-              const delta = -consumption * randomDay;
-              return {
-                ...item,
-                quantity: Math.max(
-                  0,
-                  Math.min(item.capacity, item.quantity + delta),
-                ),
-              };
-            }),
+            items: updatedItems,
+            characters: updatedCharacters,
+          };
 
-            characters: state.characters.map((character) => {
-              if (!state.selectedCharacterIds.includes(character.id)) {
-                return character;
-              }
-              const hungerPenalty =
-                character.baseStats.hunger > 30 ? randomDay : 0;
-
-              return {
-                ...character,
-                baseStats: {
-                  ...character.baseStats,
-                  health: Math.max(
-                    0,
-                    character.baseStats.health - hungerPenalty,
-                  ),
-                },
-              };
-            }),
+          return {
+            ...baseUpdates,
+            ...applyResourceEffects({ ...state, ...baseUpdates }),
           };
         });
         get().updateAges();
@@ -207,12 +216,22 @@ const useGameStore = create<GameStore>()(
       drawEvent: () => {
         const state = get();
 
+        const playedEventIds = new Set(
+          state.eventHistory.map((event) => event.eventId),
+        );
+
         const availableEvents = EventCards.filter((event) => {
+          if (playedEventIds.has(event.id)) return false;
+
           if (!event.condition?.requiredFlags) return true;
           return Object.entries(event.condition.requiredFlags).every(
             ([flag, value]) => state.flags[flag] === value,
           );
         });
+
+        if (availableEvents.length === 0) {
+          return;
+        }
 
         const randomEvent =
           availableEvents[Math.floor(Math.random() * availableEvents.length)];
@@ -294,7 +313,13 @@ const useGameStore = create<GameStore>()(
         try {
           const text = data.content[0].text;
           const clean = text.replace(/```json|```/g, "").trim();
-          const card = JSON.parse(clean) as EventCard;
+          const parsed = JSON.parse(clean) as EventCard;
+          const card = Array.isArray(parsed) ? parsed[0] : parsed;
+
+          if (!card?.id || !card?.name || !card?.choices) {
+            console.error("Invalid card structure:", card);
+            return;
+          }
           set({ pendingEvent: card });
         } catch (err) {
           console.error("AI card parse error:", err);
