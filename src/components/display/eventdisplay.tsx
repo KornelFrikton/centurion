@@ -31,8 +31,10 @@ function EventDisplay() {
   const selectedCharacterIds = useGameStore(
     (state) => state.selectedCharacterIds,
   );
-  const availableCharacters = characters.filter((character) =>
-    selectedCharacterIds.includes(character.id),
+
+  const availableCharacters = characters.filter(
+    (character) =>
+      selectedCharacterIds.includes(character.id) && !character.dead,
   );
 
   const eventResult = useGameStore((state) => state.eventResult);

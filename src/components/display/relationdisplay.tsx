@@ -39,21 +39,17 @@ function getRelationType(value: number) {
 function RelationDisplay() {
   const { relations, characters, selectedCharacterIds } = useGameStore();
 
-  if (selectedCharacterIds.length < 2) {
+  const selectedCharacters = characters.filter(
+    (c) => selectedCharacterIds.includes(c.id) && !c.dead,
+  );
+
+  if (selectedCharacters.length < 2) {
     return null;
   }
 
-  const selectedCharacters = characters.filter((c) =>
-    selectedCharacterIds.includes(c.id),
-  );
-
   return (
     <div>
-      <Card
-        className="overflow-hidden border-sidebar-border
-      bg-card
-      shadow-[0_12px_32px_rgba(0,0,0,0.45)]"
-      >
+      <Card>
         <CardContent className="py-2">
           <div className="space-y-3 md:hidden">
             {selectedCharacters.map((rowCharacter) => (
@@ -63,8 +59,7 @@ function RelationDisplay() {
                   rounded-lg
                   border border-sidebar-border/60
                   bg-background/30
-                  p-3
-                "
+                  p-3"
               >
                 <div className="mb-2 flex items-center gap-2">
                   <img

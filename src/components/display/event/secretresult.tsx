@@ -1,4 +1,4 @@
-import SecretCard from "../../cards/secretcard";
+import Secrets from "../../cards/secretcard";
 import type { Character } from "../../cards/charactercard";
 
 type SecretResultProps = {
@@ -43,7 +43,7 @@ export default function SecretResult({
       </div>
 
       {secrets.map((secret) => {
-        const foundSecret = SecretCard.find((s) => s.id === secret.secretId);
+        const foundSecret = Secrets.find((s) => s.id === secret.secretId);
         const character = characters.find((c) => c.id === secret.characterId);
 
         if (!character) {

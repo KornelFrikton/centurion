@@ -8,6 +8,7 @@ type CharacterPortraitProps = {
   age: number;
   description?: string;
   selected: boolean;
+  dead: boolean;
   onSelect: () => void;
 };
 
@@ -17,6 +18,7 @@ export default function CharacterPortrait({
   age,
   description,
   selected,
+  dead,
   onSelect,
 }: CharacterPortraitProps) {
   const gamePhase = useGameStore((s) => s.gamePhase);
@@ -27,9 +29,9 @@ export default function CharacterPortrait({
         <div
           onClick={onSelect}
           className={`
-      inline-flex
-      relative
-          cursor-pointer rounded-xl p-1 transition-all
+            inline-flex
+            relative
+            cursor-pointer rounded-xl p-1 transition-all
             ${
               gamePhase === "crewSelection" && selected
                 ? "ring-2 ring-(--success) shadow-[0_0_12px_rgba(120,180,255,0.55),0_0_28px_rgba(120,180,255,0.28)]"
@@ -64,10 +66,18 @@ export default function CharacterPortrait({
             </Badge>
           )}
 
-          {gamePhase !== "crewSelection" && age > 0 && (
+          {gamePhase !== "crewSelection" && age > 0 && !dead && (
             <Badge className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground">
               AGE {age}
             </Badge>
+          )}
+
+          {dead && (
+            <div className="absolute inset-0 flex items-center justify-center rounded-xl bg-black/50">
+              <span className="text-sm font-bold uppercase tracking-widest text-destructive">
+                Dead
+              </span>
+            </div>
           )}
         </div>
       </TooltipTrigger>

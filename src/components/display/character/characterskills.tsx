@@ -1,7 +1,6 @@
 import { Separator } from "../../ui/separator";
 import RatingDots from "../ratingdots";
 import type { CharacterSkills } from "../../../game/store/types";
-
 import { useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 

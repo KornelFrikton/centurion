@@ -135,5 +135,30 @@ export function applyResourceEffects(state: GameState): Partial<GameState> {
       })),
     };
   }
+
   return {};
+}
+
+export function updateDeathState(
+  characters: Character[],
+  selectedCharacterIds: string[],
+): Character[] {
+  return characters.map((character) => {
+    if (
+      selectedCharacterIds.includes(character.id) &&
+      !character.dead &&
+      character.baseStats.health <= 0
+    ) {
+      return {
+        ...character,
+        baseStats: {
+          ...character.baseStats,
+          health: 0,
+        },
+        dead: true,
+      };
+    }
+
+    return character;
+  });
 }

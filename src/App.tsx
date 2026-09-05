@@ -4,6 +4,7 @@ import StarsBackground from "./components/ui/extra.tsx";
 import { H1 } from "./components/ui/extra.tsx";
 import { Separator } from "../src/components/ui/separator.tsx";
 import Footer from "./components/display/footer.tsx";
+import GameOverDialog from "./components/display/gameoverdialog.tsx";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <StarsBackground />
         <div className="relative z-10 w-full mx-auto">
           <Display />
+          <GameOverDialog />
         </div>
       </main>
 

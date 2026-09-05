@@ -7,7 +7,7 @@ export interface Personality {
   effects: Character["personality"];
 }
 
-const PersonalityCard: Personality[] = [
+const Personalities: Personality[] = [
   {
     id: "card_calculated",
     name: "Calculated",
@@ -244,4 +244,4 @@ const PersonalityCard: Personality[] = [
   },
 ];
 
-export default PersonalityCard;
+export default Personalities;

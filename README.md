@@ -201,15 +201,14 @@ The objective is simple: **keep the crew alive as long as you can**.
 
 ### Game Over
 
-The mission can end if the crew becomes unable to continue.
+The mission ends when the crew dies. 
 
-Losing important crew members, exhausting critical resources or allowing the crew's condition to deteriorate too far can ultimately lead to failure.
+Whether from starvation, lack of oxygen, or a series of bad decisions—one wrong move and it's over.
 
 ## Under Development
 
 The following features are currently being developed or refined:
 
-- Logic of the death development
 - Additional crew interactions and relationship mechanics
 - More chain event effects and gameplay consequences
 - UI and UX improvements
@@ -225,6 +224,7 @@ The following features are currently being developed or refined:
 - [x] Additional secrets and secret events
 - [x] Option for creating AI generated event cards
 - [x] Additional event cards
+- [x] Logic of the death development
 
 Features listed here are subject to change as development continues.
 

@@ -1,6 +1,5 @@
 import useGameStore from "../../game/store/useGameStore";
 import { Card, CardContent, CardTitle, CardHeader } from "../ui/card";
-
 import StatusBar from "./statusbar";
 
 function StockDisplay() {
@@ -9,7 +8,7 @@ function StockDisplay() {
   const lastTurn = useGameStore((state) => state.lastTurn);
 
   return (
-    <Card className="border-sidebar-border bg-card shadow-[0_12px_32px_rgba(0,0,0,0.45)]">
+    <Card>
       <CardHeader className="pb-4">
         <CardTitle className=" text-sm uppercase tracking-[0.15em] text-sidebar-foreground/80">
           {lastTurn > 0 ? (

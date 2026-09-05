@@ -14,6 +14,7 @@ import {
   applyResourceEffects,
   applySkills,
   applyStats,
+  updateDeathState,
 } from "./characterEffects";
 import { updateRelations } from "./relations";
 import { applySecretTrigger } from "./secretEffects";
@@ -24,6 +25,14 @@ export function resolveEffectTarget<T extends object>(
   effect: CharacterEffect<T>,
 ): ResolvedCharacterEffect<T> {
   if (effect.target === "random") {
+    if (characters.length === 0) {
+      return {
+        ...effect,
+        target: "specific",
+        characterId: undefined,
+      };
+    }
+
     const random = characters[Math.floor(Math.random() * characters.length)];
 
     return {
@@ -53,18 +62,21 @@ export function performSkillCheck(
   total: number;
 } {
   let candidates: Character[] = [];
+  const activeCharacters = characters.filter((c) => !c.dead);
 
   switch (check.target) {
     case "specific":
-      candidates = characters.filter((c) => c.id === characterId);
+      candidates = activeCharacters.filter((c) => c.id === characterId);
       break;
 
     case "random":
-      candidates = [characters[Math.floor(Math.random() * characters.length)]];
+      candidates = [
+        activeCharacters[Math.floor(Math.random() * activeCharacters.length)],
+      ];
       break;
 
     case "all":
-      candidates = characters;
+      candidates = activeCharacters;
       break;
   }
 
@@ -116,8 +128,9 @@ export function computeEventResolution(
   let relations = state.relations;
   let items = state.items;
 
-  const activeCharacters = state.characters.filter((character) =>
-    state.selectedCharacterIds.includes(character.id),
+  const activeCharacters = state.characters.filter(
+    (character) =>
+      state.selectedCharacterIds.includes(character.id) && !character.dead,
   );
 
   const choice = event.choices[choiceIndex];
@@ -350,7 +363,6 @@ export function computeEventResolution(
   console.log("Revealed secrets:", secretResult.revealedSecrets);
   console.log("========================");
 
-  updates.characters = characters;
   updates.relations = relations;
   updates.items = items;
 
@@ -361,8 +373,10 @@ export function computeEventResolution(
   } as GameState);
 
   if (resourceUpdates.characters) {
-    updates.characters = resourceUpdates.characters;
+    characters = resourceUpdates.characters;
   }
+
+  updates.characters = updateDeathState(characters, state.selectedCharacterIds);
 
   return updates;
 }

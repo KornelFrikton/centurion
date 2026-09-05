@@ -1,8 +1,8 @@
 import type { GameState } from "../game/store/types";
 
 export function claudePrompt(state: GameState): string {
-  const selectedCharacters = state.characters.filter((c) =>
-    state.selectedCharacterIds.includes(c.id),
+  const selectedCharacters = state.characters.filter(
+    (c) => state.selectedCharacterIds.includes(c.id) && !c.dead,
   );
 
   const characterContext = selectedCharacters

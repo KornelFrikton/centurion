@@ -37,12 +37,13 @@ export default function CharacterCard({
   const gamePhase = useGameStore((s) => s.gamePhase);
 
   return (
-    <Card className="w-72">
+    <Card className={character.dead ? "opacity-50 grayscale w-72" : "w-72"}>
       <CardHeader className="items-center text-center space-y-2">
         <CharacterPortrait
           name={character.name}
           avatar={character.avatar}
           age={character.age}
+          dead={character.dead}
           description={character.description}
           selected={selected}
           onSelect={() => onSelect()}
@@ -63,19 +64,23 @@ export default function CharacterCard({
       </CardHeader>
 
       <CardContent>
-        {character.age > 0 && (
-          <CharacterStats
-            characterId={character.id}
-            stats={character.baseStats}
-            birthday={character.birthday}
-          />
-        )}
+        {!character.dead && (
+          <>
+            {character.age > 0 && (
+              <CharacterStats
+                characterId={character.id}
+                stats={character.baseStats}
+                birthday={character.birthday}
+              />
+            )}
 
-        <CharacterSkills skills={character.skills} />
-        <CharacterPersonality
-          personality={character.personality}
-          personalityName={character.personalityName}
-        />
+            <CharacterSkills skills={character.skills} />
+            <CharacterPersonality
+              personality={character.personality}
+              personalityName={character.personalityName}
+            />
+          </>
+        )}
       </CardContent>
 
       <Separator className="mt-3 mb-3" />

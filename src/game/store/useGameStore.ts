@@ -6,7 +6,7 @@ import { generateRelationMatrix, updateRelations } from "../relations";
 import { computeEventResolution } from "../eventResolution";
 import Characters from "../../components/cards/charactercard";
 import Stock, { type Item } from "../../components/cards/stockcard";
-import PersonalityCard from "../../components/cards/personalitycard";
+import Personalities from "../../components/cards/personalitycard";
 import EventCards from "../../components/cards/eventcards/event";
 import {
   applyResourceEffects,
@@ -15,6 +15,7 @@ import {
 } from "../characterEffects";
 import { claudePrompt } from "../claudePrompt";
 import type { EventCard } from "../../components/cards/eventcards/eventcard";
+import { updateDeathState } from "../characterEffects";
 
 function createInitialState(): GameState {
   return {
@@ -75,12 +76,17 @@ const useGameStore = create<GameStore>()(
             };
           });
 
+          const deadUpdatedCharacters = updateDeathState(
+            updatedCharacters,
+            state.selectedCharacterIds,
+          );
+
           const baseUpdates = {
             lastTurn: randomDay,
             elapsed: state.elapsed + randomDay,
             date: currentDate,
             items: updatedItems,
-            characters: updatedCharacters,
+            characters: deadUpdatedCharacters,
           };
 
           return {
@@ -93,7 +99,7 @@ const useGameStore = create<GameStore>()(
 
       drawPersonality: (id: string) => {
         const randomCard =
-          PersonalityCard[Math.floor(Math.random() * PersonalityCard.length)];
+          Personalities[Math.floor(Math.random() * Personalities.length)];
 
         set((state) => ({
           characters: state.characters.map((character) =>
@@ -113,8 +119,9 @@ const useGameStore = create<GameStore>()(
       generateRelations: () => {
         const { characters, selectedCharacterIds } = get();
 
-        const selectedCharacters = characters.filter((character) =>
-          selectedCharacterIds.includes(character.id),
+        const selectedCharacters = characters.filter(
+          (character) =>
+            selectedCharacterIds.includes(character.id) && !character.dead,
         );
 
         set({
@@ -252,7 +259,6 @@ const useGameStore = create<GameStore>()(
               characterId: characterId ?? null,
             },
           });
-
           return;
         }
 
@@ -350,7 +356,14 @@ const useGameStore = create<GameStore>()(
       getProduction: () => 0,
 
       getConsumption: (resourceId) => {
-        const people = get().selectedCharacterIds.length;
+        const state = get();
+
+        const people = state.characters.filter(
+          (character) =>
+            state.selectedCharacterIds.includes(character.id) &&
+            !character.dead,
+        ).length;
+
         switch (resourceId) {
           case "food":
             return people;

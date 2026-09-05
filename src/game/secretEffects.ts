@@ -1,6 +1,6 @@
 import { type Character } from "../components/cards/charactercard";
 import { type EventEffects } from "../components/cards/eventcards/eventcard";
-import SecretCard from "../components/cards/secretcard";
+import Secrets from "../components/cards/secretcard";
 import { applyStats, applySkills, applyPersonality } from "./characterEffects";
 import type { SecretTriggerEffect } from "../game/store/types";
 
@@ -13,8 +13,7 @@ export function assignSecretCards(
       return character;
     }
 
-    const randomSecret =
-      SecretCard[Math.floor(Math.random() * SecretCard.length)];
+    const randomSecret = Secrets[Math.floor(Math.random() * Secrets.length)];
 
     return {
       ...character,
@@ -51,6 +50,10 @@ export function applySecretTrigger(
 
   for (const trigger of triggers) {
     const affected = updatedCharacters.filter((character) => {
+      if (character.dead) {
+        return false;
+      }
+
       if (character.secret.revealed) {
         return false;
       }
@@ -62,7 +65,7 @@ export function applySecretTrigger(
         return false;
       }
 
-      const secret = SecretCard.find(
+      const secret = Secrets.find(
         (secretCard) => secretCard.id === character.secret.cardId,
       );
 
@@ -71,8 +74,6 @@ export function applySecretTrigger(
 
     for (const character of affected) {
       const secretId = character.secret.cardId;
-
-      // Egy karakter/secret csak egyszer aktiválódhat
       const key = `${character.id}:${secretId}`;
 
       if (revealedSecrets.has(key)) {

@@ -5,7 +5,7 @@ export interface SecretCard {
   trigger: string[];
 }
 
-const secretCard: SecretCard[] = [
+const Secrets: SecretCard[] = [
   {
     id: "claustrophobia",
     name: "Claustrophobia",
@@ -78,4 +78,4 @@ const secretCard: SecretCard[] = [
   },
 ];
 
-export default secretCard;
+export default Secrets;
